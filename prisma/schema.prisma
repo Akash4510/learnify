@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum USER_ROLE {
+  ADMIN
+  CREATOR
+  USER
+}
+
+model User {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String @unique
+  emailVerified   DateTime?
+  image           String?
+  password        String?
+
+  role            USER_ROLE @default(USER)
+  channels        Channel[]
+  subscriptions   Subscription[]
+
+  accounts        Account[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Channel {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  creatorId       String @db.ObjectId
+
+  name            String @db.String @unique
+  description     String @db.String
+  logo            String @db.String
+  coverImg        String @db.String
+
+  subscribers     Subscription[]
+  courses         Course[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  creator         User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  subscriberId    String @db.ObjectId
+  channelId       String @db.ObjectId
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  subscriber      User @relation(fields: [subscriberId], references: [id])
+  channel         Channel @relation(fields: [channelId], references: [id])
+  
+  @@unique([subscriberId, channelId])
+  @@index([subscriberId])
+  @@index([channelId])
+}
+
+model Course {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  channelId       String @db.ObjectId
+
+  title           String @db.String
+  description     String @db.String
+  imageUrl        String? @db.String
+  price           Float?
+  isPublished     Boolean @default(false)
+  categoryId      String @db.ObjectId
+  attachments     Attachment[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  channel         Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  category        Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  name            String @db.String @unique
+
+  courses         Course[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Attachment {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  courseId        String @db.ObjectId
+
+  name            String @db.String
+  url             String @db.String
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  course          Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+}
+
+// The naming convention used here needs to be like this (some fields are in snake case)
+// This convention is used by Auth.js, so if we want to be consistent in naming convention
+// we can use @map, but I will leave the naming here as it is
+model Account {
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String  @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.String
+  access_token       String?  @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.String
+  session_state      String?
+
+  user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  email     String
+  token     String @unique
+  expires   DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  email     String
+  token     String @unique
+  expires   DateTime
+
+  @@unique([email, token])
+}
