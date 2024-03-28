@@ -40,8 +40,10 @@ model Channel {
 
   name            String @db.String @unique
   description     String @db.String
-  logo            String @db.String
-  coverImg        String @db.String
+  logo            String? @db.String
+  coverImg        String? @db.String
+
+  isApproved      Boolean @default(false)
 
   subscribers     Subscription[]
   courses         Course[]
@@ -74,7 +76,7 @@ model Course {
 
   title           String @db.String
   description     String @db.String
-  imageUrl        String? @db.String
+  thumbnail       String? @db.String
   price           Float?
   isPublished     Boolean @default(false)
   categoryId      String @db.ObjectId
