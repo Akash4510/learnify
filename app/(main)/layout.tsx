@@ -15,8 +15,8 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         </div>
 
         <main className="w-full">
-          <ScrollArea className="px-4 md:px-6 h-full">
-            <div className="py-4 md:py-6">{children}</div>
+          <ScrollArea className="px-4 h-full">
+            <div className="py-4">{children}</div>
           </ScrollArea>
         </main>
       </div>

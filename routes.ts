@@ -5,7 +5,9 @@
  */
 export const publicRoutes = [
   "/",
-  "/api/webhooks/livekit",
+  "/explore",
+  "/courses",
+  "/api/uploadthing/*",
   "/auth/verify-email",
 ];
 

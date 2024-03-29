@@ -2,44 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Compass, Home, Settings, Tv2, User } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { dashboardRoutes, mainRoutes } from "@/constants/sidebar-routes";
 
 interface SidebarProps {
   afterNavItemClick?: () => void;
 }
 
-const routes = [
-  {
-    label: "Home",
-    href: "/",
-    icon: Home,
-  },
-  {
-    label: "Explore",
-    href: "/explore",
-    icon: Compass,
-  },
-  {
-    label: "Courses",
-    href: "/courses",
-    icon: Tv2,
-  },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
-  {
-    label: "Account",
-    href: "/account",
-    icon: User,
-  },
-];
-
 export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
   const pathname = usePathname();
+  const routes = pathname.startsWith("/dashboard")
+    ? dashboardRoutes
+    : mainRoutes;
 
   return (
     <div className="space-y-6 flex flex-col h-full min-w-24 border-r">

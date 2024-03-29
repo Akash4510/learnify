@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { Clapperboard, Youtube } from "lucide-react";
 
 import { UserButton } from "@/components/auth/user-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { Clapperboard, Youtube } from "lucide-react";
 import { Button } from "./ui/button";
 import { MobileSidebar } from "./sidebar/mobile-sidebar";
-import SearchBar from "./search/search-bar";
+import { SearchBar } from "./search/search-bar";
 
 export const Navbar = () => {
   const user = useCurrentUser();

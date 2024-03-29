@@ -8,7 +8,7 @@ import qs from "query-string";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/use-debounce";
 
-const SearchBar = () => {
+export const SearchBar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -47,10 +47,8 @@ const SearchBar = () => {
         onChange={onChange}
         value={value}
         placeholder="Search..."
-        className="pl-10 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"
+        className="pl-10 border-primary-foreground/20 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"
       />
     </div>
   );
 };
-
-export default SearchBar;

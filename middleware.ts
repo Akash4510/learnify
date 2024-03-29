@@ -1,25 +1,36 @@
-import NextAuth from 'next-auth';
-
-import authConfig from '@/auth.config';
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
-} from '@/routes';
-
-const { auth } = NextAuth(authConfig);
+} from "@/routes";
+import { auth } from "@/auth";
 
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedin = !!req.auth;
 
+  function isRoutePublic(route: string) {
+    // Check if the route matches any of the patterns in publicRoutes
+    return publicRoutes.some((pattern) => {
+      // If the pattern ends with '/*', treat it as a wildcard match
+      if (pattern.endsWith("/*")) {
+        const prefix = pattern.slice(0, -2); // Remove '/*' from the pattern
+        // Check if the route starts with the prefix
+        return route.startsWith(prefix);
+      } else {
+        // Otherwise, treat it as an exact match
+        return route === pattern;
+      }
+    });
+  }
+
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isPublicRoute = isRoutePublic(nextUrl.pathname);
 
   if (isApiAuthRoute) {
-    return null;
+    return;
   }
 
   if (isAuthRoute) {
@@ -28,7 +39,7 @@ export default auth((req) => {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
 
-    return null;
+    return;
   }
 
   if (!isLoggedin && !isPublicRoute) {
@@ -45,9 +56,9 @@ export default auth((req) => {
     );
   }
 
-  return null;
+  return;
 });
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
