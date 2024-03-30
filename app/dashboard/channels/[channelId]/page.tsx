@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { Pencil, Tv2 } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Pencil, Tv2 } from "lucide-react";
-import Image from "next/image";
 
 interface ChannelPageProps {
   params: {

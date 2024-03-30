@@ -50,9 +50,7 @@ export const CreateChannelForm = () => {
             toast.error(data.error);
           }
           if (data?.success) {
-            toast.success(
-              `Channel '${data.success.channel.name}' created successfully`
-            );
+            toast.success(data.success.message);
             form.reset();
             router.push(`/dashboard/channels/${data.success.channel.id}`);
           }

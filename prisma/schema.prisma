@@ -75,18 +75,20 @@ model Course {
   channelId       String @db.ObjectId
 
   title           String @db.String
-  description     String @db.String
+  description     String? @db.String
   thumbnail       String? @db.String
   price           Float?
   isPublished     Boolean @default(false)
-  categoryId      String @db.ObjectId
+  categoryId      String? @db.ObjectId
   attachments     Attachment[]
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   channel         Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  category        Category @relation(fields: [categoryId], references: [id])
+  category        Category? @relation(fields: [categoryId], references: [id])
+
+  @@unique([channelId, title])
 }
 
 model Category {

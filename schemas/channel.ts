@@ -1,4 +1,4 @@
-import * as z from "zod";
+import { z } from "zod";
 
 export const CreateChannelSchema = z.object({
   name: z.string().min(1, {
@@ -11,6 +11,8 @@ export const CreateChannelSchema = z.object({
   coverImg: z.string().optional(),
 });
 
+export type CreateChannelSchema = z.infer<typeof CreateChannelSchema>;
+
 export const EditChannelSchema = z.object({
   name: z.string().min(1, {
     message: "Channel name is required",
@@ -22,5 +24,4 @@ export const EditChannelSchema = z.object({
   coverImg: z.string().optional(),
 });
 
-export type CreateChannelSchema = z.infer<typeof CreateChannelSchema>;
 export type EditChannelSchema = z.infer<typeof EditChannelSchema>;

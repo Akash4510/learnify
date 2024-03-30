@@ -51,6 +51,7 @@ export const createChannel = async (values: CreateChannelSchema) => {
 
     return {
       success: {
+        message: `Channel '${channel.name}' created successfully`,
         channel,
       },
     };
