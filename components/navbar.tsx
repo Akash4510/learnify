@@ -32,7 +32,7 @@ export const Navbar = () => {
             <Button variant="accent" asChild>
               <Link href="/dashboard">
                 <Clapperboard size={18} className="md:mr-2" />
-                <span className="hidden md:block">Dashboard</span>
+                <span className="hidden md:block">Creator Dashboard</span>
               </Link>
             </Button>
             <UserButton />
