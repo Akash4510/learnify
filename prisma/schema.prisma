@@ -80,7 +80,10 @@ model Course {
   price           Float?
   isPublished     Boolean @default(false)
   categoryId      String? @db.ObjectId
+
+  chapters        Chapter[]
   attachments     Attachment[]
+  purchases       CoursePurchase[]
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -114,6 +117,80 @@ model Attachment {
   course          Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@index([courseId])
+}
+
+model Chapter {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  courseId        String @db.ObjectId
+
+  title           String
+  description     String? @db.String
+  videoUrl        String? @db.String
+  position        Int
+  isPublished     Boolean @default(false)
+  isFree          Boolean @default(false)
+
+  muxData         MuxData?
+
+  userProgress    UserProgress[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  course          Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+}
+
+model MuxData {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  chapterId       String @db.ObjectId @unique
+  assetId         String
+  playbackId      String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  chapter         Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
+
+model UserProgress {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String @db.ObjectId
+  chapterId       String @db.ObjectId
+
+  isCompleted     Boolean @default(false)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  chapter         Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@index([chapterId])
+  @@unique([userId, chapterId])
+}
+
+model CoursePurchase {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String @db.ObjectId
+  courseId        String @db.ObjectId
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  course          Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+}
+
+model StripeCustomer {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId            String @db.ObjectId @unique
+  stripeCustomerId  String @db.String @unique
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 // The naming convention used here needs to be like this (some fields are in snake case)

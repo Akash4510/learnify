@@ -30,7 +30,7 @@ const ChannelsPage = async () => {
         />
 
         <Button variant="accent" asChild>
-          <Link href="/dashboard/channels/create-new">
+          <Link href="/dashboard/channels/new">
             <Plus className="h-4 w-4 mr-1" />
             Create New
           </Link>

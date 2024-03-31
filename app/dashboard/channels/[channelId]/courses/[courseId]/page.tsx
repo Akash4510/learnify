@@ -11,6 +11,8 @@ import { ThumbnailForm } from "@/components/dashboard/courses/thumbnail-form";
 import { CategoryForm } from "@/components/dashboard/courses/category-form";
 import { PriceForm } from "@/components/dashboard/courses/price-form";
 import { AttachmentForm } from "@/components/dashboard/courses/attachment-form";
+import { getCurrentUser } from "@/lib/auth";
+import { ChaptersForm } from "@/components/dashboard/courses/chapters-form";
 
 interface CoursePageProps {
   params: {
@@ -20,6 +22,12 @@ interface CoursePageProps {
 }
 
 const CoursePage = async ({ params }: CoursePageProps) => {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    return redirect("/");
+  }
+
   const channel = await db.channel.findUnique({
     where: {
       id: params.channelId,
@@ -30,11 +38,21 @@ const CoursePage = async ({ params }: CoursePageProps) => {
     return redirect("/dashboard");
   }
 
+  if (channel.creatorId !== currentUser.id) {
+    return redirect("/");
+  }
+
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
+      channelId: channel.id,
     },
     include: {
+      chapters: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       attachments: {
         orderBy: {
           createdAt: "desc",
@@ -45,11 +63,6 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 
   if (!course) {
     return redirect(`/dashboard/channels/${params.channelId}`);
-  }
-
-  // If the course doesn't belongs to the channel
-  if (course.channelId !== channel.id) {
-    return notFound();
   }
 
   const categories = await db.category.findMany({
@@ -64,6 +77,8 @@ const CoursePage = async ({ params }: CoursePageProps) => {
     course.thumbnail,
     course.price,
     course.categoryId,
+    // We also need atleast one chapter to be published
+    course.chapters.some((chapter) => chapter.isPublished),
   ];
 
   const totalFeilds = requiredFeilds.length;
@@ -109,20 +124,28 @@ const CoursePage = async ({ params }: CoursePageProps) => {
             <IconBadge icon={ListChecks} />
             <h2 className="text-xl">Course chapters</h2>
           </div>
-          <div>TODO: Chapters</div>
+
+          <ChaptersForm
+            courseId={course.id}
+            channelId={params.channelId}
+            chapters={course.chapters}
+          />
+
           <div className="flex items-center gap-x-2">
             <IconBadge icon={IndianRupee} />
             <h2 className="text-xl">Sell your course</h2>
           </div>
+
           <PriceForm courseId={course.id} price={course.price} />
           <div className="flex items-center gap-x-2">
             <IconBadge icon={File} />
             <h2 className="text-xl">Resources & attachments</h2>
           </div>
+
           <AttachmentForm
             courseId={course.id}
             attchments={course.attachments}
-          />{" "}
+          />
         </div>
       </div>
     </div>
