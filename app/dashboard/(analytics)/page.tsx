@@ -1,6 +1,6 @@
 import { USER_ROLE } from "@prisma/client";
 
-import { AlertMessage } from "@/components/alret-message";
+import { AlertMessage } from "@/components/alert-message";
 import { getSelf } from "@/lib/user";
 
 const AnalyticsPage = async () => {

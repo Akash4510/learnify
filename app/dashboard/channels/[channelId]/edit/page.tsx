@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
-import { AlertMessage } from "@/components/alret-message";
+import { AlertMessage } from "@/components/alert-message";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
 import { getCurrentUser } from "@/lib/auth";
 import { EditChannelForm } from "@/components/dashboard/channel/edit-channel-form";

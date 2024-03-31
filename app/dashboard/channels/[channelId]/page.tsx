@@ -24,8 +24,14 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
     return notFound();
   }
 
+  const courses = await db.course.findMany({
+    where: {
+      channelId: channel.id,
+    },
+  });
+
   return (
-    <div>
+    <div className="space-y-6">
       <div className="flex items-center justify-between mr-2">
         <div className="flex items-center justify-center gap-4">
           <div className="relative h-20 aspect-square rounded-full">
@@ -54,6 +60,18 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
             Edit channel
           </Link>
         </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {courses.map((course) => (
+          <Link
+            key={course.id}
+            href={`/dashboard/channels/${channel.id}/courses/${course.id}`}
+            className="bg-accent rounded-md p-5"
+          >
+            <h1>{course.title}</h1>
+          </Link>
+        ))}
       </div>
     </div>
   );
