@@ -10,52 +10,67 @@ export const createChannel = async (values: CreateChannelSchema) => {
   const validatedFields = CreateChannelSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    return {
+      error: {
+        message: "Invalid fields!",
+      },
+    };
   }
 
   const { name, description, logo, coverImg } = validatedFields.data;
+  const trimmedName = name.trim();
 
-  const currentUser = await getCurrentUser();
+  const user = await getCurrentUser();
 
-  if (!currentUser || !currentUser.id) {
-    return { error: "Unauthenticated" };
+  if (!user?.id) {
+    return {
+      error: {
+        message: "Unauthenticated",
+      },
+    };
   }
 
   // Check the user in our database
-  const user = await db.user.findUnique({ where: { id: currentUser.id } });
+  const dbUser = await db.user.findUnique({
+    where: { id: user.id },
+  });
 
-  if (!user) {
-    return { error: "User not found" };
+  if (!dbUser) {
+    return {
+      error: {
+        message: "User not found",
+      },
+    };
   }
 
   const existingChannel = await db.channel.findUnique({
-    where: { name },
+    where: { name: trimmedName },
   });
 
   if (existingChannel) {
-    return { error: `Channel named '${name}' already exists!` };
-  }
-
-  try {
-    const channel = await db.channel.create({
-      data: {
-        creatorId: user.id,
-        name,
-        description,
-        logo,
-        coverImg,
-      },
-    });
-
-    revalidatePath(`/dashboard/channels`);
-
     return {
-      success: {
-        message: `Channel '${channel.name}' created successfully`,
-        channel,
+      error: {
+        message: `Channel named '${trimmedName}' already exists!`,
       },
     };
-  } catch (err) {
-    return { error: "Something went wrong!" };
   }
+
+  const channel = await db.channel.create({
+    data: {
+      creatorId: dbUser.id,
+      name: trimmedName,
+      description,
+      logo,
+      coverImg,
+    },
+  });
+
+  revalidatePath(`/dashboard/channels`);
+
+  return {
+    success: {
+      message: `Channel '${channel.name}' created successfully`,
+      channel,
+    },
+  };
 };

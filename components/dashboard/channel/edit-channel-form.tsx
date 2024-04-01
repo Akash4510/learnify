@@ -22,13 +22,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
-import { editChannel } from "@/actions/channel/edit-channel";
+import { editChannel } from "@/actions/channel";
 
 interface EditChannelFormProps {
   initialData: Channel;
 }
 
 export const EditChannelForm = ({ initialData }: EditChannelFormProps) => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<EditChannelSchema>({
     resolver: zodResolver(EditChannelSchema),
     defaultValues: {
@@ -38,6 +40,8 @@ export const EditChannelForm = ({ initialData }: EditChannelFormProps) => {
       coverImg: initialData.coverImg || undefined,
     },
   });
+
+  const { handleSubmit, control } = form;
 
   const channelId = initialData.id;
 
@@ -55,20 +59,18 @@ export const EditChannelForm = ({ initialData }: EditChannelFormProps) => {
     startTransition(() => {
       editChannel(channelId, values)
         .then((data) => {
-          if (data?.error) {
-            toast.error(data.error);
+          const { error, success } = data;
+
+          if (success) {
+            toast.success(success.message);
           }
-          if (data?.success) {
-            toast.success(`Channel updated successfully`);
+          if (error) {
+            toast.error(error.message);
           }
         })
         .catch(() => toast.error("Something went wrong"));
     });
   };
-
-  const { handleSubmit } = form;
-
-  const [isPending, startTransition] = useTransition();
 
   return (
     <Form {...form}>
@@ -76,7 +78,7 @@ export const EditChannelForm = ({ initialData }: EditChannelFormProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-accent border rounded-md p-5 space-y-6 backdrop-blur-xl">
             <FormField
-              control={form.control}
+              control={control}
               name="name"
               render={({ field }) => (
                 <FormItem>
@@ -98,7 +100,7 @@ export const EditChannelForm = ({ initialData }: EditChannelFormProps) => {
             />
 
             <FormField
-              control={form.control}
+              control={control}
               name="description"
               render={({ field }) => (
                 <FormItem>
@@ -124,7 +126,7 @@ export const EditChannelForm = ({ initialData }: EditChannelFormProps) => {
 
           <div className="bg-accent border rounded-md p-5 space-y-6 backdrop-blur-xl">
             <FormField
-              control={form.control}
+              control={control}
               name="logo"
               render={({ field }) => (
                 <FormItem>
@@ -168,7 +170,7 @@ export const EditChannelForm = ({ initialData }: EditChannelFormProps) => {
 
           <div className="bg-accent border rounded-md p-5 space-y-6 backdrop-blur-xl col-span-1 md:col-span-2 lg:col-span-1">
             <FormField
-              control={form.control}
+              control={control}
               name="coverImg"
               render={({ field }) => (
                 <FormItem>

@@ -6,6 +6,7 @@ import { Pencil, Tv2 } from "lucide-react";
 import { db } from "@/lib/db";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
 import { Button } from "@/components/ui/button";
+import { AlertMessage } from "@/components/alert-message";
 
 interface ChannelPageProps {
   params: {
@@ -32,6 +33,13 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
 
   return (
     <div className="space-y-6">
+      {!channel.isApproved && (
+        <AlertMessage
+          type="warning"
+          message="Your channel is not approved yet. It will only be visible to the users after it is approved"
+        />
+      )}
+
       <div className="flex items-center justify-between mr-2">
         <div className="flex items-center justify-center gap-4">
           <div className="relative h-20 aspect-square rounded-full">

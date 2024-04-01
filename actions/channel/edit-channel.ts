@@ -13,44 +13,74 @@ export const editChannel = async (
   const validatedFields = EditChannelSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields" };
+    return {
+      error: {
+        message: "Invalid fields",
+      },
+    };
   }
 
   const { description, logo, coverImg } = validatedFields.data;
+
+  const user = await getCurrentUser();
+
+  if (!user?.id) {
+    return {
+      error: {
+        message: "Unauthenticated",
+      },
+    };
+  }
+
+  const dbUser = await db.user.findUnique({
+    where: { id: user.id },
+  });
+
+  if (!dbUser) {
+    return {
+      error: {
+        message: "User not found!",
+      },
+    };
+  }
 
   const channel = await db.channel.findUnique({
     where: { id: channelId },
   });
 
   if (!channel) {
-    return { error: "Channel not found" };
-  }
-
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser) {
-    return { error: "Unauthenticated" };
-  }
-
-  if (channel.creatorId !== currentUser.id) {
-    return { error: "Unauthorized" };
-  }
-
-  try {
-    await db.channel.update({
-      where: { id: channelId },
-      data: {
-        description,
-        logo,
-        coverImg,
+    return {
+      error: {
+        message: "Channel not found",
       },
-    });
-
-    revalidatePath(`/dashbaord/channels`);
-    revalidatePath(`/dashbaord/channels/${channelId}`);
-    revalidatePath(`/dashbaord/channels/${channelId}/edit`);
-    return { success: "Channel updated succesfully" };
-  } catch (err) {
-    return { error: "Something went wrong!" };
+    };
   }
+
+  if (channel.creatorId !== user.id) {
+    return {
+      error: {
+        message: "Unauthorized",
+      },
+    };
+  }
+
+  const editedChannel = await db.channel.update({
+    where: { id: channelId },
+    data: {
+      description,
+      logo,
+      coverImg,
+    },
+  });
+
+  revalidatePath(`/dashbaord/channels`);
+  revalidatePath(`/dashbaord/channels/${channelId}`);
+  revalidatePath(`/dashbaord/channels/${channelId}/edit`);
+
+  return {
+    success: {
+      message: "Channel updated succesfully",
+      channel: editedChannel,
+    },
+  };
 };

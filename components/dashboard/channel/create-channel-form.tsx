@@ -1,12 +1,12 @@
 "use client";
 
 import { useTransition } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2, PlusCircle, X } from "lucide-react";
-import Image from "next/image";
 
 import { CreateChannelSchema } from "@/schemas/channel";
 import { Button } from "@/components/ui/button";
@@ -21,11 +21,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createChannel } from "@/actions/channel/create-channel";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { FileUpload } from "@/components/file-upload";
+import { createChannel } from "@/actions/channel";
 
 export const CreateChannelForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const router = useRouter();
 
   const form = useForm<CreateChannelSchema>({
@@ -36,26 +37,26 @@ export const CreateChannelForm = () => {
     },
   });
 
-  const { handleSubmit } = form;
-
-  const [isPending, startTransition] = useTransition();
+  const { handleSubmit, control } = form;
 
   const onSubmit = async (values: CreateChannelSchema) => {
-    console.log(values);
-
     startTransition(() => {
       createChannel(values)
         .then((data) => {
-          if (data?.error) {
-            toast.error(data.error);
-          }
-          if (data?.success) {
-            toast.success(data.success.message);
+          const { error, success } = data;
+
+          if (success) {
+            toast.success(success.message);
             form.reset();
-            router.push(`/dashboard/channels/${data.success.channel.id}`);
+            router.push(`/dashboard/channels/${success.channel.id}`);
+          }
+          if (error) {
+            toast.error(error.message);
           }
         })
-        .catch(() => toast.error("Something went wrong"));
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 
@@ -65,7 +66,7 @@ export const CreateChannelForm = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-accent border rounded-md p-5 space-y-6 backdrop-blur-xl">
             <FormField
-              control={form.control}
+              control={control}
               name="name"
               render={({ field }) => (
                 <FormItem>
@@ -87,7 +88,7 @@ export const CreateChannelForm = () => {
             />
 
             <FormField
-              control={form.control}
+              control={control}
               name="description"
               render={({ field }) => (
                 <FormItem>
@@ -113,7 +114,7 @@ export const CreateChannelForm = () => {
 
           <div className="bg-accent border rounded-md p-5 space-y-6 backdrop-blur-xl">
             <FormField
-              control={form.control}
+              control={control}
               name="logo"
               render={({ field }) => (
                 <FormItem>
@@ -157,7 +158,7 @@ export const CreateChannelForm = () => {
 
           <div className="bg-accent border rounded-md p-5 space-y-6 backdrop-blur-xl col-span-1 md:col-span-2 lg:col-span-1">
             <FormField
-              control={form.control}
+              control={control}
               name="coverImg"
               render={({ field }) => (
                 <FormItem>

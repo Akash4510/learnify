@@ -1,10 +1,10 @@
 import { notFound, redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
-import { AlertMessage } from "@/components/alert-message";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
 import { getCurrentUser } from "@/lib/auth";
 import { EditChannelForm } from "@/components/dashboard/channel/edit-channel-form";
+import { NavigateBack } from "@/components/navigate-back";
 
 interface ChannelPageProps {
   params: {
@@ -35,21 +35,21 @@ const ChannelEditPage = async ({ params }: ChannelPageProps) => {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-7">
-        {!channel.isApproved && (
-          <AlertMessage
-            type="warning"
-            message="Channel is not approved yet! Your channel will be visible to the users only after it is approved"
-          />
-        )}
-
-        <DashboardPageTitle
-          title={`Edit channel - ${channel.name}`}
-          subtitle="Edit the appearance of your channel, make sure to add a good description, a logo and cover image which conveys about your channel"
+      <div className="space-y-6">
+        <NavigateBack
+          href={`/dashboard/channels/${params.channelId}`}
+          label="Go back"
         />
-      </div>
 
-      <EditChannelForm initialData={channel} />
+        <div className="space-y-8 md:space-y-10 lg:space-y-12">
+          <DashboardPageTitle
+            title={`Edit channel - ${channel.name}`}
+            subtitle="Edit the appearance of your channel, make sure to add a good description, a logo and cover image which conveys about your channel"
+          />
+
+          <EditChannelForm initialData={channel} />
+        </div>
+      </div>
     </div>
   );
 };
