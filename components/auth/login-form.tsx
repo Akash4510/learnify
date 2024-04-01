@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 
 import { WrapperCard } from "./wrapper-card";
 import { LoginSchema } from "@/schemas/auth";
@@ -18,10 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormAlert } from "@/components/form-alert";
-import { login } from "@/actions/auth/login";
-import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { AlertMessage } from "@/components/alert-message";
+import { login } from "@/actions/auth";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -45,6 +44,8 @@ export const LoginForm = () => {
     },
   });
 
+  const { handleSubmit, control } = form;
+
   const onSubmit = async (values: LoginSchema) => {
     setError("");
     setSuccess("");
@@ -52,30 +53,36 @@ export const LoginForm = () => {
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
-          if (data?.error) {
-            toast.error(data.error);
+          const { error, success } = data;
+
+          if (success) {
+            setSuccess(success.message);
+            form.reset();
           }
-          if (data?.success) {
-            toast.success(data.success);
+          if (error) {
+            setError(error.message);
           }
         })
-        .catch(() => setError("Something went wrong"));
+        .catch((err) => {
+          if (err.message !== "NEXT_REDIRECT")
+            setError("Something went wrong!");
+        });
     });
   };
 
   return (
     <WrapperCard
       title="Login"
-      subtitle="Welcome back to trade master"
+      subtitle="Welcome back to LearnIt"
       switchFormLabel="Don't have an account? Sign Up"
       switchFormHref="/auth/register"
       showSocials
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
             <FormField
-              control={form.control}
+              control={control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -89,7 +96,7 @@ export const LoginForm = () => {
             />
 
             <FormField
-              control={form.control}
+              control={control}
               name="password"
               render={({ field }) => (
                 <FormItem>
@@ -101,15 +108,20 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-          </div>
 
-          <div className="!mt-2">
-            <Link
-              href="/auth/reset-password"
-              className="text-sm text-primary hover:underline"
-            >
-              Forgot Password?
-            </Link>
+            <div className="!mt-1.5">
+              <Link
+                href="/auth/reset-password"
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+
+            <div className="space-y-1">
+              {error && <AlertMessage type="error" message={error} />}
+              {success && <AlertMessage type="success" message={success} />}
+            </div>
           </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>

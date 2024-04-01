@@ -13,7 +13,11 @@ export const GoogleLogin = () => {
   };
 
   return (
-    <Button variant="outline" className="w-full" onClick={onClick}>
+    <Button
+      variant="outline"
+      className="w-full hover:bg-background/70"
+      onClick={onClick}
+    >
       <span className="font-extrabold text-xl mr-2">G</span>
       Continue with Google
     </Button>

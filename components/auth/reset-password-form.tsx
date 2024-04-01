@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 
 import { WrapperCard } from "./wrapper-card";
 import { ResetPasswordSchema } from "@/schemas/auth";
@@ -16,8 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormAlert } from "@/components/form-alert";
-import { resetPassword } from "@/actions/auth/reset-passwrod";
+import { AlertMessage } from "@/components/alert-message";
+import { resetPassword } from "@/actions/auth";
 
 export const ResetPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -32,6 +33,8 @@ export const ResetPasswordForm = () => {
     },
   });
 
+  const { handleSubmit, control } = form;
+
   const onSubmit = async (values: ResetPasswordSchema) => {
     setError("");
     setSuccess("");
@@ -39,14 +42,18 @@ export const ResetPasswordForm = () => {
     startTransition(() => {
       resetPassword(values)
         .then((data) => {
-          if (data?.error) {
-            setError(data.error);
+          const { error, success } = data;
+
+          if (success) {
+            setSuccess(success.message);
           }
-          if (data?.success) {
-            setSuccess(data.success);
+          if (error) {
+            setError(error.message);
           }
         })
-        .catch(() => setError("Something went wrong"));
+        .catch(() => {
+          setError("Something went wrong!");
+        });
     });
   };
 
@@ -58,10 +65,10 @@ export const ResetPasswordForm = () => {
       switchFormHref="/auth/login"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
             <FormField
-              control={form.control}
+              control={control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -73,13 +80,19 @@ export const ResetPasswordForm = () => {
                 </FormItem>
               )}
             />
+
+            <div className="space-y-1">
+              {error && <AlertMessage type="error" message={error} />}
+              {success && <AlertMessage type="success" message={success} />}
+            </div>
           </div>
 
-          {error && <FormAlert type="error" message={error} />}
-          {success && <FormAlert type="success" message={success} />}
-
           <Button type="submit" className="w-full" disabled={isPending}>
-            Send reset email
+            {isPending ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <span>Send reset email</span>
+            )}
           </Button>
         </form>
       </Form>

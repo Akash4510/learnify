@@ -5,18 +5,18 @@ import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 import { WrapperCard } from "./wrapper-card";
-import { verifyEmail } from "@/actions/auth/verify-email";
-import { FormAlert } from "../form-alert";
+import { verifyEmail } from "@/actions/auth";
+import { AlertMessage } from "@/components/alert-message";
 
 export const EmailVerificationForm = () => {
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
 
   const searchParams = useSearchParams();
 
   const token = searchParams.get("token");
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!token) {
       setError("Missing Token!");
       return;
@@ -24,8 +24,14 @@ export const EmailVerificationForm = () => {
 
     verifyEmail(token)
       .then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
+        const { error, success } = data;
+
+        if (success) {
+          setSuccess(success.message);
+        }
+        if (error) {
+          setError(error.message);
+        }
       })
       .catch(() => {
         setError("Something went wrong!");
@@ -50,8 +56,10 @@ export const EmailVerificationForm = () => {
         </div>
       )}
 
-      {success && <FormAlert type="success" message={success} />}
-      {error && <FormAlert type="error" message={error} />}
+      <div className="space-y-1">
+        {error && <AlertMessage type="error" message={error} />}
+        {success && <AlertMessage type="success" message={success} />}
+      </div>
     </WrapperCard>
   );
 };

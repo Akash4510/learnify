@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 
 import { WrapperCard } from "./wrapper-card";
 import { NewPasswordSchema } from "@/schemas/auth";
@@ -17,8 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormAlert } from "@/components/form-alert";
-import { setNewPassword } from "@/actions/auth/new-password";
+import { AlertMessage } from "@/components/alert-message";
+import { setNewPassword } from "@/actions/auth";
 
 export const NewPasswordForm = () => {
   const searchParams = useSearchParams();
@@ -38,6 +39,8 @@ export const NewPasswordForm = () => {
     },
   });
 
+  const { handleSubmit, control } = form;
+
   const onSubmit = async (values: NewPasswordSchema) => {
     setError("");
     setSuccess("");
@@ -45,14 +48,18 @@ export const NewPasswordForm = () => {
     startTransition(() => {
       setNewPassword(values, token)
         .then((data) => {
-          if (data?.error) {
-            setError(data.error);
+          const { error, success } = data;
+
+          if (success) {
+            setSuccess(success.message);
           }
-          if (data?.success) {
-            setSuccess(data.success);
+          if (error) {
+            setError(error.message);
           }
         })
-        .catch(() => setError("Something went wrong"));
+        .catch(() => {
+          setError("Something went wrong!");
+        });
     });
   };
 
@@ -64,10 +71,10 @@ export const NewPasswordForm = () => {
       switchFormHref="/auth/login"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
             <FormField
-              control={form.control}
+              control={control}
               name="password"
               render={({ field }) => (
                 <FormItem>
@@ -81,7 +88,7 @@ export const NewPasswordForm = () => {
             />
 
             <FormField
-              control={form.control}
+              control={control}
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
@@ -95,11 +102,17 @@ export const NewPasswordForm = () => {
             />
           </div>
 
-          {error && <FormAlert type="error" message={error} />}
-          {success && <FormAlert type="success" message={success} />}
+          <div className="space-y-1">
+            {error && <AlertMessage type="error" message={error} />}
+            {success && <AlertMessage type="success" message={success} />}
+          </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            Reset password
+            {isPending ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <span>Reset password</span>
+            )}
           </Button>
         </form>
       </Form>

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
+import { Loader2 } from "lucide-react";
 
 import { UpdateAccountSchema } from "@/schemas/auth";
 import {
@@ -15,16 +16,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FormAlert } from "@/components/form-alert";
 import { Button } from "@/components/ui/button";
-import { updateAccount } from "@/actions/auth/update-account";
+import { AlertMessage } from "@/components/alert-message";
+import { updateAccount } from "@/actions/auth";
 
 export const UpdateAccountForm = () => {
   const { update } = useSession();
   const [isPending, startTransition] = useTransition();
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
 
   const form = useForm<UpdateAccountSchema>({
     resolver: zodResolver(UpdateAccountSchema),
@@ -33,6 +34,8 @@ export const UpdateAccountForm = () => {
     },
   });
 
+  const { handleSubmit, control } = form;
+
   const onSubmit = async (values: UpdateAccountSchema) => {
     setError("");
     setSuccess("");
@@ -40,25 +43,31 @@ export const UpdateAccountForm = () => {
     startTransition(() => {
       updateAccount(values)
         .then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          }
-          if (data?.success) {
-            setSuccess(data.success);
+          const { error, success } = data;
+
+          if (success) {
+            setSuccess(success.message);
+            form.reset();
+
             // This is to update the current session
             update();
           }
+          if (error) {
+            setError(error.message);
+          }
         })
-        .catch(() => setError("Something went wrong"));
+        .catch(() => {
+          setError("Something went wrong!");
+        });
     });
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="space-y-2">
           <FormField
-            control={form.control}
+            control={control}
             name="name"
             render={({ field }) => (
               <FormItem>
@@ -72,11 +81,17 @@ export const UpdateAccountForm = () => {
           />
         </div>
 
-        {error && <FormAlert type="error" message={error} />}
-        {success && <FormAlert type="success" message={success} />}
+        <div className="space-y-1">
+          {error && <AlertMessage type="error" message={error} />}
+          {success && <AlertMessage type="success" message={success} />}
+        </div>
 
         <Button type="submit" className="w-full" disabled={isPending}>
-          Update
+          {isPending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <span>Update</span>
+          )}
         </Button>
       </form>
     </Form>

@@ -23,6 +23,7 @@ export default {
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
+          // !!Cannot directly use db here
           const user = await getUserByEmail(email);
 
           // User may not have password if they logged in using Google

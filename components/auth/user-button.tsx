@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { logout } from "@/actions/auth/logout";
+import { logout } from "@/actions/auth";
 
 export const UserButton = () => {
   const user = useCurrentUser();

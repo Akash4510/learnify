@@ -4,7 +4,7 @@ import { USER_ROLE } from "@prisma/client";
 
 import authConfig from "@/auth.config";
 import { db } from "@/lib/db";
-import { getUserById } from "@/data/user";
+import { getUserById } from "./data/user";
 
 export const {
   handlers: { GET, POST },
@@ -18,6 +18,7 @@ export const {
     // So we will set the emailVerified field to the time when
     // the user logged in or created an account using google
     async linkAccount({ user }) {
+      // *Can use db here
       await db.user.update({
         where: { id: user.id },
         data: { emailVerified: new Date() },
@@ -32,6 +33,7 @@ export const {
 
       if (!user || !user.id) return true;
 
+      // !!Cannot directly use db here
       const existingUser = await getUserById(user.id);
 
       // Prevent signin without email verification
@@ -59,7 +61,9 @@ export const {
     async jwt({ token }) {
       if (!token.sub) return token;
 
+      // !!Cannot directly use db here
       const existingUser = await getUserById(token.sub);
+
       if (!existingUser) return token;
 
       // This is to update the current session

@@ -2,8 +2,6 @@
 
 import bcrypt from "bcryptjs";
 
-import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
-import { getUserByEmail } from "@/data/user";
 import { NewPasswordSchema } from "@/schemas/auth";
 import { db } from "@/lib/db";
 
@@ -12,39 +10,67 @@ export const setNewPassword = async (
   token: string | null
 ) => {
   if (!token) {
-    return { error: "Missing token!" };
+    return {
+      error: {
+        message: "Missing token!",
+      },
+    };
   }
 
   const validatedFields = NewPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields" };
+    return {
+      error: {
+        message: "Invalid fields",
+      },
+    };
   }
 
   const { password, confirmPassword } = validatedFields.data;
 
   if (password !== confirmPassword) {
     return {
-      error: "Password do not match, please enter the password carefully",
+      error: {
+        message: "Password do not match, please enter the password carefully",
+      },
     };
   }
 
-  const existingToken = await getPasswordResetTokenByToken(token);
+  const existingToken = await db.passwordResetToken.findUnique({
+    where: { token },
+  });
 
   if (!existingToken) {
-    return { error: "Invalid token!" };
+    return {
+      error: {
+        message: "Invalid token!",
+      },
+    };
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date();
 
   if (hasExpired) {
-    return { error: "Token has expired" };
+    return {
+      error: {
+        message: "Token has expired",
+      },
+    };
   }
 
-  const existingUser = await getUserByEmail(existingToken.email);
+  const existingUser = await db.user.findUnique({
+    where: {
+      email: existingToken.email,
+    },
+  });
 
   if (!existingUser) {
-    return { error: "Email does not exists" };
+    return {
+      error: {
+        message: "Email does not exists",
+      },
+    };
   }
 
   const salt = 10;
@@ -63,5 +89,9 @@ export const setNewPassword = async (
     where: { id: existingToken.id },
   });
 
-  return { success: "Password updated" };
+  return {
+    success: {
+      message: "Password updated",
+    },
+  };
 };

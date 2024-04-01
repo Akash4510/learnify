@@ -1,26 +1,42 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { getUserByEmail } from "@/data/user";
-import { getVerificationTokenByToken } from "@/data/verification-token";
 
 export const verifyEmail = async (token: string) => {
-  const existingToken = await getVerificationTokenByToken(token);
+  const existingToken = await db.verificationToken.findUnique({
+    where: { token },
+  });
 
   if (!existingToken) {
-    return { error: "Token does not exists" };
+    return {
+      error: {
+        message: "Token does not exists",
+      },
+    };
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date();
 
   if (hasExpired) {
-    return { error: "Token has expired" };
+    return {
+      error: {
+        message: "Token has expired",
+      },
+    };
   }
 
-  const existingUser = await getUserByEmail(existingToken.email);
+  const existingUser = await db.user.findUnique({
+    where: {
+      email: existingToken.email,
+    },
+  });
 
   if (!existingUser) {
-    return { error: "Email does not exists!" };
+    return {
+      error: {
+        message: "Email does not exists!",
+      },
+    };
   }
 
   await db.user.update({
@@ -36,5 +52,9 @@ export const verifyEmail = async (token: string) => {
     where: { id: existingToken.id },
   });
 
-  return { success: "Email verified" };
+  return {
+    success: {
+      message: "Email verified",
+    },
+  };
 };

@@ -1,7 +1,7 @@
 "use server";
 
 import { ResetPasswordSchema } from "@/schemas/auth";
-import { getUserByEmail } from "@/data/user";
+import { db } from "@/lib/db";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
 
@@ -9,15 +9,27 @@ export const resetPassword = async (values: ResetPasswordSchema) => {
   const validatedFields = ResetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid email" };
+    return {
+      error: {
+        message: "Invalid email",
+      },
+    };
   }
 
   const { email } = validatedFields.data;
 
-  const existingUser = await getUserByEmail(email);
+  const existingUser = await db.user.findUnique({
+    where: {
+      email,
+    },
+  });
 
   if (!existingUser) {
-    return { error: "Account with this email doesn't exists" };
+    return {
+      error: {
+        message: "Account with this email doesn't exists",
+      },
+    };
   }
 
   const passwordResetToken = await generatePasswordResetToken(email);
@@ -27,5 +39,9 @@ export const resetPassword = async (values: ResetPasswordSchema) => {
     passwordResetToken.token
   );
 
-  return { success: "Reset email sent!" };
+  return {
+    success: {
+      message: "Reset email sent!",
+    },
+  };
 };

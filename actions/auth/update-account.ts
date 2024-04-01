@@ -2,20 +2,27 @@
 
 import { UpdateAccountSchema } from "@/schemas/auth";
 import { db } from "@/lib/db";
-import { getUserById } from "@/data/user";
 import { getCurrentUser } from "@/lib/auth";
 
 export const updateAccount = async (values: UpdateAccountSchema) => {
   const user = await getCurrentUser();
 
   if (!user || !user.id) {
-    return { error: "Unauthorized" };
+    return {
+      error: {
+        message: "Unauthenticated",
+      },
+    };
   }
 
-  const dbUser = await getUserById(user.id);
+  const dbUser = await db.user.findUnique({ where: { id: user.id } });
 
   if (!dbUser) {
-    return { error: "Unauthorized" };
+    return {
+      error: {
+        message: "User not found!",
+      },
+    };
   }
 
   await db.user.update({
@@ -25,5 +32,9 @@ export const updateAccount = async (values: UpdateAccountSchema) => {
     },
   });
 
-  return { success: "Account updated!" };
+  return {
+    success: {
+      message: "Account updated!",
+    },
+  };
 };

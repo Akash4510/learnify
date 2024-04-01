@@ -30,7 +30,7 @@ export const WrapperCard = ({
   showSocials,
 }: WrapperCardProps) => {
   return (
-    <Card className="md:min-w-[400px] lg:max-w-[450px] shadow-md md:p-2 ml-auto">
+    <Card className="md:min-w-[400px] lg:max-w-[450px] shadow-md md:p-0.5 ml-auto bg-accent">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>{subtitle}</CardDescription>
@@ -43,20 +43,19 @@ export const WrapperCard = ({
               <GoogleLogin />
             </div>
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
+            <div className="flex items-center justify-between">
+              <div className="flex-1 border-t border-muted-foreground" />
+
+              <span className="px-2 text-xs uppercase text-muted-foreground">
+                Or
+              </span>
+
+              <div className="flex-1 border-t border-muted-foreground" />
             </div>
           </>
         )}
 
-        <div className="my-2">{children}</div>
+        <div>{children}</div>
       </CardContent>
 
       <CardFooter className="flex flex-col items-start justify-start gap-4">

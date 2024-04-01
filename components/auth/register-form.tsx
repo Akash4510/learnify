@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import axios from "axios";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 
 import { WrapperCard } from "./wrapper-card";
 import { RegisterSchema } from "@/schemas/auth";
@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormAlert } from "@/components/form-alert";
+import { AlertMessage } from "@/components/alert-message";
+import { register } from "@/actions/auth";
 
 export const RegisterForm = () => {
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [success, setSuccess] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(RegisterSchema),
@@ -29,32 +31,39 @@ export const RegisterForm = () => {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors: formErrors },
+  } = form;
 
   const onSubmit = async (values: RegisterSchema) => {
     setError("");
     setSuccess("");
 
-    try {
-      const res = await axios.post("/api/auth/register", {
-        ...values,
-      });
+    startTransition(() => {
+      register(values)
+        .then((data) => {
+          const { error, success } = data;
 
-      setSuccess(res.data.message);
-    } catch (error: any) {
-      console.log(error.response?.data.message);
-
-      if (axios.isAxiosError(error)) {
-        setError(error.response?.data.message);
-      } else {
-        setError(error.message);
-      }
-      console.log(error);
-    }
+          if (success) {
+            setSuccess(success.message);
+            form.reset();
+          }
+          if (error) {
+            setError(error.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setError("Something went wrong!");
+        });
+    });
   };
-
-  const { isSubmitting } = form.formState;
 
   return (
     <WrapperCard
@@ -65,16 +74,21 @@ export const RegisterForm = () => {
       showSocials
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
             <FormField
-              control={form.control}
+              control={control}
               name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} type="text" disabled={isSubmitting} />
+                    <Input
+                      {...field}
+                      type="text"
+                      disabled={isPending}
+                      autoComplete="off"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,39 +96,74 @@ export const RegisterForm = () => {
             />
 
             <FormField
-              control={form.control}
+              control={control}
               name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} type="text" disabled={isSubmitting} />
+                    <Input {...field} type="text" disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="password" disabled={isSubmitting} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            <div className="flex items-center justify-between gap-2">
+              <FormField
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" disabled={isPending} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" disabled={isPending} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-1">
+              {formErrors.password?.message && (
+                <AlertMessage
+                  type="error"
+                  message={formErrors.password.message}
+                />
               )}
-            />
+              {formErrors.confirmPassword?.message && (
+                <AlertMessage
+                  type="error"
+                  message={formErrors.confirmPassword.message}
+                />
+              )}
+            </div>
+
+            <div className="space-y-1 pt-2">
+              {error && <AlertMessage type="error" message={error} />}
+              {success && <AlertMessage type="success" message={success} />}
+            </div>
           </div>
 
-          {error && <FormAlert type="error" message={error} />}
-          {success && <FormAlert type="success" message={success} />}
-
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            Create account
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <span>Create account</span>
+            )}
           </Button>
         </form>
       </Form>
