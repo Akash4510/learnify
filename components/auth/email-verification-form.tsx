@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 
 import { WrapperCard } from "./wrapper-card";
 import { verifyEmail } from "@/actions/auth";
-import { AlertMessage } from "@/components/alert-message";
+import { AlertMessage } from "@/components/ui/alert-message";
 
 export const EmailVerificationForm = () => {
   const [error, setError] = useState<string>("");
@@ -57,8 +57,8 @@ export const EmailVerificationForm = () => {
       )}
 
       <div className="space-y-1">
-        {error && <AlertMessage type="error" message={error} />}
-        {success && <AlertMessage type="success" message={success} />}
+        {error && <AlertMessage variant="error" message={error} />}
+        {success && <AlertMessage variant="success" message={success} />}
       </div>
     </WrapperCard>
   );

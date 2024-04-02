@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AlertMessage } from "@/components/alert-message";
+import { AlertMessage } from "@/components/ui/alert-message";
 import { updateAccount } from "@/actions/auth";
 
 export const UpdateAccountForm = () => {
@@ -82,8 +82,8 @@ export const UpdateAccountForm = () => {
         </div>
 
         <div className="space-y-1">
-          {error && <AlertMessage type="error" message={error} />}
-          {success && <AlertMessage type="success" message={success} />}
+          {error && <AlertMessage variant="error" message={error} />}
+          {success && <AlertMessage variant="success" message={success} />}
         </div>
 
         <Button type="submit" className="w-full" disabled={isPending}>

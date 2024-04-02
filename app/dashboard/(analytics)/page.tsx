@@ -1,6 +1,6 @@
 import { USER_ROLE } from "@prisma/client";
 
-import { AlertMessage } from "@/components/alert-message";
+import { AlertMessage } from "@/components/ui/alert-message";
 import { getSelf } from "@/lib/user";
 
 const AnalyticsPage = async () => {
@@ -10,7 +10,7 @@ const AnalyticsPage = async () => {
     <div>
       {user.role === USER_ROLE.USER && (
         <AlertMessage
-          type="warning"
+          variant="warning"
           message="YOU ARE NOT A CREATOR. IF YOU WANT TO BECOME A CREATOR PLEASE REQUEST CREATOR ACCESS"
         />
       )}

@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Book, Pencil, PlusCircle, Tv2 } from "lucide-react";
+import { Book, Pencil, Tv2 } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
 import { Button } from "@/components/ui/button";
-import { AlertMessage } from "@/components/alert-message";
+import { AlertMessage } from "@/components/ui/alert-message";
 
 interface ChannelPageProps {
   params: {
@@ -35,7 +35,7 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
     <div className="space-y-6">
       {!channel.isApproved && (
         <AlertMessage
-          type="warning"
+          variant="warning"
           message="Your channel is not approved yet. It will only be visible to the users after it is approved"
         />
       )}

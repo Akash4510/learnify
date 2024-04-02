@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AlertMessage } from "@/components/alert-message";
+import { AlertMessage } from "@/components/ui/alert-message";
 import { register } from "@/actions/auth";
 
 export const RegisterForm = () => {
@@ -140,21 +140,21 @@ export const RegisterForm = () => {
             <div className="space-y-1">
               {formErrors.password?.message && (
                 <AlertMessage
-                  type="error"
+                  variant="error"
                   message={formErrors.password.message}
                 />
               )}
               {formErrors.confirmPassword?.message && (
                 <AlertMessage
-                  type="error"
+                  variant="error"
                   message={formErrors.confirmPassword.message}
                 />
               )}
             </div>
 
             <div className="space-y-1 pt-2">
-              {error && <AlertMessage type="error" message={error} />}
-              {success && <AlertMessage type="success" message={success} />}
+              {error && <AlertMessage variant="error" message={error} />}
+              {success && <AlertMessage variant="success" message={success} />}
             </div>
           </div>
 

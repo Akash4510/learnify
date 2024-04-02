@@ -4,7 +4,7 @@ import { File, IndianRupee, LayoutDashboard, ListChecks } from "lucide-react";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
-import { IconBadge } from "@/components/icon-badge";
+import { IconBadge } from "@/components/ui/icon-badge";
 
 import { TitleForm } from "@/components/dashboard/courses/title-form";
 import { DescriptionForm } from "@/components/dashboard/courses/description-form";

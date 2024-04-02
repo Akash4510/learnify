@@ -6,7 +6,7 @@ import { File, Loader2, Trash } from "lucide-react";
 import { Attachment } from "@prisma/client";
 import { toast } from "sonner";
 
-import { ConfirmationDialogTrigger } from "@/components/confirmation-dialog-trigger";
+import { ConfirmationDialogTrigger } from "@/components/ui/confirmation-dialog-trigger";
 import { deleteAttachment } from "@/actions/course/attachment";
 
 interface CourseAttachmentProps {
