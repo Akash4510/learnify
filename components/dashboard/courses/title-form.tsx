@@ -17,9 +17,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course/edit-course";
+import { editCourse } from "@/actions/course";
 
 interface TitleFormProps {
+  channelId: string;
   courseId: string;
   title: string;
 }
@@ -32,7 +33,10 @@ const formSchema = z.object({
 
 type formSchema = z.infer<typeof formSchema>;
 
-export const TitleForm = ({ courseId, title }: TitleFormProps) => {
+export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
+  const [isPending, startTransition] = useTransition();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const form = useForm<formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,11 +44,7 @@ export const TitleForm = ({ courseId, title }: TitleFormProps) => {
     },
   });
 
-  const { handleSubmit, setFocus } = form;
-
-  const [isPending, startTransition] = useTransition();
-
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { handleSubmit, control } = form;
 
   const toggleEditing = () => {
     setIsEditing((value) => !value);
@@ -57,15 +57,21 @@ export const TitleForm = ({ courseId, title }: TitleFormProps) => {
     }
 
     startTransition(() => {
-      editCourse(courseId, values).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          toast.success("Course title updated");
-          toggleEditing();
-        }
-      });
+      editCourse(channelId, courseId, values)
+        .then((data) => {
+          const { error, success } = data;
+
+          if (success) {
+            toast.success("Course title updated");
+            toggleEditing();
+          }
+          if (error) {
+            toast.error(error.message);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 
@@ -74,7 +80,7 @@ export const TitleForm = ({ courseId, title }: TitleFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-accent rounded-md p-4">
           <FormField
-            control={form.control}
+            control={control}
             name="title"
             render={({ field }) => (
               <FormItem>
@@ -91,7 +97,7 @@ export const TitleForm = ({ courseId, title }: TitleFormProps) => {
                       onClick={() => {
                         toggleEditing();
                         setTimeout(() => {
-                          setFocus("title");
+                          form.setFocus("title");
                         }, 20);
                       }}
                     >

@@ -1,19 +1,18 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Image from "next/image";
 import { z } from "zod";
-import { ImageIcon, Pencil, PlusCircle, X } from "lucide-react";
+import { PlusCircle, X } from "lucide-react";
 import { toast } from "sonner";
 import { Attachment } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course/edit-course";
 import { FileUpload } from "@/components/file-upload";
-import { addAttachment } from "@/actions/course/attachment";
 import { CourseAttachment } from "./attachment";
+import { addAttachment } from "@/actions/course/attachment";
 
 interface AttachmentFormProps {
+  channelId: string;
   courseId: string;
   attchments: Attachment[];
 }
@@ -27,11 +26,11 @@ const formSchema = z.object({
 type formSchema = z.infer<typeof formSchema>;
 
 export const AttachmentForm = ({
+  channelId,
   courseId,
   attchments,
 }: AttachmentFormProps) => {
   const [isPending, startTransition] = useTransition();
-
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const toggleEditing = () => {

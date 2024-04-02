@@ -13,54 +13,67 @@ export const createCourse = async (
   const validatedFields = CreateCourseSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    return {
+      error: {
+        message: "Invalid fields!",
+      },
+    };
   }
 
   const { title } = validatedFields.data;
+  const trimmedTitle = title.trim();
 
-  const currentUser = await getCurrentUser();
+  const user = await getCurrentUser();
 
-  if (!currentUser || !currentUser.id) {
-    return { error: "Unauthenticated" };
+  if (!user?.id) {
+    return {
+      error: {
+        message: "Unauthenticated",
+      },
+    };
   }
 
   // Check the user in our database
-  const user = await db.user.findUnique({ where: { id: currentUser.id } });
+  const dbUser = await db.user.findUnique({
+    where: { id: user.id },
+  });
 
-  if (!user) {
-    return { error: "User not found" };
+  if (!dbUser) {
+    return {
+      error: {
+        message: "User not found!",
+      },
+    };
   }
 
   const existingCourse = await db.course.findFirst({
     where: {
       channelId,
-      title,
+      title: trimmedTitle,
     },
   });
 
   if (existingCourse) {
     return {
-      error: `Course named - '${title}' already exists on your channel. Please choose a different title`,
+      error: {
+        message: `Course named - '${trimmedTitle}' already exists on your channel. Please choose a different title`,
+      },
     };
   }
 
-  try {
-    const course = await db.course.create({
-      data: {
-        channelId,
-        ...values,
-      },
-    });
+  const course = await db.course.create({
+    data: {
+      channelId,
+      title: trimmedTitle,
+    },
+  });
 
-    revalidatePath(`/dahsboard/channels/${channelId}/courses`);
+  revalidatePath(`/dahsboard/channels/${channelId}/courses`);
 
-    return {
-      success: {
-        message: `Course '${course.title}' created successfully`,
-        course,
-      },
-    };
-  } catch (err) {
-    return { error: "Soemthing went wrong!" };
-  }
+  return {
+    success: {
+      message: `Course '${course.title}' created successfully`,
+      course,
+    },
+  };
 };

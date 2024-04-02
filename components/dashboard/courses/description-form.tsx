@@ -16,10 +16,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course/edit-course";
 import { Textarea } from "@/components/ui/textarea";
+import { editCourse } from "@/actions/course";
 
 interface DescriptionFormProps {
+  channelId: string;
   courseId: string;
   description: string | null;
 }
@@ -31,9 +32,13 @@ const formSchema = z.object({
 type formSchema = z.infer<typeof formSchema>;
 
 export const DescriptionForm = ({
+  channelId,
   courseId,
   description,
 }: DescriptionFormProps) => {
+  const [isPending, startTransition] = useTransition();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const form = useForm<formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,11 +46,7 @@ export const DescriptionForm = ({
     },
   });
 
-  const { handleSubmit, setFocus } = form;
-
-  const [isPending, startTransition] = useTransition();
-
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { handleSubmit, control } = form;
 
   const toggleEditing = () => {
     setIsEditing((value) => !value);
@@ -58,17 +59,22 @@ export const DescriptionForm = ({
     }
 
     startTransition(() => {
-      editCourse(courseId, values).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          values.description
-            ? toast.success("Course description updated")
-            : toast.success("Course description removed");
-          toggleEditing();
-        }
-      });
+      editCourse(channelId, courseId, values)
+        .then((data) => {
+          const { error, success } = data;
+          if (success) {
+            values.description
+              ? toast.success("Course description updated")
+              : toast.success("Course description removed");
+            toggleEditing();
+          }
+          if (error) {
+            toast.error(error.message);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 
@@ -77,7 +83,7 @@ export const DescriptionForm = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-accent rounded-md p-4">
           <FormField
-            control={form.control}
+            control={control}
             name="description"
             render={({ field }) => (
               <FormItem>
@@ -96,7 +102,7 @@ export const DescriptionForm = ({
                       onClick={() => {
                         toggleEditing();
                         setTimeout(() => {
-                          setFocus("description");
+                          form.setFocus("description");
                         }, 20);
                       }}
                     >
@@ -144,7 +150,7 @@ export const DescriptionForm = ({
                       {field.value}
                     </p>
                   ) : (
-                    <p className="font-light text-sm py-2 bg-orange-500/10 text-orange-500 px-4 rounded-md font-mono opacity-75">
+                    <p className="font-light text-sm py-2 bg-background/30 px-4 rounded-md font-mono opacity-75">
                       No description added
                     </p>
                   )}

@@ -1,9 +1,10 @@
 "use client";
 
 import { useTransition } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { Loader2, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 
@@ -19,13 +20,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createCourse } from "@/actions/course/create-course";
+import { createCourse } from "@/actions/course";
 
 interface CreateCourseFormProps {
   channelId: string;
 }
 
 export const CreateCourseForm = ({ channelId }: CreateCourseFormProps) => {
+  const [isPending, startTransition] = useTransition();
+
   const router = useRouter();
 
   const form = useForm<CreateCourseSchema>({
@@ -35,21 +38,20 @@ export const CreateCourseForm = ({ channelId }: CreateCourseFormProps) => {
     },
   });
 
-  const { handleSubmit } = form;
-
-  const [isPending, startTransition] = useTransition();
+  const { handleSubmit, control } = form;
 
   const onSubmit = async (values: CreateCourseSchema) => {
     startTransition(() => {
       createCourse(channelId, values).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          toast.success(data.success.message);
-          const courseId = data.success.course.id;
+        const { error, success } = data;
+        if (success) {
+          toast.success(success.message);
+          const courseId = success.course.id;
 
           router.push(`/dashboard/channels/${channelId}/courses/${courseId}`);
+        }
+        if (error) {
+          toast.error(error.message);
         }
       });
     });
@@ -60,7 +62,7 @@ export const CreateCourseForm = ({ channelId }: CreateCourseFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="bg-accent border rounded-md p-4 max-w-[36rem]">
           <FormField
-            control={form.control}
+            control={control}
             name="title"
             render={({ field }) => (
               <FormItem>
@@ -97,10 +99,14 @@ export const CreateCourseForm = ({ channelId }: CreateCourseFormProps) => {
 
           <Button
             variant="accent"
+            type="button"
             disabled={isPending}
             className="w-full sm:w-32"
+            asChild
           >
-            Cancel
+            <Link href={`/dashboard/channels/${channelId}/courses`}>
+              Cancel
+            </Link>
           </Button>
         </div>
       </form>

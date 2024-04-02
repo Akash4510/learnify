@@ -7,10 +7,11 @@ import { ImageIcon, Pencil, PlusCircle, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course/edit-course";
 import { FileUpload } from "@/components/file-upload";
+import { editCourse } from "@/actions/course";
 
 interface ThumbnailFormProps {
+  channelId: string;
   courseId: string;
   thumbnail: string | null;
 }
@@ -21,9 +22,12 @@ const formSchema = z.object({
 
 type formSchema = z.infer<typeof formSchema>;
 
-export const ThumbnailForm = ({ courseId, thumbnail }: ThumbnailFormProps) => {
+export const ThumbnailForm = ({
+  channelId,
+  courseId,
+  thumbnail,
+}: ThumbnailFormProps) => {
   const [isPending, startTransition] = useTransition();
-
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const toggleEditing = () => {
@@ -37,15 +41,20 @@ export const ThumbnailForm = ({ courseId, thumbnail }: ThumbnailFormProps) => {
     }
 
     startTransition(() => {
-      editCourse(courseId, values).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          toast.success("Course thumbnail updated");
-          toggleEditing();
-        }
-      });
+      editCourse(channelId, courseId, values)
+        .then((data) => {
+          const { error, success } = data;
+          if (success) {
+            toast.success("Course thumbnail updated");
+            toggleEditing();
+          }
+          if (error) {
+            toast.error(error.message);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 
@@ -114,8 +123,11 @@ export const ThumbnailForm = ({ courseId, thumbnail }: ThumbnailFormProps) => {
             />
           </div>
         ) : (
-          <div className="rounded-md bg-background/30 aspect-video flex items-center justify-center relative">
+          <div className="rounded-md bg-background/30 aspect-video flex flex-col gap-2 items-center justify-center relative">
             <ImageIcon className="size-7" />
+            <p className="text-xs md:text-sm text-muted-foreground">
+              No thumbnail added
+            </p>
           </div>
         )}
       </div>

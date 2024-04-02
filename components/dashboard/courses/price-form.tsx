@@ -4,14 +4,7 @@ import { useState, useTransition } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  IndianRupee,
-  Loader2,
-  Pencil,
-  PlusCircle,
-  Save,
-  X,
-} from "lucide-react";
+import { IndianRupee, Loader2, Pencil, Save, X } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -23,11 +16,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course/edit-course";
 import { Input } from "@/components/ui/input";
 import { formatPrice } from "@/lib/utils";
+import { editCourse } from "@/actions/course";
 
 interface PriceFormProps {
+  channelId: string;
   courseId: string;
   price: number | null;
 }
@@ -38,7 +32,10 @@ const formSchema = z.object({
 
 type formSchema = z.infer<typeof formSchema>;
 
-export const PriceForm = ({ courseId, price }: PriceFormProps) => {
+export const PriceForm = ({ channelId, courseId, price }: PriceFormProps) => {
+  const [isPending, startTransition] = useTransition();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const form = useForm<formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,11 +43,7 @@ export const PriceForm = ({ courseId, price }: PriceFormProps) => {
     },
   });
 
-  const { handleSubmit, setFocus } = form;
-
-  const [isPending, startTransition] = useTransition();
-
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { handleSubmit, control } = form;
 
   const toggleEditing = () => {
     setIsEditing((value) => !value);
@@ -63,15 +56,21 @@ export const PriceForm = ({ courseId, price }: PriceFormProps) => {
     }
 
     startTransition(() => {
-      editCourse(courseId, values).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          toast.success("Price updated successfully");
-          toggleEditing();
-        }
-      });
+      editCourse(channelId, courseId, values)
+        .then((data) => {
+          const { error, success } = data;
+
+          if (success) {
+            toast.success("Price updated successfully");
+            toggleEditing();
+          }
+          if (error) {
+            toast.error(error.message);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 
@@ -80,7 +79,7 @@ export const PriceForm = ({ courseId, price }: PriceFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-accent rounded-md p-4">
           <FormField
-            control={form.control}
+            control={control}
             name="price"
             render={({ field }) => (
               <FormItem>
@@ -97,7 +96,7 @@ export const PriceForm = ({ courseId, price }: PriceFormProps) => {
                       onClick={() => {
                         toggleEditing();
                         setTimeout(() => {
-                          setFocus("price");
+                          form.setFocus("price");
                         }, 20);
                       }}
                     >
@@ -140,7 +139,7 @@ export const PriceForm = ({ courseId, price }: PriceFormProps) => {
                       {formatPrice(field.value)}
                     </p>
                   ) : (
-                    <p className="font-light text-sm py-2 bg-orange-500/10 text-orange-500 px-4 rounded-md font-mono opacity-75">
+                    <p className="font-light text-sm py-2 bg-background/30 px-4 rounded-md font-mono opacity-75">
                       No price set
                     </p>
                   )}

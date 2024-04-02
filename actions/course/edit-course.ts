@@ -7,55 +7,98 @@ import { db } from "@/lib/db";
 import { EditCourseSchema } from "@/schemas/course";
 
 export const editCourse = async (
+  channelId: string,
   courseId: string,
   values: EditCourseSchema
 ) => {
   const validatedFields = EditCourseSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    return {
+      error: {
+        message: "Invalid fields!",
+      },
+    };
   }
 
   const { title, description, thumbnail, categoryId, price } =
     validatedFields.data;
 
-  const currentUser = await getCurrentUser();
+  if (title && title.trim() === "") {
+    return {
+      error: {
+        message: "Title cannot be empty",
+      },
+    };
+  }
 
-  if (!currentUser || !currentUser.id) {
-    return { error: "Unauthenticated" };
+  const trimmedTitle = title?.trim();
+  const trimmedDescription = description?.trim();
+
+  const user = await getCurrentUser();
+
+  if (!user?.id) {
+    return {
+      error: {
+        message: "Unauthenticated",
+      },
+    };
   }
 
   // Check the user in our database
-  const user = await db.user.findUnique({
-    where: { id: currentUser.id },
+  const dbUser = await db.user.findUnique({
+    where: { id: user.id },
   });
 
-  if (!user) {
-    return { error: "User not found" };
+  if (!dbUser) {
+    return {
+      error: {
+        message: "User not found",
+      },
+    };
+  }
+
+  const channel = await db.channel.findUnique({
+    where: { id: channelId },
+  });
+
+  if (!channel) {
+    return {
+      error: {
+        message: "Channel not found!",
+      },
+    };
+  }
+
+  if (channel.creatorId !== dbUser.id) {
+    return {
+      error: {
+        message: "Unauthorized",
+      },
+    };
   }
 
   const course = await db.course.findUnique({
-    where: { id: courseId },
-    include: {
-      channel: true,
+    where: {
+      id: courseId,
+      channelId,
     },
   });
 
   if (!course) {
-    return { error: "Course not found!" };
-  }
-
-  // If the user is not the creator of the course
-  if (course.channel.creatorId !== currentUser.id) {
-    return { error: "Unauthorized" };
+    return {
+      error: {
+        message: "Course not found!",
+      },
+    };
   }
 
   // If the user is modifying the title
-  if (title) {
+  if (trimmedTitle) {
     const existingCourses = await db.course.findMany({
       where: {
-        channelId: course.channel.id,
-        title,
+        channelId,
+        title: trimmedTitle,
       },
     });
 
@@ -63,37 +106,35 @@ export const editCourse = async (
     for (let course of existingCourses) {
       if (course.id !== courseId) {
         return {
-          error: `Course '${title}' already exists on your channel. Please select a different title.`,
+          error: {
+            message: `Course '${trimmedTitle}' already exists on your channel. Please select a different title.`,
+          },
         };
       }
     }
   }
 
-  try {
-    const updatedCourse = await db.course.update({
-      where: { id: courseId },
-      data: {
-        title,
-        description,
-        thumbnail,
-        categoryId,
-        price,
-      },
-    });
+  const updatedCourse = await db.course.update({
+    where: {
+      id: courseId,
+      channelId,
+    },
+    data: {
+      title: trimmedTitle,
+      description: trimmedDescription,
+      thumbnail,
+      categoryId,
+      price,
+    },
+  });
 
-    revalidatePath(`/dahsboard/channels/${course.channel.id}/courses`);
-    revalidatePath(
-      `/dahsboard/channels/${course.channel.id}/courses/${courseId}`
-    );
+  revalidatePath(`/dahsboard/channels/${channelId}/courses`);
+  revalidatePath(`/dahsboard/channels/${channelId}/courses/${courseId}`);
 
-    return {
-      success: {
-        message: `Course '${updatedCourse.title}' updated successfully`,
-        course: updatedCourse,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-    return { error: "Something went wrong!" };
-  }
+  return {
+    success: {
+      message: `Course '${updatedCourse.title}' updated successfully`,
+      course: updatedCourse,
+    },
+  };
 };

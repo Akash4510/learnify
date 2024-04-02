@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Pencil, PlusCircle, X } from "lucide-react";
+import { Chapter } from "@prisma/client";
+import { Loader2, PlusCircle, X } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -11,30 +13,28 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Chapter } from "@prisma/client";
 import { CreateChapterSchema } from "@/schemas/chapter";
-import { createChapter, reorderChapters } from "@/actions/course/chapter";
 import { ChaptersList } from "./chapters-list";
-import { useRouter } from "next/navigation";
+import { createChapter, reorderChapters } from "@/actions/course/chapter";
 
 interface DescriptionFormProps {
-  courseId: string;
   channelId: string;
+  courseId: string;
   chapters: Chapter[];
 }
 
 export const ChaptersForm = ({
-  courseId,
   channelId,
+  courseId,
   chapters,
 }: DescriptionFormProps) => {
   const router = useRouter();
 
+  const [isPending, startTransition] = useTransition();
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [isReordering, setIsReordering] = useState<boolean>(false);
 
@@ -49,38 +49,49 @@ export const ChaptersForm = ({
     },
   });
 
-  const { handleSubmit } = form;
-
-  const [isPending, startTransition] = useTransition();
+  const { handleSubmit, control } = form;
 
   const onSubmit = async (values: CreateChapterSchema) => {
     startTransition(() => {
-      createChapter(courseId, values).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          toast.success(data.success.message);
-          toggleCreating();
-          form.reset();
-        }
-      });
+      createChapter(channelId, courseId, values)
+        .then((data) => {
+          const { error, success } = data;
+
+          if (success) {
+            toast.success(success.message);
+            toggleCreating();
+            form.reset();
+          }
+          if (error) {
+            toast.error(error.message);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 
   const onReorder = async (updateData: { id: string; position: number }[]) => {
     setIsReordering(true);
     startTransition(() => {
-      reorderChapters(courseId, updateData)
+      reorderChapters(channelId, courseId, updateData)
         .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
+          const { error, success } = data;
+
+          if (success) {
+            toast.success(success.message);
           }
-          if (data.success) {
-            toast.success(data.success.message);
+          if (error) {
+            toast.error(error.message);
           }
         })
-        .finally(() => setIsReordering(false));
+        .catch(() => {
+          toast.error("Something went wrong!");
+        })
+        .finally(() => {
+          setIsReordering(false);
+        });
     });
   };
 
@@ -137,7 +148,7 @@ export const ChaptersForm = ({
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormField
-                control={form.control}
+                control={control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>

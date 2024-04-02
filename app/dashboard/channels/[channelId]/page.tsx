@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Pencil, Tv2 } from "lucide-react";
+import { Book, Pencil, PlusCircle, Tv2 } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
@@ -62,12 +62,21 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
           />
         </div>
 
-        <Button variant="accent" asChild>
-          <Link href={`/dashboard/channels/${channel.id}/edit`}>
-            <Pencil className="h-4 w-4 mr-2" />
-            Edit channel
-          </Link>
-        </Button>
+        <div className="flex items-center justify-center gap-2">
+          <Button variant="accent" asChild>
+            <Link href={`/dashboard/channels/${channel.id}/edit`}>
+              <Pencil className="h-4 w-4 mr-2" />
+              Edit channel
+            </Link>
+          </Button>
+
+          <Button variant="accent" asChild>
+            <Link href={`/dashboard/channels/${channel.id}/courses`}>
+              <Book className="h-4 w-4 mr-2" />
+              Go to courses
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

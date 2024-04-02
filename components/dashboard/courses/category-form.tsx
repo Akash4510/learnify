@@ -16,10 +16,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course/edit-course";
 import { Combobox } from "@/components/ui/combobox";
+import { editCourse } from "@/actions/course";
 
 interface CategoryFormProps {
+  channelId: string;
   courseId: string;
   categoryId: string | null;
   options: {
@@ -35,10 +36,14 @@ const formSchema = z.object({
 type formSchema = z.infer<typeof formSchema>;
 
 export const CategoryForm = ({
+  channelId,
   courseId,
   categoryId,
   options,
 }: CategoryFormProps) => {
+  const [isPending, startTransition] = useTransition();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const form = useForm<formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,11 +51,7 @@ export const CategoryForm = ({
     },
   });
 
-  const { handleSubmit } = form;
-
-  const [isPending, startTransition] = useTransition();
-
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { handleSubmit, control } = form;
 
   const toggleEditing = () => {
     setIsEditing((value) => !value);
@@ -72,19 +73,25 @@ export const CategoryForm = ({
         values.categoryId = undefined;
       }
 
-      editCourse(courseId, values).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          values.categoryId
-            ? toast.success("Category updated")
-            : toast.warning("Category cannot be empty");
+      editCourse(channelId, courseId, values)
+        .then((data) => {
+          const { error, success } = data;
 
-          !values.categoryId && form.reset();
-          toggleEditing();
-        }
-      });
+          if (success) {
+            values.categoryId
+              ? toast.success("Category updated")
+              : toast.warning("Category cannot be empty");
+
+            !values.categoryId && form.reset();
+            toggleEditing();
+          }
+          if (error) {
+            toast.error(error.message);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 
@@ -95,7 +102,7 @@ export const CategoryForm = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-accent rounded-md p-4">
           <FormField
-            control={form.control}
+            control={control}
             name="categoryId"
             render={({ field }) => (
               <FormItem>
@@ -151,7 +158,7 @@ export const CategoryForm = ({
                       {selectedOption.label}
                     </p>
                   ) : (
-                    <p className="font-light text-sm py-2 bg-orange-500/10 text-orange-500 px-4 rounded-md font-mono opacity-75">
+                    <p className="font-light text-sm py-2 bg-background/30 px-4 rounded-md font-mono opacity-75">
                       No category selected
                     </p>
                   )}

@@ -1,7 +1,8 @@
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { File, IndianRupee, LayoutDashboard, ListChecks } from "lucide-react";
 
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth";
 import { DashboardPageTitle } from "@/components/dashboard/page-title";
 import { IconBadge } from "@/components/icon-badge";
 
@@ -11,7 +12,6 @@ import { ThumbnailForm } from "@/components/dashboard/courses/thumbnail-form";
 import { CategoryForm } from "@/components/dashboard/courses/category-form";
 import { PriceForm } from "@/components/dashboard/courses/price-form";
 import { AttachmentForm } from "@/components/dashboard/courses/attachment-form";
-import { getCurrentUser } from "@/lib/auth";
 import { ChaptersForm } from "@/components/dashboard/courses/chapters-form";
 
 interface CoursePageProps {
@@ -100,16 +100,26 @@ const CoursePage = async ({ params }: CoursePageProps) => {
             <h2 className="text-xl">Customize your course</h2>
           </div>
 
-          <TitleForm courseId={course.id} title={course.title} />
+          <TitleForm
+            channelId={params.channelId}
+            courseId={course.id}
+            title={course.title}
+          />
 
           <DescriptionForm
+            channelId={params.channelId}
             courseId={course.id}
             description={course.description}
           />
 
-          <ThumbnailForm courseId={course.id} thumbnail={course.thumbnail} />
+          <ThumbnailForm
+            channelId={params.channelId}
+            courseId={course.id}
+            thumbnail={course.thumbnail}
+          />
 
           <CategoryForm
+            channelId={params.channelId}
             courseId={course.id}
             categoryId={course.categoryId}
             options={categories.map((category) => ({
@@ -126,8 +136,8 @@ const CoursePage = async ({ params }: CoursePageProps) => {
           </div>
 
           <ChaptersForm
-            courseId={course.id}
             channelId={params.channelId}
+            courseId={course.id}
             chapters={course.chapters}
           />
 
@@ -136,13 +146,18 @@ const CoursePage = async ({ params }: CoursePageProps) => {
             <h2 className="text-xl">Sell your course</h2>
           </div>
 
-          <PriceForm courseId={course.id} price={course.price} />
+          <PriceForm
+            channelId={params.channelId}
+            courseId={course.id}
+            price={course.price}
+          />
           <div className="flex items-center gap-x-2">
             <IconBadge icon={File} />
             <h2 className="text-xl">Resources & attachments</h2>
           </div>
 
           <AttachmentForm
+            channelId={params.channelId}
             courseId={course.id}
             attchments={course.attachments}
           />
