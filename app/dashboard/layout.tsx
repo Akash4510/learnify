@@ -1,17 +1,8 @@
-import { redirect } from "next/navigation";
-
 import { DashboardNavbar } from "@/components/dashboard/dashboard-navbar";
 import { Sidebar } from "@/components/sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getCurrentUser } from "@/lib/auth";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    return redirect("/");
-  }
-
   return (
     <>
       <header className="fixed top-0 z-50 w-full h-16 border-b shadow-sm backdrop-blur-xl">

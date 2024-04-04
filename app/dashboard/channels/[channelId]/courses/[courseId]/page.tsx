@@ -22,9 +22,9 @@ interface CoursePageProps {
 }
 
 const CoursePage = async ({ params }: CoursePageProps) => {
-  const currentUser = await getCurrentUser();
+  const user = await getCurrentUser();
 
-  if (!currentUser) {
+  if (!user) {
     return redirect("/");
   }
 
@@ -38,7 +38,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
     return redirect("/dashboard");
   }
 
-  if (channel.creatorId !== currentUser.id) {
+  if (channel.creatorId !== user.id) {
     return redirect("/");
   }
 

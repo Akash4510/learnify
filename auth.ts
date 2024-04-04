@@ -43,17 +43,28 @@ export const {
     },
 
     async session({ token, session }) {
-      if (token.sub && session.user) {
+      // The type of this session.user is defined in our
+      // next-auth.d.ts file, in which we can add more fields
+      // in the default session.user type.
+
+      if (token.sub) {
         session.user.id = token.sub;
       }
 
-      if (token.role && session.user) {
-        session.user.role = token.role as USER_ROLE;
+      if (token.email) {
+        session.user.email = token.email;
       }
 
-      if (session.user) {
+      if (token.name) {
         session.user.name = token.name;
-        session.user.email = token.email as string;
+      }
+
+      if (token.picture) {
+        session.user.image = token.picture;
+      }
+
+      if (token.role) {
+        session.user.role = token.role as USER_ROLE;
       }
 
       return session;

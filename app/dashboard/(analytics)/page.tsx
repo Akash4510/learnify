@@ -1,19 +1,25 @@
 import { USER_ROLE } from "@prisma/client";
 
 import { AlertMessage } from "@/components/ui/alert-message";
-import { getSelf } from "@/lib/user";
+import { DashboardPageTitle } from "@/components/dashboard/page-title";
+import { getCurrentUserOrRedirect } from "@/lib/auth";
 
 const AnalyticsPage = async () => {
-  const user = await getSelf();
+  const user = await getCurrentUserOrRedirect();
 
   return (
-    <div>
+    <div className="space-y-6">
       {user.role === USER_ROLE.USER && (
         <AlertMessage
           variant="warning"
-          message="YOU ARE NOT A CREATOR. IF YOU WANT TO BECOME A CREATOR PLEASE REQUEST CREATOR ACCESS"
+          message="You are not a creator. If you want to become a creator, please request creator access"
         />
       )}
+
+      <DashboardPageTitle
+        title="Analytics Page"
+        subtitle="View the analytics of all your channels and courses here"
+      />
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { db } from "@/lib/db";
 
-export const getUserByEmail = (email: string) => {
+export const getUserByEmail = async (email: string) => {
   try {
-    const user = db.user.findUnique({
+    const user = await db.user.findUnique({
       where: { email },
     });
 
@@ -12,9 +12,9 @@ export const getUserByEmail = (email: string) => {
   }
 };
 
-export const getUserById = (id: string) => {
+export const getUserById = async (id: string) => {
   try {
-    const user = db.user.findUnique({
+    const user = await db.user.findUnique({
       where: { id },
     });
 
