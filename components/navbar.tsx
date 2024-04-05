@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Clapperboard } from "lucide-react";
+import { Bell, Clapperboard, MessageCircleMore } from "lucide-react";
 
 import { UserButton } from "@/components/auth/user-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -14,20 +14,34 @@ export const Navbar = () => {
   const user = useCurrentUser();
 
   return (
-    <nav className="px-4 lg:px-6 flex items-center justify-between h-full">
-      <div className="flex items-center gap-1">
+    <nav className="px-4 lg:px-6 flex items-center justify-between gap-4 h-full">
+      <div className="flex flex-shrink-0 items-center">
         <MobileSidebar />
-        <Logo full asLink />
+        <div className="-mt-1">
+          <Logo full asLink />
+        </div>
       </div>
 
-      <div className="w-full max-w-[600px] mx-4 md:mx-8">
+      <div className="w-full max-w-[750px] sm:mx-2">
         <SearchBar />
       </div>
 
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-2">
         {user ? (
           <>
-            <Button variant="accent" asChild>
+            <Button variant="accent" className="hidden md:flex" asChild>
+              <Link href="/dashboard/notifications">
+                <MessageCircleMore size={18} />
+              </Link>
+            </Button>
+
+            <Button variant="accent" className="hidden md:flex" asChild>
+              <Link href="/dashboard/notifications">
+                <Bell size={18} />
+              </Link>
+            </Button>
+
+            <Button variant="accent" className="mr-2" asChild>
               <Link href="/dashboard">
                 <Clapperboard size={18} className="md:mr-2" />
                 <span className="hidden md:block">Creator Dashboard</span>

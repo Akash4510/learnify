@@ -26,7 +26,7 @@ const RootLayout = async ({
         <body
           className={cn(
             fontRighteous.className,
-            fontRaleway.variable,
+            fontRighteous.variable,
             fontRaleway.className,
             fontRaleway.variable
           )}

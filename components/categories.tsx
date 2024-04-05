@@ -37,8 +37,8 @@ export const Categories = ({ data }: CategoriesProps) => {
         <button
           onClick={() => onClick(undefined)}
           className={cn(
-            "text-center text-xs md:text-sm px-2 md:px-4 py-2 rounded-md bg-primary-foreground/10 hover:opacity-75 transition flex-shrink-0",
-            !categoryId && "bg-primary-foreground/15"
+            "text-center text-xs md:text-sm px-2 md:px-4 py-2 rounded-md bg-accent hover:opacity-75 transition flex-shrink-0 text-primary-foreground/80",
+            !categoryId && "bg-primary-foreground/20 text-primary-foreground"
           )}
         >
           All
@@ -49,8 +49,9 @@ export const Categories = ({ data }: CategoriesProps) => {
             key={item.id}
             onClick={() => onClick(item.id)}
             className={cn(
-              "text-center text-xs md:text-sm px-2 md:px-4 py-2 rounded-md bg-primary-foreground/10 hover:opacity-75 transition flex-shrink-0",
-              item.id === categoryId && "bg-primary-foreground/15"
+              "text-center text-xs md:text-sm px-2 md:px-4 py-2 rounded-md bg-accent hover:opacity-75 transition flex-shrink-0 text-primary-foreground/80",
+              item.id === categoryId &&
+                "bg-primary-foreground/20 text-primary-foreground"
             )}
           >
             {item.name}

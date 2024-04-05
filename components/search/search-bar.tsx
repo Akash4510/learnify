@@ -46,8 +46,8 @@ export const SearchBar = () => {
       <Input
         onChange={onChange}
         value={value}
-        placeholder="Search..."
-        className="pl-10 border-primary-foreground/20 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"
+        placeholder="Search learnify..."
+        className="bg-accent/80 focus-visible:bg-accent pl-10 border-none outline-[0px] ring-transparent focus-visible:border-none focus-visible:outline-[0px] focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0"
       />
     </div>
   );
