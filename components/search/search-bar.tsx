@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useState, ChangeEventHandler } from "react";
+import {
+  useEffect,
+  useState,
+  ChangeEventHandler,
+  useRef,
+  useCallback,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 import qs from "query-string";
@@ -11,6 +17,8 @@ import { useDebounce } from "@/hooks/use-debounce";
 export const SearchBar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const categoryId = searchParams.get("categoryId");
   const searchQuery = searchParams.get("q");
@@ -39,11 +47,28 @@ export const SearchBar = () => {
     router.push(url);
   }, [debouncedValue, router, categoryId]);
 
+  const focusOnSearchInput = useCallback((e: KeyboardEvent) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+      e.preventDefault();
+      inputRef.current?.select();
+      inputRef.current?.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("keydown", focusOnSearchInput);
+
+    return () => {
+      window.removeEventListener("keydown", focusOnSearchInput);
+    };
+  }, [focusOnSearchInput]);
+
   return (
     <div className="relative">
       <SearchIcon className="absolute h-4 w-4 top-3 left-4 text-muted-foreground" />
 
       <Input
+        ref={inputRef}
         onChange={onChange}
         value={value}
         placeholder="Search learnify..."
