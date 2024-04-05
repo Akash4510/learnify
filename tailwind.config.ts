@@ -18,6 +18,11 @@ const config = withUt({
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      righteous: ["var(--font-righteous)", "sans-serif"],
+      raleway: ["var(--font-raleway)", "sans-serif"],
+      heading: ["var(--font-righteous)", "sans-serif"],
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",

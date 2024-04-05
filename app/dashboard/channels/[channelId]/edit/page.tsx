@@ -41,7 +41,7 @@ const ChannelEditPage = async ({ params }: ChannelPageProps) => {
           label="Go back"
         />
 
-        <div className="space-y-8 md:space-y-10 lg:space-y-12">
+        <div className="space-y-8">
           <DashboardPageTitle
             title={`Edit channel - ${channel.name}`}
             subtitle="Edit the appearance of your channel, make sure to add a good description, a logo and cover image which conveys about your channel"

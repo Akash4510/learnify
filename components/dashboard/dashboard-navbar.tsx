@@ -6,16 +6,14 @@ import { Clapperboard, LogOut, Youtube } from "lucide-react";
 import { UserButton } from "@/components/auth/user-button";
 import { Button } from "@/components/ui/button";
 import { MobileSidebar } from "@/components/sidebar/mobile-sidebar";
+import { Logo } from "@/components/logo";
 
 export const DashboardNavbar = () => {
   return (
     <nav className="px-4 lg:px-6 flex items-center justify-between h-full">
-      <div className="flex items-center justify-center gap-1 md:gap-6">
+      <div className="flex items-center gap-1">
         <MobileSidebar />
-
-        <Link href="/">
-          <Youtube className="w-10 h-10" />
-        </Link>
+        <Logo full asLink />
       </div>
 
       <div className="flex items-center justify-center gap-4">

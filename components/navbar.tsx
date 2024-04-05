@@ -1,28 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { Clapperboard, Youtube } from "lucide-react";
+import { Clapperboard } from "lucide-react";
 
 import { UserButton } from "@/components/auth/user-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Button } from "./ui/button";
 import { MobileSidebar } from "./sidebar/mobile-sidebar";
 import { SearchBar } from "./search/search-bar";
+import { Logo } from "./logo";
 
 export const Navbar = () => {
   const user = useCurrentUser();
 
   return (
     <nav className="px-4 lg:px-6 flex items-center justify-between h-full">
-      <div className="flex items-center justify-center gap-1 md:gap-6">
+      <div className="flex items-center gap-1">
         <MobileSidebar />
-
-        <Link href="/">
-          <Youtube className="w-10 h-10" />
-        </Link>
+        <Logo full asLink />
       </div>
 
-      <div className="w-full max-w-[800px] mx-4 md:mx-8">
+      <div className="w-full max-w-[600px] mx-4 md:mx-8">
         <SearchBar />
       </div>
 

@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
 import "./globals.css";
+import { fontRaleway, fontRighteous } from "./fonts";
 import { auth } from "@/auth";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-
-const inter = Inter({ subsets: ["latin"] });
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Learn It",
+  title: "Learnify",
   description: "A platform for all",
 };
 
@@ -24,7 +23,14 @@ const RootLayout = async ({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={inter.className}>
+        <body
+          className={cn(
+            fontRighteous.className,
+            fontRaleway.variable,
+            fontRaleway.className,
+            fontRaleway.variable
+          )}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
