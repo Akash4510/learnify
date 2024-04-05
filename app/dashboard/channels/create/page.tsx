@@ -1,4 +1,4 @@
-import { DashboardPageTitle } from "@/components/dashboard/page-title";
+import { Heading } from "@/components/heading";
 import { CreateChannelForm } from "@/components/dashboard/channel/create-channel-form";
 import { NavigateBack } from "@/components/navigate-back";
 
@@ -8,7 +8,7 @@ const CreateChannelPage = () => {
       <NavigateBack href="/dashboard/channels" label="Back to channels" />
 
       <div className="space-y-8 md:space-y-10 lg:space-y-12">
-        <DashboardPageTitle
+        <Heading
           title="Create a new channel"
           subtitle="Create a new channel, add make courses and spread your knowledge to the whole world"
         />

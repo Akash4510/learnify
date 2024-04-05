@@ -3,7 +3,7 @@ import { Plus, Tv } from "lucide-react";
 import { redirect } from "next/navigation";
 
 import { Channels } from "@/components/dashboard/channel/channels";
-import { DashboardPageTitle } from "@/components/dashboard/page-title";
+import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -24,7 +24,7 @@ const ChannelsPage = async () => {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between mr-2">
-        <DashboardPageTitle
+        <Heading
           title="Your Channels"
           subtitle="Create new channels or manage your existing channels"
         />

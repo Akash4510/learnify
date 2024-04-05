@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Book, Pencil, Tv2 } from "lucide-react";
 
 import { db } from "@/lib/db";
-import { DashboardPageTitle } from "@/components/dashboard/page-title";
+import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { AlertMessage } from "@/components/ui/alert-message";
 
@@ -56,10 +56,7 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
               </div>
             )}
           </div>
-          <DashboardPageTitle
-            title={channel.name}
-            subtitle={channel.description}
-          />
+          <Heading title={channel.name} subtitle={channel.description} />
         </div>
 
         <div className="flex items-center justify-center gap-2">

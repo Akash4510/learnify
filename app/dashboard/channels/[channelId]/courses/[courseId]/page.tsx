@@ -3,7 +3,7 @@ import { File, IndianRupee, LayoutDashboard, ListChecks } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
-import { DashboardPageTitle } from "@/components/dashboard/page-title";
+import { Heading } from "@/components/heading";
 import { IconBadge } from "@/components/ui/icon-badge";
 
 import { TitleForm } from "@/components/dashboard/courses/title-form";
@@ -88,7 +88,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 
   return (
     <div className="space-y-6">
-      <DashboardPageTitle
+      <Heading
         title="Course setup"
         subtitle={`Complete all of the feilds to setup ${completionText}`}
       />

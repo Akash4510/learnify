@@ -1,7 +1,7 @@
 import { USER_ROLE } from "@prisma/client";
 
 import { AlertMessage } from "@/components/ui/alert-message";
-import { DashboardPageTitle } from "@/components/dashboard/page-title";
+import { Heading } from "@/components/heading";
 import { getCurrentUserOrRedirect } from "@/lib/auth";
 
 const AnalyticsPage = async () => {
@@ -16,7 +16,7 @@ const AnalyticsPage = async () => {
         />
       )}
 
-      <DashboardPageTitle
+      <Heading
         title="Analytics Page"
         subtitle="View the analytics of all your channels and courses here"
       />

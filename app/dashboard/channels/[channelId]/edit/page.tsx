@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
-import { DashboardPageTitle } from "@/components/dashboard/page-title";
+import { Heading } from "@/components/heading";
 import { getCurrentUser } from "@/lib/auth";
 import { EditChannelForm } from "@/components/dashboard/channel/edit-channel-form";
 import { NavigateBack } from "@/components/navigate-back";
@@ -42,7 +42,7 @@ const ChannelEditPage = async ({ params }: ChannelPageProps) => {
         />
 
         <div className="space-y-8">
-          <DashboardPageTitle
+          <Heading
             title={`Edit channel - ${channel.name}`}
             subtitle="Edit the appearance of your channel, make sure to add a good description, a logo and cover image which conveys about your channel"
           />
