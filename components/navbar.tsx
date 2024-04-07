@@ -9,12 +9,19 @@ import { Button } from "./ui/button";
 import { MobileSidebar } from "./sidebar/mobile-sidebar";
 import { SearchBar } from "./search/search-bar";
 import { Logo } from "./logo";
+import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
   const user = useCurrentUser();
+  const pathName = usePathname();
+
+  const showSearchBar =
+    pathName.startsWith("/courses") ||
+    pathName.startsWith("/explore") ||
+    pathName === "/";
 
   return (
-    <nav className="px-4 lg:px-6 flex items-center justify-between gap-4 h-full">
+    <nav className="px-4 lg:px-6 flex items-center justify-between gap-4 h-full backdrop-blur-2xl">
       <div className="flex flex-shrink-0 items-center">
         <MobileSidebar />
         <div className="-mt-1">
@@ -22,9 +29,11 @@ export const Navbar = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-[750px] sm:mx-2">
-        <SearchBar />
-      </div>
+      {showSearchBar && (
+        <div className="w-full max-w-[750px] sm:mx-2">
+          <SearchBar />
+        </div>
+      )}
 
       <div className="flex items-center justify-center gap-2">
         {user ? (

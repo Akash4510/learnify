@@ -6,6 +6,7 @@ import {
   Tv,
   Tv2,
   User,
+  Video,
 } from "lucide-react";
 
 export const mainRoutes = [
@@ -23,6 +24,11 @@ export const mainRoutes = [
     label: "Courses",
     href: "/courses",
     icon: Tv2,
+  },
+  {
+    label: "Live",
+    href: "/live",
+    icon: Video,
   },
   {
     label: "Settings",

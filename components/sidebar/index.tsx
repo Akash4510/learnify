@@ -17,7 +17,7 @@ export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
     : mainRoutes;
 
   return (
-    <div className="space-y-6 flex flex-col h-full min-w-24 border-r">
+    <div className="space-y-6 flex flex-col h-full border-r">
       <div className="p-3 px-2.5 flex flex-1 justify-center">
         <div className="space-y-2">
           {routes.map((route) => (
@@ -26,8 +26,9 @@ export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
               onClick={afterNavItemClick}
               href={route.href}
               className={cn(
-                "text-muted-foreground text-xs group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-primary-foreground hover:bg-accent rounded-lg transition",
-                pathname === route.href && "bg-accent text-primary-foreground"
+                "text-primary-foreground/80 text-xs group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-primary-foreground hover:bg-accent rounded-lg transition",
+                pathname === route.href &&
+                  "bg-accent text-primary-foreground font-bold"
               )}
             >
               <div className="flex flex-col gap-y-2 items-center flex-1">

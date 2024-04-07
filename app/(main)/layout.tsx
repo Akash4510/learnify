@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <header className="fixed top-0 z-50 w-full h-16 border-b shadow-sm backdrop-blur-xl">
+      <header className="fixed top-0 z-50 w-full h-16 border-b">
         <Navbar />
       </header>
 

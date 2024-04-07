@@ -7,7 +7,7 @@ import {
   useRef,
   useCallback,
 } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 import qs from "query-string";
 
@@ -17,6 +17,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 export const SearchBar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathName = usePathname();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -25,6 +26,11 @@ export const SearchBar = () => {
 
   const [value, setValue] = useState(searchQuery || "");
   const debouncedValue = useDebounce<string>(value, 500);
+
+  let searchLabel = "learnify";
+  if (pathName.startsWith("/courses")) {
+    searchLabel = "courses";
+  }
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(e.target.value);
@@ -46,6 +52,10 @@ export const SearchBar = () => {
 
     router.push(url);
   }, [debouncedValue, router, categoryId]);
+
+  useEffect(() => {
+    setValue("");
+  }, [pathName]);
 
   const focusOnSearchInput = useCallback((e: KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "k") {
@@ -71,7 +81,7 @@ export const SearchBar = () => {
         ref={inputRef}
         onChange={onChange}
         value={value}
-        placeholder="Search learnify..."
+        placeholder={`Search ${searchLabel}...`}
         className="bg-accent/80 focus-visible:bg-accent pl-10 border-none outline-[0px] ring-transparent focus-visible:border-none focus-visible:outline-[0px] focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0"
       />
     </div>

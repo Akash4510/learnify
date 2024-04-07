@@ -18,7 +18,10 @@ export const Heading = ({
   return (
     <div className={cn("space-y-1", className)}>
       <h1
-        className={cn("text-[1.75rem] md:text-3xl font-bold", titleClassName)}
+        className={cn(
+          "text-[1.75rem] md:text-3xl font-bold tracking-wider",
+          titleClassName
+        )}
       >
         {title}
       </h1>
