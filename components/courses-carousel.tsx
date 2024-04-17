@@ -2,33 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Course } from "@prisma/client";
 
 import { CourseCard } from "./course-card";
+import { CourseWithCategoryAndSafeChannel } from "@/types/course";
 
 interface CoursesCarouselProps {
-  data: (Course & {
-    channel: {
-      id: string;
-      name: string;
-      logo: string | null;
-    };
-  })[];
+  data: CourseWithCategoryAndSafeChannel[];
 }
 
 export const CoursesCarousel = ({ data }: CoursesCarouselProps) => {
   const params = useSearchParams();
   const searchCategoryId = params.get("categoryId");
 
-  const [courses, setCourses] = useState<
-    (Course & {
-      channel: {
-        id: string;
-        name: string;
-        logo: string | null;
-      };
-    })[]
-  >(data);
+  const [courses, setCourses] =
+    useState<CourseWithCategoryAndSafeChannel[]>(data);
 
   useEffect(() => {
     if (searchCategoryId) {

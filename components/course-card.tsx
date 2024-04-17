@@ -2,27 +2,20 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Course } from "@prisma/client";
 import { BadgeCheck, EllipsisVertical, ImageIcon, Tv } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDateRelativeToNow } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { CourseWithCategoryAndSafeChannel } from "@/types/course";
 
 interface CourseCardProps {
-  course: Course & {
-    channel: {
-      id: string;
-      name: string;
-      logo: string | null;
-    };
-  };
+  course: CourseWithCategoryAndSafeChannel;
 }
 
 export const CourseCard = ({ course }: CourseCardProps) => {
   return (
-    <div className="group border bg-accent rounded-md hover:scale-[1.02] transition-transform duration-300 pb-1">
-      <Link href={`/courses/${course.id}`}>
+    <div className="group border bg-accent/60 rounded-md hover:scale-[1.02] transition-transform duration-300 pb-1">
+      <Link href={`/courses/${course.id}`} tabIndex={-1}>
         <div className="relative h-48 overflow-hidden rounded-t-md cursor-pointer">
           {course.thumbnail ? (
             <Image
@@ -42,7 +35,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
 
       <div className="p-4 space-y-3">
         <div className="flex items-center gap-2">
-          <Link href={`/channels/${course.channel.id}`}>
+          <Link href={`/channels/${course.channel.id}`} tabIndex={-1}>
             <Avatar className="size-10">
               <AvatarImage src={course.channel.logo || ""} />
               <AvatarFallback className="bg-muted">
@@ -80,7 +73,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
 
             <BadgeCheck className="size-3" />
           </div>
-          <div className="text-xs text-primary-foreground/60 flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2">
             <p>2M Views</p>
             <p className="font-2xl font-extrabold">.</p>
             <p>{formatDateRelativeToNow(course.createdAt)}</p>

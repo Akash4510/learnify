@@ -3,7 +3,7 @@ import Image from "next/image";
 export const Hero = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center pb-6">
-      <div className="flex-1 col-span-3 space-y-2 max-w-[850px]">
+      <div className="flex-1 col-span-3 space-y-1 max-w-[850px]">
         <div className="flex items-center gap-2">
           <Image
             src="/logo.png"

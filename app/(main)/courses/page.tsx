@@ -7,6 +7,7 @@ const CoursesPage = async () => {
 
   const courses = await db.course.findMany({
     include: {
+      category: true,
       channel: {
         select: {
           id: true,

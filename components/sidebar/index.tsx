@@ -26,9 +26,8 @@ export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
               onClick={afterNavItemClick}
               href={route.href}
               className={cn(
-                "text-primary-foreground/80 text-xs group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-primary-foreground hover:bg-accent rounded-lg transition",
-                pathname === route.href &&
-                  "bg-accent text-primary-foreground font-bold"
+                "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer hover:bg-accent rounded-lg transition",
+                pathname === route.href && "bg-accent font-bold"
               )}
             >
               <div className="flex flex-col gap-y-2 items-center flex-1">

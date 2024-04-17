@@ -30,7 +30,7 @@ export const WrapperCard = ({
   showSocials,
 }: WrapperCardProps) => {
   return (
-    <Card className="md:min-w-[400px] lg:max-w-[450px] shadow-md md:p-0.5 ml-auto bg-accent">
+    <Card className="md:min-w-[400px] lg:max-w-[450px] shadow-md p-0 md:p-0.5 ml-auto bg-accent/40">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>{subtitle}</CardDescription>

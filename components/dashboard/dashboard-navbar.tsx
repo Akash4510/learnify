@@ -13,6 +13,7 @@ import { UserButton } from "@/components/auth/user-button";
 import { Button } from "@/components/ui/button";
 import { MobileSidebar } from "@/components/sidebar/mobile-sidebar";
 import { Logo } from "@/components/logo";
+import { ThemeToggle } from "../theme-toggle";
 
 export const DashboardNavbar = () => {
   return (
@@ -25,6 +26,8 @@ export const DashboardNavbar = () => {
       </div>
 
       <div className="flex items-center justify-center gap-2">
+        <ThemeToggle />
+
         <Button variant="accent" className="hidden xs:flex" asChild>
           <Link href="/dashboard/notifications">
             <MessageCircleMore size={18} />

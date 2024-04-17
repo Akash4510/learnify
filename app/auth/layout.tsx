@@ -21,7 +21,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
 
       <div className="w-[90%] max-w-[1200px] mx-auto flex flex-col md:flex-row min-h-screen items-center md:justify-between gap-10 md:gap-6 py-[3.8rem] overflow-hidden">
         <div className="w-full lg:max-w-[min(600px,50%)]">
-          <h1 className="scroll-m-20 text-primary-foreground/70 md:text-primary-foreground scroll-p-20 font-extrabold tracking-tight text-3xl md:text-4xl lg:text-5xl">
+          <h1 className="scroll-m-20 text-primary-foreground/70 md:text-primary-foreground scroll-p-20 font-extrabold tracking-wider text-3xl md:text-4xl lg:text-5xl">
             Learn It
           </h1>
           <p className="leading-7 mt-4 md:mt-6 text-muted-foreground">

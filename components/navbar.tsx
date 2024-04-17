@@ -10,6 +10,7 @@ import { MobileSidebar } from "./sidebar/mobile-sidebar";
 import { SearchBar } from "./search/search-bar";
 import { Logo } from "./logo";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "./theme-toggle";
 
 export const Navbar = () => {
   const user = useCurrentUser();
@@ -36,26 +37,38 @@ export const Navbar = () => {
       )}
 
       <div className="flex items-center justify-center gap-2">
+        <ThemeToggle />
         {user ? (
           <>
-            <Button variant="accent" className="hidden md:flex" asChild>
+            <Button
+              variant="accent"
+              size="icon"
+              className="hidden md:flex"
+              asChild
+            >
               <Link href="/dashboard/notifications">
-                <MessageCircleMore size={18} />
+                <MessageCircleMore className="size-[1.2rem]" />
               </Link>
             </Button>
 
-            <Button variant="accent" className="hidden md:flex" asChild>
+            <Button
+              variant="accent"
+              size="icon"
+              className="hidden md:flex"
+              asChild
+            >
               <Link href="/dashboard/notifications">
-                <Bell size={18} />
+                <Bell className="size-[1.2rem]" />
               </Link>
             </Button>
 
             <Button variant="accent" className="mr-2" asChild>
               <Link href="/dashboard">
-                <Clapperboard size={18} className="md:mr-2" />
+                <Clapperboard className="size-5 md:mr-2" />
                 <span className="hidden md:block">Creator Dashboard</span>
               </Link>
             </Button>
+
             <UserButton />
           </>
         ) : (

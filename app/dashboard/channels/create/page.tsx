@@ -7,7 +7,7 @@ const CreateChannelPage = () => {
     <div className="space-y-6">
       <NavigateBack href="/dashboard/channels" label="Back to channels" />
 
-      <div className="space-y-8 md:space-y-10 lg:space-y-12">
+      <div className="space-y-8">
         <Heading
           title="Create a new channel"
           subtitle="Create a new channel, add make courses and spread your knowledge to the whole world"

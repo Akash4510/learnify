@@ -34,7 +34,6 @@ const RootLayout = async ({
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
-            forcedTheme="dark"
             storageKey="learn-it-theme"
             disableTransitionOnChange
           >

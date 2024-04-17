@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-import { db } from "@/lib/db";
 import { Hero } from "@/components/home/hero";
 import { Heading } from "@/components/heading";
 import { CoursesCarousel } from "@/components/courses-carousel";
 import { Button } from "@/components/ui/button";
+import { db } from "@/lib/db";
+import { CourseWithCategoryAndSafeChannel } from "@/types/course";
 
 const HomePage = async () => {
-  const courses = await db.course.findMany({
+  const courses = (await db.course.findMany({
     include: {
       channel: {
         select: {
@@ -18,7 +19,7 @@ const HomePage = async () => {
         },
       },
     },
-  });
+  })) as CourseWithCategoryAndSafeChannel[];
 
   return (
     <div className="pb-10">
