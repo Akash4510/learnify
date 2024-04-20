@@ -1,14 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 
-import { WrapperCard } from "./wrapper-card";
-import { LoginSchema } from "@/schemas/auth";
+import { WrapperCard } from "@/components/auth/wrapper-card";
+import { ResetPasswordSchema } from "@/schemas/auth";
 import {
   Form,
   FormControl,
@@ -20,63 +18,51 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AlertMessage } from "@/components/ui/alert-message";
-import { login } from "@/actions/auth";
+import { resetPassword } from "@/actions/auth";
 
-export const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "This email is already in use"
-      : "";
-
+export const ResetPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
 
-  const [error, setError] = useState(urlError);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<ResetPasswordSchema>({
+    resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
   const { handleSubmit, control } = form;
 
-  const onSubmit = async (values: LoginSchema) => {
+  const onSubmit = async (values: ResetPasswordSchema) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(values, callbackUrl)
+      resetPassword(values)
         .then((data) => {
           const { error, success } = data;
 
           if (success) {
             setSuccess(success.message);
-            form.reset();
           }
           if (error) {
             setError(error.message);
           }
         })
-        .catch((err) => {
-          if (err.message !== "NEXT_REDIRECT")
-            setError("Something went wrong!");
+        .catch(() => {
+          setError("Something went wrong!");
         });
     });
   };
 
   return (
     <WrapperCard
-      title="Login"
-      subtitle="Welcome back to Learnify"
-      switchFormLabel="Don't have an account? Sign Up"
-      switchFormHref="/auth/register"
-      showSocials
+      title="Reset your password"
+      subtitle="Create a new password for your account"
+      switchFormLabel="Back to login"
+      switchFormHref="/auth/login"
     >
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -95,29 +81,6 @@ export const LoginForm = () => {
               )}
             />
 
-            <FormField
-              control={control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="password" disabled={isPending} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="!mt-1.5">
-              <Link
-                href="/auth/reset-password"
-                className="text-sm text-primary hover:underline"
-              >
-                Forgot Password?
-              </Link>
-            </div>
-
             <div className="space-y-1">
               {error && <AlertMessage variant="error" message={error} />}
               {success && <AlertMessage variant="success" message={success} />}
@@ -125,7 +88,11 @@ export const LoginForm = () => {
           </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? <Loader2 className="animate-spin h-4 w-4" /> : "Login"}
+            {isPending ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <span>Send reset email</span>
+            )}
           </Button>
         </form>
       </Form>

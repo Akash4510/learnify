@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-import { WrapperCard } from "./wrapper-card";
-import { verifyEmail } from "@/actions/auth";
+import { WrapperCard } from "@/components/auth/wrapper-card";
 import { AlertMessage } from "@/components/ui/alert-message";
+import { verifyEmail } from "@/actions/auth";
 
 export const EmailVerificationForm = () => {
   const [error, setError] = useState<string>("");

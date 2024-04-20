@@ -1,6 +1,6 @@
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from "lucide-react";
 
-import { WrapperCard } from '@/components/auth/wrapper-card';
+import { WrapperCard } from "@/components/auth/wrapper-card";
 
 const AuthErrorPage = () => {
   return (

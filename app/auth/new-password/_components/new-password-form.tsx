@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 
-import { WrapperCard } from "./wrapper-card";
-import { ResetPasswordSchema } from "@/schemas/auth";
+import { WrapperCard } from "@/components/auth/wrapper-card";
+import { NewPasswordSchema } from "@/schemas/auth";
 import {
   Form,
   FormControl,
@@ -18,29 +19,34 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AlertMessage } from "@/components/ui/alert-message";
-import { resetPassword } from "@/actions/auth";
+import { setNewPassword } from "@/actions/auth";
 
-export const ResetPasswordForm = () => {
+export const NewPasswordForm = () => {
+  const searchParams = useSearchParams();
+
+  const token = searchParams.get("token");
+
   const [isPending, startTransition] = useTransition();
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const form = useForm<ResetPasswordSchema>({
-    resolver: zodResolver(ResetPasswordSchema),
+  const form = useForm<NewPasswordSchema>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
   const { handleSubmit, control } = form;
 
-  const onSubmit = async (values: ResetPasswordSchema) => {
+  const onSubmit = async (values: NewPasswordSchema) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      resetPassword(values)
+      setNewPassword(values, token)
         .then((data) => {
           const { error, success } = data;
 
@@ -69,29 +75,43 @@ export const ResetPasswordForm = () => {
           <div className="space-y-2">
             <FormField
               control={control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type="text" disabled={isPending} />
+                    <Input {...field} type="password" disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="space-y-1">
-              {error && <AlertMessage variant="error" message={error} />}
-              {success && <AlertMessage variant="success" message={success} />}
-            </div>
+            <FormField
+              control={control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="password" disabled={isPending} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="space-y-1">
+            {error && <AlertMessage variant="error" message={error} />}
+            {success && <AlertMessage variant="success" message={success} />}
           </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? (
               <Loader2 className="size-4 animate-spin" />
             ) : (
-              <span>Send reset email</span>
+              <span>Reset password</span>
             )}
           </Button>
         </form>
