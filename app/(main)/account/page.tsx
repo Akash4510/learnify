@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 
-import { UserInfo } from "@/components/account/user-info";
 import { getCurrentUserOrRedirect } from "@/lib/auth";
 import { db } from "@/lib/db";
+
+import { UserInfo } from "./_components/user-info";
 
 const AccountPage = async () => {
   const sessionUser = await getCurrentUserOrRedirect();

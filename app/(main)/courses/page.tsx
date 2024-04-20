@@ -1,6 +1,7 @@
-import { CategoriesBar } from "@/components/categories-bar";
-import { CoursesCarousel } from "@/components/courses-carousel";
 import { db } from "@/lib/db";
+
+import { CategoriesBar } from "./_components/categories-bar";
+import { Courses } from "./_components/courses";
 
 const CoursesPage = async () => {
   const categories = await db.category.findMany({});
@@ -22,15 +23,14 @@ const CoursesPage = async () => {
   });
 
   return (
-    <div className="pb-3 space-y-2">
-      <div className="w-full h-16 fixed top-16 left-0 md:left-[5.7rem] pl-4 z-10 bg-background flex items-center">
-        <CategoriesBar data={categories} />
-      </div>
+    <>
+      {/* It has a fixed position so it won't affect the rest of the page */}
+      <CategoriesBar data={categories} />
 
-      <div className="pt-12">
-        <CoursesCarousel data={courses} />
+      <div className="pt-12 pb-6">
+        <Courses data={courses} />
       </div>
-    </div>
+    </>
   );
 };
 

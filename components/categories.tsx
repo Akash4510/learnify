@@ -11,7 +11,7 @@ interface CategoriesProps {
   data: Category[];
 }
 
-export const CategoriesBar = ({ data }: CategoriesProps) => {
+export const Categories = ({ data }: CategoriesProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -32,9 +32,7 @@ export const CategoriesBar = ({ data }: CategoriesProps) => {
   };
 
   return (
-    //! ScrollArea needs a fixed width to work properly, so here I am calculating the fix width of the scrollbar in the following way -
-    //! [widthOfTheScreen - sidebarWidth - 1rem padding on each side], as there is no sidebar on the devices less than size md therefore we are neglecting it.
-    <ScrollArea className="w-[calc(100vw-2rem)] md:w-[calc(100vw-6rem-2rem)]">
+    <ScrollArea>
       <div className="space-x-2 flex py-1 md:mb-2">
         <button
           onClick={() => onClick(undefined)}
@@ -62,10 +60,7 @@ export const CategoriesBar = ({ data }: CategoriesProps) => {
         ))}
       </div>
 
-      <ScrollBar
-        orientation="horizontal"
-        className="cursor-grab bg-border hidden md:flex"
-      />
+      <ScrollBar orientation="horizontal" className="cursor-grab bg-border" />
     </ScrollArea>
   );
 };

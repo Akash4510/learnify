@@ -22,13 +22,13 @@ export const DashboardNavbar = () => {
         {/* <ThemeToggle /> */}
 
         <Button variant="accent" size="icon" className="hidden md:flex" asChild>
-          <Link href="/dashboard/notifications">
+          <Link href="/dashboard">
             <MessageCircleMore className="size-[1.2rem]" />
           </Link>
         </Button>
 
         <Button variant="accent" size="icon" className="hidden md:flex" asChild>
-          <Link href="/dashboard/notifications">
+          <Link href="/dashboard">
             <Bell className="size-[1.2rem]" />
           </Link>
         </Button>

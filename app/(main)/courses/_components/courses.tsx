@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { CourseCard } from "./course-card";
+import { CourseCard } from "@/components/course-card";
 import { CourseWithCategoryAndSafeChannel } from "@/types/course";
 
 interface CoursesCarouselProps {
   data: CourseWithCategoryAndSafeChannel[];
 }
 
-export const CoursesCarousel = ({ data }: CoursesCarouselProps) => {
+export const Courses = ({ data }: CoursesCarouselProps) => {
   const params = useSearchParams();
   const searchCategoryId = params.get("categoryId");
 
