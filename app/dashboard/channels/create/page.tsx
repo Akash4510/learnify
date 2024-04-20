@@ -1,6 +1,7 @@
 import { Heading } from "@/components/heading";
-import { CreateChannelForm } from "@/components/dashboard/channel/create-channel-form";
 import { NavigateBack } from "@/components/navigate-back";
+
+import { CreateChannelForm } from "./_components/create-channel-form";
 
 const CreateChannelPage = () => {
   return (

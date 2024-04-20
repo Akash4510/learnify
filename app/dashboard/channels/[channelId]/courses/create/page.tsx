@@ -1,5 +1,6 @@
-import { CreateCourseForm } from "@/components/dashboard/courses/create-course-form";
 import { Heading } from "@/components/heading";
+
+import { CreateCourseForm } from "./_components/create-course-form";
 
 interface CreateNewCoursePageProps {
   params: {

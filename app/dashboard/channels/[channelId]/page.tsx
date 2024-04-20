@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Book, Pencil, Tv2 } from "lucide-react";
+import { Pencil, Tv2 } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { AlertMessage } from "@/components/ui/alert-message";
+import { CourseCard } from "@/components/dashboard/course-card";
 
 interface ChannelPageProps {
   params: {
@@ -28,6 +29,16 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
   const courses = await db.course.findMany({
     where: {
       channelId: channel.id,
+    },
+    include: {
+      category: true,
+      channel: {
+        select: {
+          id: true,
+          name: true,
+          logo: true,
+        },
+      },
     },
   });
 
@@ -66,26 +77,20 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
               Edit channel
             </Link>
           </Button>
-
-          <Button variant="accent" asChild>
-            <Link href={`/dashboard/channels/${channel.id}/courses`}>
-              <Book className="h-4 w-4 mr-2" />
-              Go to courses
-            </Link>
-          </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.map((course) => (
-          <Link
-            key={course.id}
-            href={`/dashboard/channels/${channel.id}/courses/${course.id}`}
-            className="bg-accent rounded-md p-5"
-          >
-            <h1>{course.title}</h1>
-          </Link>
-        ))}
+      <div className="space-y-6">
+        <Heading
+          title="Your courses"
+          subtitle="View and manage your courses here"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+          {courses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -2,11 +2,11 @@ import Link from "next/link";
 import { Plus, Tv } from "lucide-react";
 import { redirect } from "next/navigation";
 
-import { Channels } from "@/components/dashboard/channel/channels";
+import { db } from "@/lib/db";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
+import { ChannelCard } from "@/components/dashboard/channel-card";
 import { getCurrentUser } from "@/lib/auth";
-import { db } from "@/lib/db";
 
 const ChannelsPage = async () => {
   const user = await getCurrentUser();
@@ -38,7 +38,11 @@ const ChannelsPage = async () => {
       </div>
 
       {channels.length !== 0 ? (
-        <Channels data={channels} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {channels.map((channel) => (
+            <ChannelCard key={channel.id} channel={channel} />
+          ))}
+        </div>
       ) : (
         <div className="h-80 flex flex-col items-center justify-center gap-6">
           <Tv className="h-20 w-20" />

@@ -6,13 +6,13 @@ import { getCurrentUser } from "@/lib/auth";
 import { Heading } from "@/components/heading";
 import { IconBadge } from "@/components/ui/icon-badge";
 
-import { TitleForm } from "@/components/dashboard/courses/title-form";
-import { DescriptionForm } from "@/components/dashboard/courses/description-form";
-import { ThumbnailForm } from "@/components/dashboard/courses/thumbnail-form";
-import { CategoryForm } from "@/components/dashboard/courses/category-form";
-import { PriceForm } from "@/components/dashboard/courses/price-form";
-import { AttachmentForm } from "@/components/dashboard/courses/attachment-form";
-import { ChaptersForm } from "@/components/dashboard/courses/chapters-form";
+import { TitleForm } from "./_components/title-form";
+import { DescriptionForm } from "./_components/description-form";
+import { ThumbnailForm } from "./_components/thumbnail-form";
+import { CategoryForm } from "./_components/category-form";
+import { PriceForm } from "./_components/price-form";
+import { AttachmentForm } from "./_components/attachment-form";
+import { ChaptersForm } from "./_components/chapters-form";
 
 interface CoursePageProps {
   params: {

@@ -3,8 +3,9 @@ import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { Heading } from "@/components/heading";
 import { getCurrentUser } from "@/lib/auth";
-import { EditChannelForm } from "@/components/dashboard/channel/edit-channel-form";
 import { NavigateBack } from "@/components/navigate-back";
+
+import { EditChannelForm } from "./_components/edit-channel-form";
 
 interface ChannelPageProps {
   params: {
