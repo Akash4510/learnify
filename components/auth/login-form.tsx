@@ -73,7 +73,7 @@ export const LoginForm = () => {
   return (
     <WrapperCard
       title="Login"
-      subtitle="Welcome back to LearnIt"
+      subtitle="Welcome back to Learnify"
       switchFormLabel="Don't have an account? Sign Up"
       switchFormHref="/auth/register"
       showSocials

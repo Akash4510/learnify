@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Learnify",
-  description: "A platform for all",
+  description: "The ultimate platform where creators thrive and learners excel",
 };
 
 const RootLayout = async ({
@@ -34,6 +34,7 @@ const RootLayout = async ({
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
+            forcedTheme="dark"
             storageKey="learn-it-theme"
             disableTransitionOnChange
           >

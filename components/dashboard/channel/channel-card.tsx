@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Channel } from "@prisma/client";
-import { ImageOff, Tv, Tv2 } from "lucide-react";
+import { ImageOff } from "lucide-react";
 
 interface ChannelCardProps {
   channel: Channel;
@@ -11,49 +11,40 @@ interface ChannelCardProps {
 
 export const ChannelCard = ({ channel }: ChannelCardProps) => {
   return (
-    <div className="min-w-[20rem] w-full h-64 border bg-accent rounded-md relative">
-      <div className="absolute w-full h-full inset-0 rounded-md">
-        {channel.coverImg ? (
-          <Image
-            src={channel.coverImg}
-            alt="cover-img"
-            fill
-            className="rounded-md object-cover"
-          />
-        ) : (
-          <div className="h-40 flex items-center justify-center">
-            <ImageOff className="h-8 w-8" />
+    <Link
+      href={`/dashboard/channels/${channel.id}`}
+      className="group border bg-accent/60 rounded-md"
+    >
+      <div className="p-4 space-y-3">
+        <div className="flex items-center gap-4">
+          <div className="relative size-20 overflow-hidden rounded-full">
+            {channel.logo ? (
+              <Image
+                src={channel.logo}
+                alt="cover-img"
+                fill
+                className="rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-background/50">
+                <ImageOff className="size-6 text-muted-foreground" />
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
-      <div className="p-4 absolute bottom-0 z-10 w-full bg-black/80 rounded-md flex gap-4">
-        <div className="relative h-20 aspect-square rounded-full">
-          {channel.logo ? (
-            <Image
-              src={channel.logo}
-              alt="logo"
-              fill
-              className="rounded-full object-cover"
-            />
-          ) : (
-            <div className="h-20 w-20 rounded-full flex items-center justify-center bg-accent">
-              <Tv2 className="h-7 w-7" />
+          <div className="flex-1">
+            <div className="w-full">
+              <h1 className="font-bold text-xl tracking-wide group-hover:underline">
+                {channel.name}
+              </h1>
+
+              <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                {channel.description}
+              </p>
             </div>
-          )}
-        </div>
-
-        <div>
-          <Link href={`/dashboard/channels/${channel.id}`}>
-            <h1 className="font-bold text-xl hover:underline">
-              {channel.name}
-            </h1>
-          </Link>
-          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-            {channel.description}
-          </p>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };

@@ -17,6 +17,16 @@ export interface CourseWithChapters extends Course {
   chapters: Chapter[];
 }
 
+export interface CourseWithCategoryAndChannel extends CourseWithCategory {
+  channel: Channel;
+}
+
+export interface CourseWithCategoryAndChannelAndChapters
+  extends CourseWithCategory {
+  channel: Channel;
+  chapters: Chapter[];
+}
+
 export interface CourseWithCategoryAndSafeChannel extends CourseWithCategory {
   channel: SafeChannel;
 }

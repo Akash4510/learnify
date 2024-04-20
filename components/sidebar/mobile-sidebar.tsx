@@ -15,7 +15,7 @@ export const MobileSidebar = () => {
         <Menu />
       </SheetTrigger>
 
-      <SheetContent side="left" className="p-0 bg-secondary pt-10 w-30">
+      <SheetContent side="left" className="p-0 pt-10 w-30">
         <Sidebar afterNavItemClick={() => setIsOpen(false)} />
       </SheetContent>
     </Sheet>

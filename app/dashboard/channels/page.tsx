@@ -12,7 +12,7 @@ const ChannelsPage = async () => {
   const user = await getCurrentUser();
 
   if (!user) {
-    return redirect("/");
+    redirect("/");
   }
 
   const channels = await db.channel.findMany({

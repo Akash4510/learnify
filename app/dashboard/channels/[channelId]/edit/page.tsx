@@ -16,7 +16,7 @@ const ChannelEditPage = async ({ params }: ChannelPageProps) => {
   const user = await getCurrentUser();
 
   if (!user) {
-    return redirect("/dashboard/channels");
+    redirect("/dashboard/channels");
   }
 
   const channel = await db.channel.findUnique({
@@ -30,7 +30,7 @@ const ChannelEditPage = async ({ params }: ChannelPageProps) => {
   }
 
   if (channel.creatorId !== user.id) {
-    return redirect("/dashboard/channels");
+    redirect("/dashboard/channels");
   }
 
   return (

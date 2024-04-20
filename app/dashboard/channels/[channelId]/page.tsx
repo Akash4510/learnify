@@ -22,7 +22,7 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
   });
 
   if (!channel) {
-    return notFound();
+    notFound();
   }
 
   const courses = await db.course.findMany({

@@ -25,7 +25,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
   const user = await getCurrentUser();
 
   if (!user) {
-    return redirect("/");
+    redirect("/");
   }
 
   const channel = await db.channel.findUnique({
@@ -35,11 +35,11 @@ const CoursePage = async ({ params }: CoursePageProps) => {
   });
 
   if (!channel) {
-    return redirect("/dashboard");
+    redirect("/dashboard");
   }
 
   if (channel.creatorId !== user.id) {
-    return redirect("/");
+    redirect("/");
   }
 
   const course = await db.course.findUnique({

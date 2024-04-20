@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { CourseCard } from "./course-card";
-import { CourseWithCategoryAndSafeChannel } from "@/types/course";
+import { CourseWithCategoryAndChannelAndChapters } from "@/types/course";
 
 interface CoursesCarouselProps {
-  data: CourseWithCategoryAndSafeChannel[];
+  data: CourseWithCategoryAndChannelAndChapters[];
 }
 
 export const CoursesCarousel = ({ data }: CoursesCarouselProps) => {
@@ -15,7 +15,7 @@ export const CoursesCarousel = ({ data }: CoursesCarouselProps) => {
   const searchCategoryId = params.get("categoryId");
 
   const [courses, setCourses] =
-    useState<CourseWithCategoryAndSafeChannel[]>(data);
+    useState<CourseWithCategoryAndChannelAndChapters[]>(data);
 
   useEffect(() => {
     if (searchCategoryId) {

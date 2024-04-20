@@ -2,11 +2,11 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="mt-auto py-12 bg-secondary">
+    <footer className="mt-auto py-12 bg-accent/50">
       <div className="w-[92%] max-w-[1300px] mx-auto flex flex-col gap-12">
-        <div className="flex justify-between gap-10 flex-wrap flex-col md:flex-row">
+        <div className="flex justify-between gap-10 flex-wrap flex-col lg:flex-row">
           <div className="flex-1">
-            <h3 className="text-lg mb-2">© Learn It 2024</h3>
+            <h3 className="text-lg mb-2">© Learnify 2024</h3>
             <p className="text-sm text-muted-foreground">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. At,
               eaque.
@@ -45,7 +45,7 @@ export const Footer = () => {
 
           <div className="flex-1">
             <h3 className="mb-2">Contact</h3>
-            <p className="text-muted-foreground">help.trademaster@tm.org</p>
+            <p className="text-muted-foreground">help.learnify@tm.org</p>
           </div>
         </div>
       </div>

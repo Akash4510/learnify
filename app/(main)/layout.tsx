@@ -1,6 +1,6 @@
+import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
@@ -14,11 +14,14 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           <Sidebar />
         </div>
 
-        <main className="w-full">
-          <ScrollArea className="px-4 h-full">
-            <div className="py-4">{children}</div>
-          </ScrollArea>
-        </main>
+        <div className="w-full">
+          <div className="h-[calc(100vh-4rem)] overflow-y-scroll">
+            <div className="h-full flex flex-col">
+              <main className="p-4 flex-1">{children}</main>
+              <Footer />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

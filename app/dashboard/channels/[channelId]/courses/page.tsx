@@ -1,7 +1,6 @@
-import Link from "next/link";
-import { PlusCircle } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { CoursesCarousel } from "@/components/dashboard/courses/courses-carousel";
+import { Heading } from "@/components/heading";
+import { db } from "@/lib/db";
 
 interface CoursePageProps {
   params: {
@@ -9,14 +8,28 @@ interface CoursePageProps {
   };
 }
 
-const CoursesPage = ({ params }: CoursePageProps) => {
+const CoursesPage = async ({ params }: CoursePageProps) => {
+  const courses = await db.course.findMany({
+    where: {
+      channelId: params.channelId,
+    },
+    include: {
+      category: true,
+      channel: true,
+      chapters: true,
+    },
+  });
+
   return (
-    <Button variant="accent" asChild>
-      <Link href={`/dashboard/channels/${params.channelId}/courses/create`}>
-        <PlusCircle className="h-4 w-4 mr-2" />
-        Add a course
-      </Link>
-    </Button>
+    <>
+      <div>
+        <Heading title="Your Courses" subtitle="Manage your courses here" />
+      </div>
+
+      <div className="pt-8">
+        <CoursesCarousel data={courses} />
+      </div>
+    </>
   );
 };
 

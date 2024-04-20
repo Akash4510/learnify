@@ -1,19 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Bell,
-  Clapperboard,
-  LogOut,
-  MessageCircleMore,
-  Youtube,
-} from "lucide-react";
+import { Bell, LogOut, MessageCircleMore } from "lucide-react";
 
 import { UserButton } from "@/components/auth/user-button";
 import { Button } from "@/components/ui/button";
 import { MobileSidebar } from "@/components/sidebar/mobile-sidebar";
 import { Logo } from "@/components/logo";
-import { ThemeToggle } from "../theme-toggle";
 
 export const DashboardNavbar = () => {
   return (
@@ -26,17 +19,17 @@ export const DashboardNavbar = () => {
       </div>
 
       <div className="flex items-center justify-center gap-2">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
 
-        <Button variant="accent" className="hidden xs:flex" asChild>
+        <Button variant="accent" size="icon" className="hidden md:flex" asChild>
           <Link href="/dashboard/notifications">
-            <MessageCircleMore size={18} />
+            <MessageCircleMore className="size-[1.2rem]" />
           </Link>
         </Button>
 
-        <Button variant="accent" className="hidden xs:flex" asChild>
+        <Button variant="accent" size="icon" className="hidden md:flex" asChild>
           <Link href="/dashboard/notifications">
-            <Bell size={18} />
+            <Bell className="size-[1.2rem]" />
           </Link>
         </Button>
 

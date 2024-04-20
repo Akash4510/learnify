@@ -26,7 +26,7 @@ const HomePage = async () => {
       <Hero />
 
       {/* Courses */}
-      <div className="space-y-4">
+      {/* <div className="space-y-4 mt-8">
         <div className="flex items-center justify-between gap-6">
           <Heading
             title="Courses"
@@ -42,7 +42,7 @@ const HomePage = async () => {
         </div>
 
         <CoursesCarousel data={courses} />
-      </div>
+      </div> */}
     </div>
   );
 };

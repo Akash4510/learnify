@@ -1,11 +1,10 @@
 import { DashboardNavbar } from "@/components/dashboard/dashboard-navbar";
 import { Sidebar } from "@/components/sidebar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <header className="fixed top-0 z-50 w-full h-16 border-b shadow-sm backdrop-blur-xl">
+      <header className="fixed top-0 z-50 w-full h-16 border-b">
         <DashboardNavbar />
       </header>
 
@@ -14,11 +13,13 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
           <Sidebar />
         </div>
 
-        <main className="w-full">
-          <ScrollArea className="px-4 md:px-5 h-full">
-            <div className="py-4 md:py-5">{children}</div>
-          </ScrollArea>
-        </main>
+        <div className="w-full">
+          <div className="h-[calc(100vh-4rem)] overflow-y-scroll">
+            <div className="h-full flex flex-col">
+              <main className="p-4 flex-1">{children}</main>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

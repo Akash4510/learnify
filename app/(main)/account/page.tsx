@@ -18,7 +18,7 @@ const AccountPage = async () => {
   });
 
   if (!user) {
-    return redirect("/");
+    redirect("/");
   }
 
   return (
