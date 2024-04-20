@@ -35,7 +35,7 @@ const RootLayout = async ({
             attribute="class"
             defaultTheme="dark"
             forcedTheme="dark"
-            storageKey="learn-it-theme"
+            storageKey="learnify-theme"
             disableTransitionOnChange
           >
             <Toaster richColors />
