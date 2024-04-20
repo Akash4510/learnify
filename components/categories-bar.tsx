@@ -35,7 +35,7 @@ export const CategoriesBar = ({ data }: CategoriesProps) => {
     //! ScrollArea needs a fixed width to work properly, so here I am calculating the fix width of the scrollbar in the following way -
     //! [widthOfTheScreen - sidebarWidth - 1rem padding on each side], as there is no sidebar on the devices less than size md therefore we are neglecting it.
     <ScrollArea className="w-[calc(100vw-2rem)] md:w-[calc(100vw-6rem-2rem)]">
-      <div className="space-x-2 flex py-1 mb-2">
+      <div className="space-x-2 flex py-1 md:mb-2">
         <button
           onClick={() => onClick(undefined)}
           className={cn(
@@ -62,7 +62,10 @@ export const CategoriesBar = ({ data }: CategoriesProps) => {
         ))}
       </div>
 
-      <ScrollBar orientation="horizontal" className="cursor-grab bg-border" />
+      <ScrollBar
+        orientation="horizontal"
+        className="cursor-grab bg-border hidden md:flex"
+      />
     </ScrollArea>
   );
 };
