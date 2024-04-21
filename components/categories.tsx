@@ -33,7 +33,7 @@ export const Categories = ({ data }: CategoriesProps) => {
 
   return (
     <ScrollArea>
-      <div className="space-x-2 flex py-1 md:mb-2">
+      <div className="space-x-2 flex py-1 mb-1 md:mb-2">
         <button
           onClick={() => onClick(undefined)}
           className={cn(
@@ -60,7 +60,7 @@ export const Categories = ({ data }: CategoriesProps) => {
         ))}
       </div>
 
-      <ScrollBar orientation="horizontal" className="cursor-grab bg-border" />
+      <ScrollBar orientation="horizontal" className="cursor-grab" />
     </ScrollArea>
   );
 };

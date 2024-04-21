@@ -31,10 +31,16 @@ export const Footer = () => {
           <div className="flex-1">
             <h3 className="mb-2 underline">Resources and Links</h3>
             <ul className="flex flex-col text-muted-foreground">
-              <Link href="/" className="hover:underline transition-all w-fit">
+              <Link
+                href="/courses"
+                className="hover:underline transition-all w-fit"
+              >
                 Courses
               </Link>
-              <Link href="/" className="hover:underline transition-all w-fit">
+              <Link
+                href="/live"
+                className="hover:underline transition-all w-fit"
+              >
                 Live
               </Link>
               <Link href="/" className="hover:underline transition-all w-fit">

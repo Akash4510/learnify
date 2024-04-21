@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 
-import { CategoriesBar } from "./_components/categories-bar";
+import { Categories } from "@/components/categories";
+
 import { Courses } from "./_components/courses";
 
 const CoursesPage = async () => {
@@ -24,10 +25,11 @@ const CoursesPage = async () => {
 
   return (
     <>
-      {/* It has a fixed position so it won't affect the rest of the page */}
-      <CategoriesBar data={categories} />
+      <div className="w-full h-16 sticky top-0 z-10 px-4 bg-background flex items-center">
+        <Categories data={categories} />
+      </div>
 
-      <div className="pt-12 pb-6">
+      <div className="px-4 pb-6">
         <Courses data={courses} />
       </div>
     </>

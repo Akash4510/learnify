@@ -1,5 +1,5 @@
 const LivePage = () => {
-  return <div>LivePage</div>;
+  return <div className="p-4">LivePage</div>;
 };
 
 export default LivePage;

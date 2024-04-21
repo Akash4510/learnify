@@ -2,7 +2,7 @@ import { Hero } from "./_components/hero";
 
 const HomePage = async () => {
   return (
-    <div className="pb-10">
+    <div className="px-4 pb-10">
       <Hero />
     </div>
   );

@@ -13,11 +13,9 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
           <Sidebar />
         </div>
 
-        <div className="w-full">
-          <div className="h-[calc(100vh-4rem)] overflow-y-scroll">
-            <div className="h-full flex flex-col">
-              <main className="p-4 flex-1">{children}</main>
-            </div>
+        <div className="w-full h-[calc(100vh-4rem)] overflow-y-scroll">
+          <div className="h-full flex flex-col">
+            <main className="p-4 flex-1">{children}</main>
           </div>
         </div>
       </div>
