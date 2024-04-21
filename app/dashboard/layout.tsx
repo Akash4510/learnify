@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/sidebar";
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <header className="fixed top-0 z-50 w-full h-16 border-b">
+      <header className="w-full h-16 fixed top-0 z-50 bg-background border-b">
         <DashboardNavbar />
       </header>
 
