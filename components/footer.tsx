@@ -8,8 +8,7 @@ export const Footer = () => {
           <div className="flex-1">
             <h3 className="text-lg mb-2">© Learnify 2024</h3>
             <p className="text-sm text-muted-foreground">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. At,
-              eaque.
+              The ultimate platform where creators thrive and learners excel.
             </p>
           </div>
 

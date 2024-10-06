@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Learnify",
+  title: "LearnUPIND",
   description: "The ultimate platform where creators thrive and learners excel",
 };
 
@@ -34,7 +34,6 @@ const RootLayout = async ({
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
-            forcedTheme="dark"
             storageKey="learnify-theme"
             disableTransitionOnChange
           >

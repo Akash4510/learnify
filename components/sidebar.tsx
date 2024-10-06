@@ -1,10 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { dashboardRoutes, mainRoutes } from "@/constants/sidebar-routes";
+import { ThemeToggle } from "./theme-toggle";
 
 interface SidebarProps {
   afterNavItemClick?: () => void;
@@ -18,7 +22,7 @@ export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
 
   return (
     <div className="space-y-6 flex flex-col h-full border-r">
-      <div className="p-3 px-2.5 flex flex-1 justify-center">
+      <div className="p-3 px-2.5 flex flex-col justify-between flex-1">
         <div className="space-y-2">
           {routes.map((route) => (
             <Link
@@ -37,7 +41,26 @@ export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
             </Link>
           ))}
         </div>
+        <div className="border-t flex justify-center py-4">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
+  );
+};
+
+export const MobileSidebar = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  return (
+    <Sheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+      <SheetTrigger className="md:hidden pr-4" onClick={() => setIsOpen(true)}>
+        <Menu />
+      </SheetTrigger>
+
+      <SheetContent side="left" className="p-0 pt-10 w-30">
+        <Sidebar afterNavItemClick={() => setIsOpen(false)} />
+      </SheetContent>
+    </Sheet>
   );
 };

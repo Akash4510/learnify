@@ -33,7 +33,7 @@ export const Hero = () => {
           quality={100}
         />
         <span className="font-heading text-xl md:text-2xl text-purple-500 pt-2">
-          Learnify
+          LearnUPIND
         </span>
       </div>
 

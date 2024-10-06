@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { UserButton } from "@/components/auth/user-button";
 import { Button } from "@/components/ui/button";
-import { MobileSidebar } from "@/components/sidebar/mobile-sidebar";
+import { MobileSidebar } from "@/components/sidebar";
 import { SearchBar } from "@/components/search/search-bar";
 import { Logo } from "@/components/logo";
 import { useCurrentUser } from "@/hooks/use-current-user";

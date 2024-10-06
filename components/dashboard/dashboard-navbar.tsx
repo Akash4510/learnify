@@ -5,7 +5,7 @@ import { Bell, LogOut, MessageCircleMore } from "lucide-react";
 
 import { UserButton } from "@/components/auth/user-button";
 import { Button } from "@/components/ui/button";
-import { MobileSidebar } from "@/components/sidebar/mobile-sidebar";
+import { MobileSidebar } from "@/components/sidebar";
 import { Logo } from "@/components/logo";
 
 export const DashboardNavbar = () => {
@@ -36,7 +36,7 @@ export const DashboardNavbar = () => {
         <Button variant="accent" asChild>
           <Link href="/">
             <LogOut size={18} className="md:mr-2" />
-            <span className="hidden md:flex">Exit</span>
+            <span className="hidden md:flex">Exit Dashboard</span>
           </Link>
         </Button>
 

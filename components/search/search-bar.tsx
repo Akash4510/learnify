@@ -27,7 +27,7 @@ export const SearchBar = () => {
   const [value, setValue] = useState(searchQuery || "");
   const debouncedValue = useDebounce<string>(value, 500);
 
-  let searchLabel = "learnify";
+  let searchLabel = "courses";
   if (pathName.startsWith("/courses")) {
     searchLabel = "courses";
   }

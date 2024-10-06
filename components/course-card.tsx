@@ -14,7 +14,7 @@ interface CourseCardProps {
 
 export const CourseCard = ({ course }: CourseCardProps) => {
   return (
-    <div className="group border bg-accent/60 rounded-md hover:scale-[1.02] transition-transform duration-300 pb-1">
+    <div className="group border bg-accent/60 rounded-md transition-transform duration-300 pb-1">
       <Link href={`/courses/${course.id}`} tabIndex={-1}>
         <div className="relative h-48 overflow-hidden rounded-t-md cursor-pointer">
           {course.thumbnail ? (

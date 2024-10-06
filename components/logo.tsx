@@ -19,7 +19,7 @@ export const Logo = ({ size, asLink, full }: LogoProps) => {
         height={logoSize}
         quality={100}
       />
-      {full && <h1 className="hidden md:flex pt-1.5 text-xl">Learnify</h1>}
+      {full && <h1 className="hidden md:flex text-xl">LearnUPIND</h1>}
     </div>
   );
 
