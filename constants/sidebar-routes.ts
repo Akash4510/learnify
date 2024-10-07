@@ -2,10 +2,11 @@ import {
   BarChart3,
   Compass,
   Home,
+  Info,
+  Mail,
   Settings,
   Tv,
   Tv2,
-  User,
   Video,
 } from "lucide-react";
 
@@ -16,29 +17,34 @@ export const mainRoutes = [
     icon: Home,
   },
   {
-    label: "Explore",
-    href: "/explore",
-    icon: Compass,
-  },
-  {
     label: "Courses",
     href: "/courses",
     icon: Tv2,
   },
   {
-    label: "Live",
-    href: "/live",
-    icon: Video,
+    label: "Explore",
+    href: "/explore",
+    icon: Compass,
   },
+  // {
+  //   label: "Live",
+  //   href: "/live",
+  //   icon: Video,
+  // },
   {
     label: "Settings",
     href: "/settings",
     icon: Settings,
   },
   {
-    label: "Account",
-    href: "/account",
-    icon: User,
+    label: "Contact",
+    href: "/contact",
+    icon: Mail,
+  },
+  {
+    label: "About",
+    href: "/about",
+    icon: Info,
   },
 ];
 
