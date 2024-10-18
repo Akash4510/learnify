@@ -93,7 +93,7 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
                       variant="secondary"
                       size="sm"
                       disabled={isPending}
-                      className="bg-accent hover:bg-secondary h-8 transition-all"
+                      className="bg-accent hover:bg-muted-foreground/20 h-8 transition-all"
                       onClick={() => {
                         toggleEditing();
                         setTimeout(() => {
