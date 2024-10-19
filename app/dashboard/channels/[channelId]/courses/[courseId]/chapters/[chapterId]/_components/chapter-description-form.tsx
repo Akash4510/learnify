@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Pencil, Save, X } from "lucide-react";
+import { Loader2, Pencil, PlusCircle, Save, X } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -15,32 +15,37 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course";
+import { editChapter } from "@/actions/course/chapter";
+import { Editor } from "@/components/editor";
+import { Preview } from "@/components/preview";
 
-interface TitleFormProps {
+interface ChapterDescriptionFormProps {
   channelId: string;
   courseId: string;
-  title: string;
+  chapterId: string;
+  description: string | null;
 }
 
 const formSchema = z.object({
-  title: z.string().min(1, {
-    message: "Course title is required",
-  }),
+  description: z.string().optional(),
 });
 
 type formSchema = z.infer<typeof formSchema>;
 
-export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
+export const ChapterDescriptionForm = ({
+  channelId,
+  courseId,
+  chapterId,
+  description,
+}: ChapterDescriptionFormProps) => {
   const [isPending, startTransition] = useTransition();
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const form = useForm<formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: title,
+      description: description || undefined,
     },
   });
 
@@ -51,18 +56,19 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
   };
 
   const onSubmit = async (values: formSchema) => {
-    if (title === values.title) {
+    if (description === values.description) {
       toast.info("No modifications!");
       return;
     }
 
     startTransition(() => {
-      editCourse(channelId, courseId, values)
+      editChapter(channelId, courseId, chapterId, values)
         .then((data) => {
           const { error, success } = data;
-
           if (success) {
-            toast.success("Course title updated");
+            values.description
+              ? toast.success("Chapter description updated")
+              : toast.success("Chapter description removed");
             toggleEditing();
           }
           if (error) {
@@ -81,11 +87,13 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
         <div className="bg-accent rounded-md p-4">
           <FormField
             control={control}
-            name="title"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <div className="text-base flex items-center justify-between gap-4 px-0.5">
-                  <FormLabel className="text-base">Course title</FormLabel>
+                  <FormLabel className="text-base">
+                    Chapter description
+                  </FormLabel>
 
                   <div className="flex items-center justify-center gap-4">
                     <Button
@@ -96,13 +104,8 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
                       className="bg-accent hover:bg-muted-foreground/20 h-8 transition-all"
                       onClick={() => {
                         toggleEditing();
-
-                        if (isEditing) {
-                          form.resetField("title");
-                        }
-
                         setTimeout(() => {
-                          form.setFocus("title");
+                          form.setFocus("description");
                         }, 20);
                       }}
                     >
@@ -111,12 +114,24 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
                           <X className="size-3 sm:mr-2" />
                           <span className="hidden sm:flex">Cancel</span>
                         </>
-                      ) : (
+                      ) : description ? (
                         <>
                           <Pencil className="size-3 sm:mr-2" />
                           <span className="hidden sm:flex">
                             Edit
-                            <span className="hidden lg:flex ml-1">title</span>
+                            <span className="hidden lg:flex ml-1">
+                              description
+                            </span>
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <PlusCircle className="size-3 sm:mr-2" />
+                          <span className="hidden sm:flex">
+                            Add
+                            <span className="hidden lg:flex ml-1">
+                              a description
+                            </span>
                           </span>
                         </>
                       )}
@@ -124,17 +139,14 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
                   </div>
                 </div>
 
-                <FormControl className="!mt-2.5">
+                <FormControl className="!mt-2.5 font-black">
                   {isEditing ? (
-                    <Input
-                      placeholder="e.g. Advanced Web Development"
-                      autoComplete="off"
-                      disabled={isPending}
-                      {...field}
-                    />
+                    <Editor {...field} />
+                  ) : field.value ? (
+                    <Preview value={field.value} />
                   ) : (
-                    <p className="font-medium py-2 bg-background/30 px-4 rounded-md">
-                      {field.value}
+                    <p className="font-light text-sm py-2 bg-background/30 px-4 rounded-md font-mono opacity-75">
+                      No description added
                     </p>
                   )}
                 </FormControl>

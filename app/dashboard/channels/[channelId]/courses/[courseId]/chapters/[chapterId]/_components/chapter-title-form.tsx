@@ -17,30 +17,36 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { editCourse } from "@/actions/course";
+import { editChapter } from "@/actions/course/chapter";
 
-interface TitleFormProps {
+interface ChapterTitleFormProps {
   channelId: string;
   courseId: string;
+  chapterId: string;
   title: string;
 }
 
 const formSchema = z.object({
   title: z.string().min(1, {
-    message: "Course title is required",
+    message: "Chapter title is required",
   }),
 });
 
 type formSchema = z.infer<typeof formSchema>;
 
-export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
+export const ChapterTitleForm = ({
+  channelId,
+  courseId,
+  chapterId,
+  title,
+}: ChapterTitleFormProps) => {
   const [isPending, startTransition] = useTransition();
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const form = useForm<formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: title,
+      title,
     },
   });
 
@@ -57,7 +63,7 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
     }
 
     startTransition(() => {
-      editCourse(channelId, courseId, values)
+      editChapter(channelId, courseId, chapterId, values)
         .then((data) => {
           const { error, success } = data;
 
@@ -85,7 +91,7 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <div className="text-base flex items-center justify-between gap-4 px-0.5">
-                  <FormLabel className="text-base">Course title</FormLabel>
+                  <FormLabel className="text-base">Chapter title</FormLabel>
 
                   <div className="flex items-center justify-center gap-4">
                     <Button
@@ -127,7 +133,7 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
                 <FormControl className="!mt-2.5">
                   {isEditing ? (
                     <Input
-                      placeholder="e.g. Advanced Web Development"
+                      placeholder="Introduction to the course"
                       autoComplete="off"
                       disabled={isPending}
                       {...field}

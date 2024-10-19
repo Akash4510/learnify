@@ -27,6 +27,26 @@ h2 {
   background: var(--gradient);
 }
 
+.ql-snow .ql-stroke {
+  stroke: #f0f0f0 !important;
+}
+
+.ql-picker-label::before {
+  color: #f0f0f0 !important;
+}
+
+.ql-toolbar {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.ql-container {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  font-size: 14px !important;
+}
+
 @layer base {
   :root {
     --background: 272.1 100% 95%;
