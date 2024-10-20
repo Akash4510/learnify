@@ -30,3 +30,10 @@ export interface CourseWithCategoryAndChannelAndChapters
 export interface CourseWithCategoryAndSafeChannel extends CourseWithCategory {
   channel: SafeChannel;
 }
+
+export interface CourseWithCategoryWithSafeChannelWithChaptersWithProgress
+  extends CourseWithSafeChannel {
+  category: Category | null;
+  chapters: { id: string }[];
+  progress: number | null;
+}
