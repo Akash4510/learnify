@@ -8,6 +8,7 @@ import { Loader2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { deleteCourse, publishCourse, unpublishCourse } from "@/actions/course";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 interface CourseActionsProps {
   disabled: boolean;
@@ -43,6 +44,7 @@ const CoursePublishButton = ({
   isPublished,
 }: CourseActionsProps) => {
   const [isPending, startTransition] = useTransition();
+  const confetti = useConfettiStore();
 
   const onPublish = () => {
     if (isPublished) {
@@ -70,6 +72,7 @@ const CoursePublishButton = ({
             if (success) {
               const { message } = success;
               toast.success(message);
+              confetti.onOpen();
             }
             if (error) {
               toast.error(error.message);

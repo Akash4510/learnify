@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import { ConfettiProvider } from "@/providers/confetti-provider";
 
 export const metadata: Metadata = {
   title: "LearnUPIND",
@@ -37,6 +38,7 @@ const RootLayout = async ({
             storageKey="learnify-theme"
             disableTransitionOnChange
           >
+            <ConfettiProvider />
             <Toaster richColors />
             {children}
           </ThemeProvider>
