@@ -13,6 +13,8 @@ import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
 import { AttachmentForm } from "./_components/attachment-form";
 import { ChaptersForm } from "./_components/chapters-form";
+import { AlertMessage } from "@/components/ui/alert-message";
+import { CourseActions } from "./_components/course-actions";
 
 interface CoursePageProps {
   params: {
@@ -85,13 +87,30 @@ const CoursePage = async ({ params }: CoursePageProps) => {
   const completedFeilds = requiredFeilds.filter(Boolean).length;
 
   const completionText = `(${completedFeilds}/${totalFeilds})`;
+  const isComplete = requiredFeilds.every(Boolean);
 
   return (
     <div className="space-y-6">
-      <Heading
-        title="Course setup"
-        subtitle={`Complete all of the feilds to setup ${completionText}`}
-      />
+      {!course.isPublished && (
+        <AlertMessage
+          variant="warning"
+          message="This course is unpublished. It will not be visible to the users"
+        />
+      )}
+
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Course setup"
+          subtitle={`Complete all of the feilds to setup ${completionText}`}
+        />
+
+        <CourseActions
+          disabled={!isComplete}
+          channelId={params.channelId}
+          courseId={params.courseId}
+          isPublished={course.isPublished}
+        />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-6">

@@ -73,7 +73,7 @@ export const CategoryForm = ({
         values.categoryId = undefined;
       }
 
-      editCourse(channelId, courseId, values)
+      editCourse({ channelId, courseId, values })
         .then((data) => {
           const { error, success } = data;
 

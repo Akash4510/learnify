@@ -1,51 +1,25 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import Mux from "@mux/mux-node";
 
-import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { EditChapterSchema } from "@/schemas/chapter";
+import { getCurrentUser } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 const { video } = new Mux({
   tokenId: process.env.MUX_TOKEN_ID,
   tokenSecret: process.env.MUX_TOKEN_SECRET,
 });
 
-export const editChapter = async ({
+export const deleteChapter = async ({
   channelId,
   courseId,
   chapterId,
-  values,
 }: {
   channelId: string;
   courseId: string;
   chapterId: string;
-  values: EditChapterSchema;
 }) => {
-  const validatedFields = EditChapterSchema.safeParse(values);
-
-  if (!validatedFields.success) {
-    return {
-      error: {
-        message: "Invalid fields!",
-      },
-    };
-  }
-
-  const { title, description, isFree, videoUrl } = validatedFields.data;
-
-  if (title && title.trim() === "") {
-    return {
-      error: {
-        message: "Title cannot be empty",
-      },
-    };
-  }
-
-  const trimmedTitle = title?.trim();
-  const trimmedDescription = description?.trim();
-
   const user = await getCurrentUser();
 
   if (!user?.id) {
@@ -127,48 +101,13 @@ export const editChapter = async ({
     };
   }
 
-  // If the user is modifying the title
-  if (trimmedTitle) {
-    const existingChapters = await db.chapter.findMany({
-      where: {
-        courseId,
-        title: trimmedTitle,
-      },
-    });
-
-    // It means that the course with the same name already exists on the channel
-    for (let chapter of existingChapters) {
-      if (chapter.id !== chapterId) {
-        return {
-          error: {
-            message: `Chapter '${trimmedTitle}' already exists on this course. Please select a different title.`,
-          },
-        };
-      }
-    }
-  }
-
-  const updatedChapter = await db.chapter.update({
-    where: {
-      id: chapterId,
-      courseId,
-    },
-    data: {
-      title: trimmedTitle,
-      description: trimmedDescription,
-      isFree,
-      videoUrl,
-    },
-  });
-
-  if (videoUrl) {
+  if (chapter.videoUrl) {
     const existingMuxData = await db.muxData.findFirst({
       where: {
         chapterId,
       },
     });
 
-    // This is a cleanup function if the user is changing a video
     if (existingMuxData) {
       await video.assets.delete(existingMuxData.assetId);
 
@@ -178,20 +117,30 @@ export const editChapter = async ({
         },
       });
     }
+  }
 
-    const asset = await video.assets.create({
-      input: [{ url: videoUrl }],
-      playback_policy: ["public"],
-      test: false,
-    });
+  const deletedChapter = await db.chapter.delete({
+    where: {
+      id: chapterId,
+    },
+  });
 
-    console.log("Mux data created");
+  const publishedChaptersInCourse = await db.chapter.findMany({
+    where: {
+      courseId,
+      isPublished: true,
+    },
+  });
 
-    await db.muxData.create({
+  // If this was the only published chapter in the course
+  // Then we need to mark the course as unpublished
+  if (!publishedChaptersInCourse.length) {
+    await db.course.update({
+      where: {
+        id: courseId,
+      },
       data: {
-        chapterId,
-        assetId: asset.id,
-        playbackId: asset.playback_ids?.[0]?.id,
+        isPublished: false,
       },
     });
   }
@@ -203,8 +152,8 @@ export const editChapter = async ({
 
   return {
     success: {
-      message: `Chapter '${updatedChapter.title}' updated successfully`,
-      chapter: updatedChapter,
+      message: `Chapter '${deletedChapter.title}' deleted successfully`,
+      deletedChapter,
     },
   };
 };

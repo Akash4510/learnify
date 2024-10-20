@@ -3,30 +3,44 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import { z } from "zod";
-import { ImageIcon, Pencil, PlusCircle, X } from "lucide-react";
+import {
+  ImageIcon,
+  Pencil,
+  PlusCircle,
+  VideoIcon,
+  VideoOffIcon,
+  X,
+} from "lucide-react";
 import { toast } from "sonner";
+import MuxPlayer from "@mux/mux-player-react";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { editCourse } from "@/actions/course";
+import { MuxData } from "@prisma/client";
+import { editChapter } from "@/actions/course/chapter";
 
-interface ThumbnailFormProps {
+interface ChapterVideoFormProps {
   channelId: string;
   courseId: string;
-  thumbnail: string | null;
+  chapterId: string;
+  videoUrl: string | null;
+  muxData?: MuxData | null;
 }
 
 const formSchema = z.object({
-  thumbnail: z.string().optional(),
+  videoUrl: z.string().optional(),
 });
 
 type formSchema = z.infer<typeof formSchema>;
 
-export const ThumbnailForm = ({
+export const ChapterVideoForm = ({
   channelId,
   courseId,
-  thumbnail,
-}: ThumbnailFormProps) => {
+  chapterId,
+  videoUrl,
+  muxData,
+}: ChapterVideoFormProps) => {
   const [isPending, startTransition] = useTransition();
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -35,17 +49,17 @@ export const ThumbnailForm = ({
   };
 
   const onSubmit = async (values: formSchema) => {
-    if (thumbnail === values.thumbnail) {
-      toast.info("No modifications!");
-      return;
-    }
+    // if (thumbnail === values.thumbnail) {
+    //   toast.info("No modifications!");
+    //   return;
+    // }
 
     startTransition(() => {
-      editCourse({ channelId, courseId, values })
+      editChapter({ channelId, courseId, chapterId, values })
         .then((data) => {
           const { error, success } = data;
           if (success) {
-            toast.success("Course thumbnail updated");
+            toast.success("Course video updated");
             toggleEditing();
           }
           if (error) {
@@ -61,7 +75,7 @@ export const ThumbnailForm = ({
   return (
     <div className="bg-accent rounded-md p-4">
       <div className="text-base flex items-center justify-between gap-4 px-0.5">
-        <p className="text-base">Course thumbnail</p>
+        <p className="text-base">Chapter Video</p>
 
         <div className="flex items-center justify-center gap-4">
           <Button
@@ -79,18 +93,18 @@ export const ThumbnailForm = ({
                 <X className="size-3 sm:mr-2" />
                 <span className="hidden sm:flex">Cancel</span>
               </>
-            ) : thumbnail ? (
+            ) : videoUrl ? (
               <>
                 <Pencil className="size-3 sm:mr-2" />
                 <span className="hidden sm:flex">
-                  Edit <span className="hidden lg:flex ml-1"> thumbnail</span>
+                  Edit <span className="hidden lg:flex ml-1"> video</span>
                 </span>
               </>
             ) : (
               <>
                 <PlusCircle className="size-3 sm:mr-2" />
                 <span className="hidden sm:flex">
-                  Add <span className="hidden lg:flex ml-1">an image</span>
+                  Add <span className="hidden lg:flex ml-1">video</span>
                 </span>
               </>
             )}
@@ -102,31 +116,32 @@ export const ThumbnailForm = ({
         {isEditing ? (
           <div>
             <FileUpload
-              endpoint="courseThumbnail"
+              endpoint="chapterVideo"
               onChange={(url) => {
                 if (url) {
-                  onSubmit({ thumbnail: url });
+                  onSubmit({ videoUrl: url });
                 }
               }}
             />
-            <div className="text-xs text-muted-foreground mt-4">
-              16:9 aspect ratio recommended
-            </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              Upload this chapter&apos;s video
+            </p>
           </div>
-        ) : thumbnail ? (
-          <div className="rounded-md bg-background/30 aspect-video flex items-center justify-center relative">
-            <Image
-              src={thumbnail}
-              alt="course-thumbnail"
-              fill
-              className="rounded-md object-cover"
-            />
+        ) : videoUrl ? (
+          <div>
+            <div className="rounded-md bg-background/30 aspect-video flex items-center justify-center relative overflow-hidden">
+              <MuxPlayer playbackId={muxData?.playbackId || undefined} />
+            </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              Video can take a few minutes to process. Refresh the page if video
+              does not appear.
+            </p>
           </div>
         ) : (
           <div className="rounded-md bg-background/30 aspect-video flex flex-col gap-2 items-center justify-center relative">
-            <ImageIcon className="size-7" />
+            <VideoOffIcon className="size-7" />
             <p className="text-xs md:text-sm text-muted-foreground">
-              No thumbnail added
+              No video added
             </p>
           </div>
         )}

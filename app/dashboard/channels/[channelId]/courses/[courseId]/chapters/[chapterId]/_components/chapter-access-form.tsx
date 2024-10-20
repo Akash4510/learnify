@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import {
+  // useEffect,
+  useTransition,
+} from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IndianRupee, Loader2, Pencil, Save, X } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -12,57 +14,54 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { formatPrice } from "@/lib/utils";
-import { editCourse } from "@/actions/course";
+import { editChapter } from "@/actions/course/chapter";
+import { Switch } from "@/components/ui/switch";
 
-interface PriceFormProps {
+interface ChapterAccessFormProps {
   channelId: string;
   courseId: string;
-  price: number | null;
+  chapterId: string;
+  isFree?: boolean;
 }
 
 const formSchema = z.object({
-  price: z.coerce.number(),
+  isFree: z.boolean().default(false),
 });
 
 type formSchema = z.infer<typeof formSchema>;
 
-export const PriceForm = ({ channelId, courseId, price }: PriceFormProps) => {
+export const ChapterAccessForm = ({
+  channelId,
+  courseId,
+  chapterId,
+  isFree,
+}: ChapterAccessFormProps) => {
   const [isPending, startTransition] = useTransition();
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  // const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const form = useForm<formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      price: price || undefined,
+      isFree: !!isFree,
     },
   });
 
   const { handleSubmit, control } = form;
 
-  const toggleEditing = () => {
-    setIsEditing((value) => !value);
-  };
+  // const toggleEditing = () => {
+  //   setIsEditing((value) => !value);
+  // };
 
   const onSubmit = async (values: formSchema) => {
-    if (price === values.price) {
-      toast.info("No modifications!");
-      return;
-    }
-
     startTransition(() => {
-      editCourse({ channelId, courseId, values })
+      editChapter({ channelId, courseId, chapterId, values })
         .then((data) => {
           const { error, success } = data;
-
           if (success) {
-            toast.success("Price updated successfully");
-            toggleEditing();
+            toast.success("Chapter access settings updated");
+            // toggleEditing();
           }
           if (error) {
             toast.error(error.message);
@@ -80,11 +79,11 @@ export const PriceForm = ({ channelId, courseId, price }: PriceFormProps) => {
         <div className="bg-accent rounded-md p-4">
           <FormField
             control={control}
-            name="price"
+            name="isFree"
             render={({ field }) => (
               <FormItem>
-                <div className="text-base flex items-center justify-between gap-4 px-0.5">
-                  <FormLabel className="text-base">Course Price</FormLabel>
+                {/* <div className="text-base flex items-center justify-between gap-4 px-0.5">
+                  <FormLabel className="text-base">Chapter access</FormLabel>
 
                   <div className="flex items-center justify-center gap-4">
                     <Button
@@ -96,7 +95,7 @@ export const PriceForm = ({ channelId, courseId, price }: PriceFormProps) => {
                       onClick={() => {
                         toggleEditing();
                         setTimeout(() => {
-                          form.setFocus("price");
+                          form.setFocus("isFree");
                         }, 20);
                       }}
                     >
@@ -105,51 +104,39 @@ export const PriceForm = ({ channelId, courseId, price }: PriceFormProps) => {
                           <X className="size-3 sm:mr-2" />
                           <span className="hidden sm:flex">Cancel</span>
                         </>
-                      ) : price ? (
+                      ) : (
                         <>
                           <Pencil className="size-3 sm:mr-2" />
                           <span className="hidden sm:flex">
                             Edit
-                            <span className="hidden lg:flex ml-1">price</span>
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <IndianRupee className="size-3 sm:mr-2" />
-                          <span className="hidden sm:flex">
-                            Set
-                            <span className="hidden lg:flex ml-1">price</span>
+                            <span className="hidden lg:flex ml-1">access</span>
                           </span>
                         </>
                       )}
                     </Button>
                   </div>
-                </div>
+                </div> */}
 
-                <FormControl className="!mt-2.5">
-                  {isEditing ? (
-                    <Input
-                      placeholder="Set a price for your course"
-                      autoComplete="off"
+                <FormControl>
+                  <div className="flex items-center justify-between">
+                    <p>Is this course free?</p>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={(value) => {
+                        field.onChange(value);
+                        form.setValue("isFree", value);
+                        onSubmit({ isFree: value });
+                      }}
                       disabled={isPending}
-                      {...field}
                     />
-                  ) : field.value ? (
-                    <p className="font-medium text-sm py-2 bg-background/10 px-4 rounded-md">
-                      {formatPrice(field.value)}
-                    </p>
-                  ) : (
-                    <p className="font-light text-sm py-2 bg-background/30 px-4 rounded-md font-mono opacity-75">
-                      No price set
-                    </p>
-                  )}
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {isEditing && (
+          {/* {isEditing && (
             <Button
               size="sm"
               className="h-8 w-24 mt-4 transition-all"
@@ -166,7 +153,7 @@ export const PriceForm = ({ channelId, courseId, price }: PriceFormProps) => {
                 </>
               )}
             </Button>
-          )}
+          )} */}
         </div>
       </form>
     </Form>

@@ -6,11 +6,15 @@ import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { EditCourseSchema } from "@/schemas/course";
 
-export const editCourse = async (
-  channelId: string,
-  courseId: string,
-  values: EditCourseSchema
-) => {
+export const editCourse = async ({
+  channelId,
+  courseId,
+  values,
+}: {
+  channelId: string;
+  courseId: string;
+  values: EditCourseSchema;
+}) => {
   const validatedFields = EditCourseSchema.safeParse(values);
 
   if (!validatedFields.success) {

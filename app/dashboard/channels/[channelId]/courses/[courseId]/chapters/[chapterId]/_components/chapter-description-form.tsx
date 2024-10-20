@@ -62,7 +62,7 @@ export const ChapterDescriptionForm = ({
     }
 
     startTransition(() => {
-      editChapter(channelId, courseId, chapterId, values)
+      editChapter({ channelId, courseId, chapterId, values })
         .then((data) => {
           const { error, success } = data;
           if (success) {

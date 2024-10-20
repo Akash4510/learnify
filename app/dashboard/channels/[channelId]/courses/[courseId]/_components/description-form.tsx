@@ -59,7 +59,7 @@ export const DescriptionForm = ({
     }
 
     startTransition(() => {
-      editCourse(channelId, courseId, values)
+      editCourse({ channelId, courseId, values })
         .then((data) => {
           const { error, success } = data;
           if (success) {

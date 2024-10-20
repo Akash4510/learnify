@@ -57,7 +57,7 @@ export const TitleForm = ({ channelId, courseId, title }: TitleFormProps) => {
     }
 
     startTransition(() => {
-      editCourse(channelId, courseId, values)
+      editCourse({ channelId, courseId, values })
         .then((data) => {
           const { error, success } = data;
 
