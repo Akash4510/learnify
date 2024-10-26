@@ -4,6 +4,7 @@ import { editChapter } from "./edit-chapter";
 import { deleteChapter } from "./delete-chapter";
 import { publishChapter } from "./publish-chapter";
 import { unpublishChapter } from "./unpublish-chapter";
+import { getChapter } from "./get-chapter";
 
 export {
   createChapter,
@@ -12,4 +13,5 @@ export {
   deleteChapter,
   publishChapter,
   unpublishChapter,
+  getChapter,
 };

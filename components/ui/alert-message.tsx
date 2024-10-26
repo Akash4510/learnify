@@ -25,9 +25,14 @@ type AlertMessageVariantsProps = VariantProps<typeof alertMessageVariants>;
 
 interface AlertMessageProps extends AlertMessageVariantsProps {
   message: string;
+  className: string;
 }
 
-export const AlertMessage = ({ variant, message }: AlertMessageProps) => {
+export const AlertMessage = ({
+  variant,
+  message,
+  className,
+}: AlertMessageProps) => {
   let Icon;
 
   switch (variant) {
@@ -53,7 +58,7 @@ export const AlertMessage = ({ variant, message }: AlertMessageProps) => {
   }
 
   return (
-    <div className={cn(alertMessageVariants({ variant }))}>
+    <div className={cn(alertMessageVariants({ variant }), className)}>
       <Icon className="h-[1.15rem] w-[1.15rem] shrink-0" />
       <span>{message}</span>
     </div>
