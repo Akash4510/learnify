@@ -1,6 +1,6 @@
 export const Milestone = () => {
   return (
-    <div className="space-y-10 my-20 md:my-28">
+    <div className="space-y-10 mt-20 md:mt-28">
       <div className="lg:text-center">
         <h1 className="text-2xl sm:text-3xl md:text-4xl">
           Transform your digital presence with advanced skills tailored for

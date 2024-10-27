@@ -8,6 +8,7 @@ import { CourseEnrollButton } from "./_components/course-enroll-button";
 import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/preview";
 import { File } from "lucide-react";
+import Link from "next/link";
 
 interface CahpterPageProps {
   params: {
@@ -84,7 +85,7 @@ const CahpterPage = async ({ params }: CahpterPageProps) => {
         </div>
 
         <div>
-          <div className="p-4 flex flex-col md:flex-row items-center justify-between">
+          <div className="p-4 flex flex-col md:flex-row items-start justify-between gap-2">
             <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
 
             {purchase ? (
@@ -106,17 +107,22 @@ const CahpterPage = async ({ params }: CahpterPageProps) => {
           {!!attachments.length && (
             <>
               <Separator />
-              <div className="p-4">
+              <div className="p-4 flex flex-col gap-4">
+                <h2 className="text-lg">Course attachments</h2>
                 {attachments.map((attachment) => (
-                  <a
-                    key={attachment.id}
+                  <Link
                     href={attachment.url}
                     target="_blank"
-                    className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                    key={attachment.id}
+                    className="bg-accent p-3 rounded-md border border-primary/40 flex items-center justify-between gap-2"
                   >
-                    <File className="size-4" />
-                    <p className="line-clamp-1">{attachment.name}</p>
-                  </a>
+                    <div className="flex items-center gap-2">
+                      <File className="size-5 flex-shrink-0" />
+                      <p className="text-sm font-bold hover:underline line-clamp-1">
+                        {attachment.name}
+                      </p>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </>

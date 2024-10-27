@@ -48,6 +48,8 @@
     "react-quill": "^2.0.0",
     "resend": "^3.2.0",
     "sonner": "^1.4.41",
+    "stripe": "^17.2.1",
+    "swiper": "^11.1.14",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.7.0",

@@ -21,7 +21,7 @@ const BackgroundGradient = () => {
 
 export const Hero = () => {
   return (
-    <div className="pt-2 md:pt-4 lg:pt-10 pb-12 space-y-3 lg:text-center">
+    <div className="pt-2 md:pt-4 lg:pt-10 pb-4 md:pb-10 space-y-3 lg:text-center">
       <BackgroundGradient />
 
       <div className="flex items-center lg:justify-center gap-2">

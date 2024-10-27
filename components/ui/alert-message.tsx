@@ -25,7 +25,7 @@ type AlertMessageVariantsProps = VariantProps<typeof alertMessageVariants>;
 
 interface AlertMessageProps extends AlertMessageVariantsProps {
   message: string;
-  className: string;
+  className?: string;
 }
 
 export const AlertMessage = ({
