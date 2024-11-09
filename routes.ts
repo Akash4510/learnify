@@ -8,6 +8,7 @@ export const publicRoutes = [
   "/explore",
   "/courses",
   "/api/uploadthing/*",
+  "/api/webhook",
   "/auth/verify-email",
 ];
 

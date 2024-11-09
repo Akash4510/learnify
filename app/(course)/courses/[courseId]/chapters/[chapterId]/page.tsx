@@ -1,14 +1,15 @@
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { File } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/auth";
 import { getChapter } from "@/actions/course/chapter";
 import { AlertMessage } from "@/components/ui/alert-message";
-import { VideoPlayer } from "./_components/video-player";
-import { CourseEnrollButton } from "./_components/course-enroll-button";
 import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/preview";
-import { File } from "lucide-react";
-import Link from "next/link";
+
+import { VideoPlayer } from "./_components/video-player";
+import { CourseEnrollButton } from "./_components/course-enroll-button";
 
 interface CahpterPageProps {
   params: {
