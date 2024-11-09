@@ -35,7 +35,7 @@ export const UserButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="bg-card shadow-2xl p-4 mr-5 w-80">
+      <DropdownMenuContent className="bg-card shadow-2xl p-4 mr-5 w-80 relative z-[999]">
         <div className="flex items-center gap-4 px-2 pr-5 mb-4">
           <Avatar className="h-10 w-10">
             <AvatarImage src={user?.image || ""} />
