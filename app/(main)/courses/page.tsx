@@ -1,38 +1,47 @@
-import { db } from "@/lib/db";
+import { redirect } from "next/navigation";
 
-import { Categories } from "@/components/categories";
+import { getCurrentUser } from "@/lib/auth";
+import { Heading } from "@/components/heading";
+import { getCourses } from "@/actions/course/get-courses";
 
-import { Courses } from "./_components/courses";
+import { UserCourses } from "./_components/user-courses";
 
 const CoursesPage = async () => {
-  const categories = await db.category.findMany({});
+  const user = await getCurrentUser();
 
-  const courses = await db.course.findMany({
-    include: {
-      category: true,
-      channel: {
-        select: {
-          id: true,
-          name: true,
-          logo: true,
-        },
-      },
-    },
-    orderBy: {
-      price: "desc",
-    },
-  });
+  if (!user) {
+    redirect("/");
+  }
+
+  const courses = await getCourses({ userId: user.id });
+
+  const coursesInProgress = courses.filter((course) => course.progress !== 100);
+  const completedCourses = courses.filter((course) => course.progress === 100);
 
   return (
-    <>
-      <div className="w-full h-16 sticky top-0 z-10 px-4 bg-background flex items-center">
-        <Categories data={categories} />
+    <div className="p-4 py-6">
+      <div className="space-y-6">
+        <Heading
+          title="Enrolled Courses"
+          subtitle="Access all of your enrolled courses here"
+        />
+
+        <div className="pb-10">
+          <UserCourses data={coursesInProgress} />
+        </div>
       </div>
 
-      <div className="px-4 pb-6">
-        <Courses data={courses} />
+      <div className="space-y-6">
+        <Heading
+          title="Completed Courses"
+          subtitle="Access all of your completed courses here"
+        />
+
+        <div className="pb-10">
+          <UserCourses data={completedCourses} />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

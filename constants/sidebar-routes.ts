@@ -17,7 +17,7 @@ export const mainRoutes = [
     icon: Home,
   },
   {
-    label: "Courses",
+    label: "My Courses",
     href: "/courses",
     icon: Tv2,
   },
