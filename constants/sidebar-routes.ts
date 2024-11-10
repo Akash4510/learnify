@@ -1,3 +1,4 @@
+import { USER_ROLE } from "@prisma/client";
 import {
   BarChart3,
   Compass,
@@ -8,6 +9,7 @@ import {
   Tv,
   Tv2,
   Video,
+  Wrench,
 } from "lucide-react";
 
 export const mainRoutes = [
@@ -50,13 +52,21 @@ export const mainRoutes = [
 
 export const dashboardRoutes = [
   {
+    label: "Manage",
+    href: "/dashboard/manage",
+    icon: Wrench,
+    accessLevel: USER_ROLE.ADMIN,
+  },
+  {
     label: "Analytics",
     href: "/dashboard",
     icon: BarChart3,
+    accessLevel: USER_ROLE.USER,
   },
   {
     label: "Channels",
     href: "/dashboard/channels",
     icon: Tv,
+    accessLevel: USER_ROLE.CREATOR,
   },
 ];

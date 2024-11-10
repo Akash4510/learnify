@@ -5,7 +5,7 @@ interface UserAvatarProps {
   size?: number;
 }
 
-const UserAvatar = ({ url, size }: UserAvatarProps) => {
+export const UserAvatar = ({ url, size }: UserAvatarProps) => {
   return (
     <Image
       src={url}
@@ -16,5 +16,3 @@ const UserAvatar = ({ url, size }: UserAvatarProps) => {
     />
   );
 };
-
-export default UserAvatar;

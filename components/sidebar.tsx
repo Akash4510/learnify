@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { dashboardRoutes, mainRoutes } from "@/constants/sidebar-routes";
 import { ThemeToggle } from "./theme-toggle";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { USER_ROLE } from "@prisma/client";
 
 interface SidebarProps {
   afterNavItemClick?: () => void;
@@ -16,9 +18,22 @@ interface SidebarProps {
 
 export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
   const pathname = usePathname();
-  const routes = pathname.startsWith("/dashboard")
-    ? dashboardRoutes
-    : mainRoutes;
+
+  const isDashboard = pathname.startsWith("/dashboard");
+  const user = useCurrentUser();
+
+  let routes;
+  if (isDashboard) {
+    if (!user) return null;
+    routes = dashboardRoutes;
+    if (user.role === USER_ROLE.USER) {
+      routes = routes.filter((route) => route.accessLevel === USER_ROLE.USER);
+    } else if (user.role === USER_ROLE.CREATOR) {
+      routes = routes.filter((route) => route.accessLevel !== USER_ROLE.ADMIN);
+    }
+  } else {
+    routes = mainRoutes;
+  }
 
   return (
     <div className="space-y-6 flex flex-col h-full border-r">

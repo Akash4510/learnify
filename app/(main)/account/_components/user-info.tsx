@@ -1,7 +1,7 @@
 import { Channel, Subscription, User } from "@prisma/client";
 import { UserIcon } from "lucide-react";
 
-import UserAvatar from "../../../../components/user-avatar";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface UserInfoProps {
   user: User & {

@@ -17,21 +17,21 @@ enum USER_ROLE {
 }
 
 model User {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  email           String @unique
-  emailVerified   DateTime?
-  image           String?
-  password        String?
+  id                     String @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String
+  email                  String @unique
+  emailVerified          DateTime?
+  image                  String?
+  password               String?
 
-  role            USER_ROLE @default(USER)
-  channels        Channel[]
-  subscriptions   Subscription[]
+  role                   USER_ROLE @default(USER)
+  channels               Channel[]
+  subscriptions          Subscription[]
+  accounts               Account[]
+  creatorAccessRequests  CreatorAccessRequest[]
 
-  accounts        Account[]
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
 model Channel {
@@ -52,6 +52,28 @@ model Channel {
   updatedAt       DateTime @updatedAt
 
   creator         User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+}
+
+enum CREATOR_ACCESS_REQUEST_STATUS {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model CreatorAccessRequest {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String @db.ObjectId
+
+  topic           String @db.String
+  proposal        String @db.String
+
+  status          CREATOR_ACCESS_REQUEST_STATUS @default(PENDING)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  
+  user            User @relation(fields: [userId], references: [id])
 }
 
 model Subscription {

@@ -104,9 +104,7 @@ export const CreateCourseForm = ({ channelId }: CreateCourseFormProps) => {
             className="w-full sm:w-32"
             asChild
           >
-            <Link href={`/dashboard/channels/${channelId}/courses`}>
-              Cancel
-            </Link>
+            <Link href={`/dashboard/channels/${channelId}`}>Cancel</Link>
           </Button>
         </div>
       </form>

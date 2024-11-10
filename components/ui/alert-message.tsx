@@ -3,23 +3,20 @@ import { AlertTriangle, CheckCircle, CircleX, Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-const alertMessageVariants = cva(
-  "p-3 rounded-md flex items-center gap-x-2 text-sm",
-  {
-    variants: {
-      variant: {
-        default: "bg-background text-foreground",
-        success: "bg-emerald-500/15 text-emerald-500",
-        error: "bg-red-500/15 text-red-500",
-        info: "bg-blue-500/15 text-blue-500",
-        warning: "bg-amber-500/15 text-amber-500",
-      },
+const alertMessageVariants = cva("p-3 rounded-md flex gap-x-2 text-sm", {
+  variants: {
+    variant: {
+      default: "bg-background text-foreground",
+      success: "bg-emerald-500/15 text-emerald-500",
+      error: "bg-red-500/15 text-red-500",
+      info: "bg-blue-500/15 text-blue-500",
+      warning: "bg-amber-500/15 text-amber-500",
     },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
 type AlertMessageVariantsProps = VariantProps<typeof alertMessageVariants>;
 
@@ -59,7 +56,7 @@ export const AlertMessage = ({
 
   return (
     <div className={cn(alertMessageVariants({ variant }), className)}>
-      <Icon className="h-[1.15rem] w-[1.15rem] shrink-0" />
+      <Icon className="size-[1.15rem] shrink-0" />
       <span>{message}</span>
     </div>
   );

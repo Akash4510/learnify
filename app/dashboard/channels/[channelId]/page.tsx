@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Pencil, Tv2 } from "lucide-react";
+import { Pencil, Plus, Tv2 } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { Heading } from "@/components/heading";
@@ -81,10 +81,19 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
       </div>
 
       <div className="space-y-6">
-        <Heading
-          title="Your courses"
-          subtitle="View and manage your courses here"
-        />
+        <div className="flex justify-between gap-4 flex-col sm:flex-row">
+          <Heading
+            title="Your courses"
+            subtitle="View and manage your courses here"
+          />
+
+          <Button variant="accent" asChild>
+            <Link href={`/dashboard/channels/${channel.id}/courses/create`}>
+              <Plus className="h-4 w-4 mr-2" />
+              Create New Course
+            </Link>
+          </Button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
           {courses.map((course) => (
