@@ -15,7 +15,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
 
         <div className="w-full h-[calc(100vh-4rem)] overflow-y-scroll">
           <div className="h-full flex flex-col">
-            <main className="p-4 flex-1">{children}</main>
+            <main className="p-4 py-6 flex-1">{children}</main>
           </div>
         </div>
       </div>

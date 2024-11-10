@@ -47,6 +47,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.2",
     "react-quill": "^2.0.0",
+    "recharts": "^2.13.3",
     "resend": "^3.2.0",
     "sonner": "^1.4.41",
     "stripe": "^17.2.1",

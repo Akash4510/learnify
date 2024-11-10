@@ -1,9 +1,10 @@
 "use server";
 
+import { USER_ROLE } from "@prisma/client";
+
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { CoursePurchaseWithCourse } from "@/types/purchase";
-import { USER_ROLE } from "@prisma/client";
 
 const groupByCourse = (purchases: CoursePurchaseWithCourse[]) => {
   const grouped: { [courseTitle: string]: number } = {};
@@ -47,7 +48,7 @@ export const getChannelAnalytics = async ({
     };
   }
 
-  if (dbUser.role !== USER_ROLE.CREATOR) {
+  if (dbUser.role === USER_ROLE.USER) {
     return {
       error: {
         message: "Not a creator!",
@@ -110,7 +111,7 @@ export const getCreatorAnalytics = async () => {
     };
   }
 
-  if (dbUser.role !== USER_ROLE.CREATOR) {
+  if (dbUser.role === USER_ROLE.USER) {
     return {
       error: {
         message: "Not a creator!",
