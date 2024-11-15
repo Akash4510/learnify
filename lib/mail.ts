@@ -1,25 +1,30 @@
 import { Resend } from "resend";
 
+import { VerifyEmailTemplate } from "@/email-templates/verify-email-template";
+import { ResetPasswordTemplate } from "@/email-templates/reset-password-template";
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const domain = process.env.NEXT_PUBLIC_APP_URL!;
+
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `http://localhost:3000/auth/verify-email?token=${token}`;
+  const confirmLink = `${domain}/auth/verify-email?token=${token}`;
 
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
     subject: "Confirm your email",
-    html: `<p>Click <a href="${confirmLink}">here</a> to confirm your email and get access to your account</p>`,
+    react: VerifyEmailTemplate({ confirmLink }),
   });
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
+  const resetLink = `${domain}/auth/new-password?token=${token}`;
 
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
     subject: "Reset your password",
-    html: `<p>Click <a href="${resetLink}">here</a> to reset your password</p>`,
+    react: ResetPasswordTemplate({ resetLink }),
   });
 };
