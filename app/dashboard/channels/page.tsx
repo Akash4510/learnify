@@ -22,17 +22,17 @@ const ChannelsPage = async () => {
   });
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between mr-2">
+    <div className="space-y-6">
+      <div className="flex justify-between flex-col md:flex-row gap-4">
         <Heading
           title="Your Channels"
           subtitle="Create new channels or manage your existing channels"
         />
 
-        <Button variant="accent" asChild>
+        <Button variant="accent" asChild className="sm:w-max">
           <Link href="/dashboard/channels/create">
             <Plus className="h-4 w-4 mr-1" />
-            Create New
+            Create New Channel
           </Link>
         </Button>
       </div>

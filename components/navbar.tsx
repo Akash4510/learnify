@@ -63,7 +63,7 @@ export const Navbar = () => {
             <Button variant="accent" className="mr-2" asChild>
               <Link href="/dashboard">
                 <Clapperboard className="size-5 md:mr-2" />
-                <span className="hidden md:block">Creator Dashboard</span>
+                <span className="hidden md:block">Dashboard</span>
               </Link>
             </Button>
 
