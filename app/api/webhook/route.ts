@@ -3,7 +3,13 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import { db } from "@/lib/db";
-import { stripe } from "@/lib/stripe";
+
+// Added this code here, because there was an error in deployment
+// when importing stripe from the lib folder
+export const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
+  apiVersion: "2024-09-30.acacia",
+  typescript: true,
+});
 
 export async function POST(req: Request) {
   const body = await req.text();
