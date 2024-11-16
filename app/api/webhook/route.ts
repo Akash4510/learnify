@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 
 // Added this code here, because there was an error in deployment
 // when importing stripe from the lib folder
-export const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
+const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
   apiVersion: "2024-09-30.acacia",
   typescript: true,
 });
