@@ -19,6 +19,28 @@ const AnalyticsPage = async () => {
     existingCreatorAccessRequest = response.success.pendingRequests[0];
   }
 
+  if (user.role === USER_ROLE.USER) {
+    return (
+      <div className="space-y-7">
+        <div className="space-y-2">
+          <AlertMessage
+            variant="warning"
+            message="You are not a creator. If you want to become a creator, please request creator access"
+          />
+
+          {existingCreatorAccessRequest && (
+            <AlertMessage
+              variant="info"
+              message="You have already submitted a creator access request. Please wait for it to be approved. You can edit your proposal till it's not approved by the admin"
+            />
+          )}
+        </div>
+
+        <CreatorAccessRequestForm initialData={existingCreatorAccessRequest} />
+      </div>
+    );
+  }
+
   const analyticsResponse = await getCreatorAnalytics();
 
   if (analyticsResponse.error) {
@@ -31,41 +53,17 @@ const AnalyticsPage = async () => {
 
   return (
     <div className="space-y-7">
-      {user.role === USER_ROLE.USER ? (
-        <>
-          <div className="space-y-2">
-            <AlertMessage
-              variant="warning"
-              message="You are not a creator. If you want to become a creator, please request creator access"
-            />
+      <Heading
+        title="Analytics Page"
+        subtitle="View the analytics of all your channels and courses here"
+      />
 
-            {existingCreatorAccessRequest && (
-              <AlertMessage
-                variant="info"
-                message="You have already submitted a creator access request. Please wait for it to be approved. You can edit your proposal till it's not approved by the admin"
-              />
-            )}
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <DataCard label="Total Revenue" value={totalRevenue} shouldFormat />
+        <DataCard label="Total Sales" value={totalSales} />
 
-          <CreatorAccessRequestForm
-            initialData={existingCreatorAccessRequest}
-          />
-        </>
-      ) : (
-        <>
-          <Heading
-            title="Analytics Page"
-            subtitle="View the analytics of all your channels and courses here"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <DataCard label="Total Revenue" value={totalRevenue} shouldFormat />
-            <DataCard label="Total Sales" value={totalSales} />
-
-            <DataChart data={data} />
-          </div>
-        </>
-      )}
+        <DataChart data={data} />
+      </div>
     </div>
   );
 };

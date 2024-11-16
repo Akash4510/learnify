@@ -27,10 +27,10 @@ export const UserButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="rounded-full p-0.5 flex items-center justify-center">
-        <Avatar className="size-10">
+        <Avatar className="size-8">
           <AvatarImage src={user?.image || ""} />
           <AvatarFallback className="bg-muted">
-            <UserIcon className="size-5" />
+            <UserIcon className="size-4" />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -40,7 +40,7 @@ export const UserButton = () => {
           <Avatar className="h-10 w-10">
             <AvatarImage src={user?.image || ""} />
             <AvatarFallback className="bg-muted">
-              <UserIcon className="h-5 w-5" />
+              <UserIcon className="size-5" />
             </AvatarFallback>
           </Avatar>
           <div>

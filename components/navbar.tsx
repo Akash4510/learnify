@@ -16,9 +16,7 @@ export const Navbar = () => {
   const pathName = usePathname();
 
   const showSearchBar =
-    pathName.startsWith("/courses") ||
-    pathName.startsWith("/explore") ||
-    pathName === "/";
+    pathName.startsWith("/courses") || pathName.startsWith("/explore");
 
   return (
     <nav className="h-full px-4 lg:px-6 flex items-center justify-between gap-4">
