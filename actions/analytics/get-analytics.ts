@@ -132,7 +132,15 @@ export const getCreatorAnalytics = async () => {
     },
   });
 
-  const groupedEarnings = groupByCourse(purchases);
+  // const groupedEarnings = groupByCourse(purchases);
+  const groupedEarnings = {
+    testCourse: 3000,
+    anotherCourse: 5000,
+    hello: 3900,
+    anotherHello: 5400,
+    amazingCourse: 6900,
+    lastOne: 4000,
+  };
   const data = Object.entries(groupedEarnings).map(([courseTitle, total]) => ({
     name: courseTitle,
     total,
