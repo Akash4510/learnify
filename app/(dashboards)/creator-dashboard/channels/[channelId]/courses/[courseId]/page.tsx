@@ -37,7 +37,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
   });
 
   if (!channel) {
-    redirect("/dashboard");
+    redirect("/creator-dashboard");
   }
 
   if (channel.creatorId !== user.id) {
@@ -64,7 +64,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
   });
 
   if (!course) {
-    return redirect(`/dashboard/channels/${params.channelId}`);
+    return redirect(`/creator-dashboard/channels/${params.channelId}`);
   }
 
   const categories = await db.category.findMany({

@@ -123,7 +123,7 @@ const CourseDeleteButton = ({
             const { message } = success;
             toast.success(message);
 
-            router.push(`/dashboard/channels/${channelId}`);
+            router.push(`/creator-dashboard/channels/${channelId}`);
           }
           if (error) {
             toast.error(error.message);

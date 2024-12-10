@@ -73,9 +73,9 @@ export const editChannel = async (
     },
   });
 
-  revalidatePath(`/dashbaord/channels`);
-  revalidatePath(`/dashbaord/channels/${channelId}`);
-  revalidatePath(`/dashbaord/channels/${channelId}/edit`);
+  revalidatePath(`/creator-dashbaord/channels`);
+  revalidatePath(`/creator-dashbaord/channels/${channelId}`);
+  revalidatePath(`/creator-dashbaord/channels/${channelId}/edit`);
 
   return {
     success: {

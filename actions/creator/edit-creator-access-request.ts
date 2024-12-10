@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { CREATOR_ACCESS_REQUEST_STATUS, USER_ROLE } from "@prisma/client";
+
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { CREATOR_ACCESS_REQUEST_STATUS, USER_ROLE } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 
 export const editCreatorAccess = async ({
   requestId,
@@ -63,7 +64,7 @@ export const editCreatorAccess = async ({
     };
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath("/creator-dashboard");
 
   return {
     success: {

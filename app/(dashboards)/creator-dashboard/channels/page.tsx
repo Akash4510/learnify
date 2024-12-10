@@ -1,19 +1,14 @@
 import Link from "next/link";
 import { Plus, Tv } from "lucide-react";
-import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { ChannelCard } from "@/components/dashboard/channel-card";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUserOrRedirect } from "@/lib/auth";
 
 const ChannelsPage = async () => {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    redirect("/");
-  }
+  const user = await getCurrentUserOrRedirect();
 
   const channels = await db.channel.findMany({
     where: {

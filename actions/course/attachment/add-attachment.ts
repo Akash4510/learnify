@@ -47,7 +47,7 @@ export const addAttachment = async (
     });
 
     revalidatePath(
-      `/dahsboard/channels/${existingCourse.channel.id}/courses/${courseId}`
+      `/creator-dahsboard/channels/${existingCourse.channel.id}/courses/${courseId}`
     );
 
     return {

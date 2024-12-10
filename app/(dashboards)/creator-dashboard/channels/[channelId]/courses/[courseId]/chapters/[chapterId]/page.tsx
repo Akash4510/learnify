@@ -1,15 +1,17 @@
-import { Heading } from "@/components/heading";
-import { IconBadge } from "@/components/ui/icon-badge";
-import { getCurrentUser } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
+
+import { Heading } from "@/components/heading";
+import { IconBadge } from "@/components/ui/icon-badge";
+import { AlertMessage } from "@/components/ui/alert-message";
+import { getCurrentUser } from "@/lib/auth";
+import { db } from "@/lib/db";
+
 import { ChapterTitleForm } from "./_components/chapter-title-form";
 import { ChapterDescriptionForm } from "./_components/chapter-description-form";
 import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChapterVideoForm } from "./_components/chapter-video-form";
-import { AlertMessage } from "@/components/ui/alert-message";
 import { ChapterActions } from "./_components/chapter-actions";
 
 interface ChapterPageProps {
@@ -61,7 +63,7 @@ const ChapterPage = async ({ params }: ChapterPageProps) => {
 
         <div>
           <Link
-            href={`/dashboard/channels/${params.channelId}/courses/${params.courseId}`}
+            href={`/creator-dashboard/channels/${params.channelId}/courses/${params.courseId}`}
             className="flex items-center text-sm hover:opacity-75 transition my-2 mb-4"
           >
             <ArrowLeft className="size-4 mr-2" /> Back to course setup

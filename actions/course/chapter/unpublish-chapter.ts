@@ -125,9 +125,11 @@ export const unpublishChapter = async ({
     });
   }
 
-  revalidatePath(`/dahsboard/channels/${channelId}/courses/${courseId}`);
   revalidatePath(
-    `/dahsboard/channels/${channelId}/courses/${courseId}/chapters/${chapterId}`
+    `/creator-dahsboard/channels/${channelId}/courses/${courseId}`
+  );
+  revalidatePath(
+    `/creator-dahsboard/channels/${channelId}/courses/${courseId}/chapters/${chapterId}`
   );
 
   return {

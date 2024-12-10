@@ -16,7 +16,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
   return (
     <div className="group border bg-accent/60 rounded-md hover:scale-[1.02] transition-transform duration-300 pb-1">
       <Link
-        href={`/dashboard/channels/${course.channel.id}/courses/${course.id}`}
+        href={`/creator-dashboard/channels/${course.channel.id}/courses/${course.id}`}
         tabIndex={-1}
       >
         <div className="relative h-48 overflow-hidden rounded-t-md cursor-pointer">
@@ -39,7 +39,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
       <div className="p-4 space-y-3">
         <div className="flex items-center gap-2">
           <Link
-            href={`/dashboard/channels/${course.channel.id}/courses/${course.id}`}
+            href={`/creator-dashboard/channels/${course.channel.id}/courses/${course.id}`}
             tabIndex={-1}
           >
             <Avatar className="size-10">
@@ -53,7 +53,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
           <div className="flex-1">
             <div className="w-full flex items-center justify-between gap-2">
               <Link
-                href={`/dashboard/channels/${course.channel.id}/courses/${course.id}`}
+                href={`/creator-dashboard/channels/${course.channel.id}/courses/${course.id}`}
                 className="hover:underline"
               >
                 <h2 className="font-medium text-lg line-clamp-1">
@@ -74,7 +74,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
         <div className="ml-12">
           <div className="flex items-center gap-1.5">
             <Link
-              href={`/dashboard/channels/${course.channel.id}/courses/${course.id}/courses/${course.id}`}
+              href={`/creator-dashboard/channels/${course.channel.id}/courses/${course.id}/courses/${course.id}`}
               className="hover:underline"
             >
               <p className="text-sm">{course.channel.name}</p>

@@ -84,8 +84,10 @@ export const reorderChapters = async (
     });
   }
 
-  revalidatePath(`/dahsboard/channels/${channelId}/courses`);
-  revalidatePath(`/dahsboard/channels/${channelId}/courses/${courseId}`);
+  revalidatePath(`/creator-dahsboard/channels/${channelId}/courses`);
+  revalidatePath(
+    `/creator-dahsboard/channels/${channelId}/courses/${courseId}`
+  );
 
   return {
     success: {

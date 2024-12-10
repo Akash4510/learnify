@@ -96,7 +96,7 @@ export const deleteCourse = async ({
     },
   });
 
-  revalidatePath(`/dahsboard/channels/${channelId}/courses`);
+  revalidatePath(`/creator-dahsboard/channels/${channelId}/courses`);
 
   return {
     success: {

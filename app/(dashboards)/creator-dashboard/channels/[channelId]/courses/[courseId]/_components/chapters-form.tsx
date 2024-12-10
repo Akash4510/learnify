@@ -97,7 +97,7 @@ export const ChaptersForm = ({
 
   const onEdit = (id: string) => {
     router.push(
-      `/dashboard/channels/${channelId}/courses/${courseId}/chapters/${id}`
+      `/creator-dashboard/channels/${channelId}/courses/${courseId}/chapters/${id}`
     );
   };
 

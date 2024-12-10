@@ -65,7 +65,7 @@ export const createChannel = async (values: CreateChannelSchema) => {
     },
   });
 
-  revalidatePath(`/dashboard/channels`);
+  revalidatePath(`/creator-dashboard/channels`);
 
   return {
     success: {

@@ -18,7 +18,7 @@ const ChannelNotFound = () => {
 
         <div className="flex items-center justify-center gap-6 flex-wrap">
           <Button variant="accent" asChild>
-            <Link href="/dashboard/channels">
+            <Link href="/creator-dashboard/channels">
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span>Go to channels</span>
             </Link>

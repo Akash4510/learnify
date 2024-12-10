@@ -128,7 +128,9 @@ const ChapterDeleteButton = ({
             const { message } = success;
             toast.success(message);
 
-            router.push(`/dashboard/channels/${channelId}/courses/${courseId}`);
+            router.push(
+              `/creator-dashboard/channels/${channelId}/courses/${courseId}`
+            );
           }
           if (error) {
             toast.error(error.message);

@@ -55,7 +55,9 @@ export const deleteAttachment = async (
       },
     });
 
-    revalidatePath(`/dashboard/channels/${channel.id}/courses/${courseId}`);
+    revalidatePath(
+      `/creator-dashboard/channels/${channel.id}/courses/${courseId}`
+    );
 
     return {
       success: {

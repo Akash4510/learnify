@@ -48,7 +48,9 @@ export const CreateCourseForm = ({ channelId }: CreateCourseFormProps) => {
           toast.success(success.message);
           const courseId = success.course.id;
 
-          router.push(`/dashboard/channels/${channelId}/courses/${courseId}`);
+          router.push(
+            `/creator-dashboard/channels/${channelId}/courses/${courseId}`
+          );
         }
         if (error) {
           toast.error(error.message);
@@ -104,7 +106,9 @@ export const CreateCourseForm = ({ channelId }: CreateCourseFormProps) => {
             className="w-full sm:w-32"
             asChild
           >
-            <Link href={`/dashboard/channels/${channelId}`}>Cancel</Link>
+            <Link href={`/creator-dashboard/channels/${channelId}`}>
+              Cancel
+            </Link>
           </Button>
         </div>
       </form>

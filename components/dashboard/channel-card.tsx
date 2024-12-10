@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Channel } from "@prisma/client";
-import { Book, BookA, ImageOff, Users2 } from "lucide-react";
+import { Book, ImageOff, Users2 } from "lucide-react";
 
 interface ChannelCardProps {
   channel: Channel;
@@ -12,7 +12,7 @@ interface ChannelCardProps {
 export const ChannelCard = ({ channel }: ChannelCardProps) => {
   return (
     <Link
-      href={`/dashboard/channels/${channel.id}`}
+      href={`/creator-dashboard/channels/${channel.id}`}
       className="group border bg-accent/60 rounded-md"
     >
       <div className="p-4 pb-5 space-y-3">

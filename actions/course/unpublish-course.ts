@@ -79,8 +79,10 @@ export const unpublishCourse = async ({
     },
   });
 
-  revalidatePath(`dashboard/channels/${channelId}`);
-  revalidatePath(`dashboard/channels/${channelId}/courses/${courseId}`);
+  revalidatePath(`/creator-dashboard/channels/${channelId}`);
+  revalidatePath(
+    `/creator-dashboard/channels/${channelId}/courses/${courseId}`
+  );
 
   return {
     success: {
