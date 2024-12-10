@@ -48,7 +48,7 @@ export const CreateChannelForm = () => {
           if (success) {
             toast.success(success.message);
             form.reset();
-            router.push(`/dashboard/channels/${success.channel.id}`);
+            router.push(`/creator-dashboard/channels/${success.channel.id}`);
           }
           if (error) {
             toast.error(error.message);

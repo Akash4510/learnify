@@ -36,7 +36,7 @@ const CreatorAccessRequestsPage = async () => {
         </div>
       </div>
 
-      <div className="space-y-6">
+      {/* <div className="space-y-6">
         <Heading
           title="Rejected requests"
           subtitle="See all the rejected creator access requests here."
@@ -60,7 +60,7 @@ const CreatorAccessRequestsPage = async () => {
             <PendingRequest key={request.id} request={request} />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

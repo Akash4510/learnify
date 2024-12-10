@@ -1,42 +1,33 @@
-import { USER_ROLE } from "@prisma/client";
 import {
   BarChart3,
   Compass,
   Home,
+  IndianRupee,
   Info,
+  LucideIcon,
   Mail,
   Settings,
   Tv,
-  Tv2,
-  Video,
+  User,
   Wrench,
 } from "lucide-react";
 
-export const mainRoutes = [
+type NavRoute = {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+};
+
+export const mainRoutes: NavRoute[] = [
   {
     label: "Home",
     href: "/",
     icon: Home,
   },
   {
-    label: "My Courses",
-    href: "/courses",
-    icon: Tv2,
-  },
-  {
     label: "Explore",
     href: "/explore",
     icon: Compass,
-  },
-  // {
-  //   label: "Live",
-  //   href: "/live",
-  //   icon: Video,
-  // },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: Settings,
   },
   {
     label: "Contact",
@@ -50,23 +41,57 @@ export const mainRoutes = [
   },
 ];
 
-export const dashboardRoutes = [
-  {
-    label: "Manage",
-    href: "/dashboard/manage",
-    icon: Wrench,
-    accessLevel: USER_ROLE.ADMIN,
-  },
+export const dashboardRoutes: NavRoute[] = [
   {
     label: "Analytics",
     href: "/dashboard",
     icon: BarChart3,
-    accessLevel: USER_ROLE.USER,
+  },
+  {
+    label: "Courses",
+    href: "/dashboard/my-courses",
+    icon: Tv,
+  },
+  {
+    label: "Affiliate",
+    href: "/dashboard/affiliate",
+    icon: IndianRupee,
+  },
+
+  {
+    label: "Settings",
+    href: "/dashboard/settings",
+    icon: Settings,
+  },
+  {
+    label: "Account",
+    href: "/dashboard/account",
+    icon: User,
+  },
+];
+
+export const creatorDashboardRoutes: NavRoute[] = [
+  {
+    label: "Analytics",
+    href: "/creator-dashboard",
+    icon: BarChart3,
   },
   {
     label: "Channels",
-    href: "/dashboard/channels",
+    href: "/creator-dashboard/channels",
     icon: Tv,
-    accessLevel: USER_ROLE.CREATOR,
+  },
+];
+
+export const adminDashboarRoutes: NavRoute[] = [
+  {
+    label: "Analytics",
+    href: "/admin-dashboard",
+    icon: BarChart3,
+  },
+  {
+    label: "Creator access requests",
+    href: "/admin-dashboard/creator-access-requests",
+    icon: Wrench,
   },
 ];

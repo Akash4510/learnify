@@ -7,10 +7,13 @@ import { Menu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { dashboardRoutes, mainRoutes } from "@/constants/sidebar-routes";
+import {
+  adminDashboarRoutes,
+  creatorDashboardRoutes,
+  dashboardRoutes,
+  mainRoutes,
+} from "@/constants/sidebar-routes";
 import { ThemeToggle } from "./theme-toggle";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { USER_ROLE } from "@prisma/client";
 
 interface SidebarProps {
   afterNavItemClick?: () => void;
@@ -20,17 +23,16 @@ export const Sidebar = ({ afterNavItemClick }: SidebarProps) => {
   const pathname = usePathname();
 
   const isDashboard = pathname.startsWith("/dashboard");
-  const user = useCurrentUser();
+  const isCreatorDashboard = pathname.startsWith("/creator-dashboard");
+  const isAdminDashboard = pathname.startsWith("/admin-dashboard");
 
   let routes;
   if (isDashboard) {
-    if (!user) return null;
     routes = dashboardRoutes;
-    if (user.role === USER_ROLE.USER) {
-      routes = routes.filter((route) => route.accessLevel === USER_ROLE.USER);
-    } else if (user.role === USER_ROLE.CREATOR) {
-      routes = routes.filter((route) => route.accessLevel !== USER_ROLE.ADMIN);
-    }
+  } else if (isCreatorDashboard) {
+    routes = creatorDashboardRoutes;
+  } else if (isAdminDashboard) {
+    routes = adminDashboarRoutes;
   } else {
     routes = mainRoutes;
   }

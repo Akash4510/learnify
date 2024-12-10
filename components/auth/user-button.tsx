@@ -53,7 +53,7 @@ export const UserButton = () => {
           asChild
           className="cursor-pointer text-primary-foreground/70"
         >
-          <Link href="/account" className="px-3 py-2.5">
+          <Link href="/dashboard/account" className="px-3 py-2.5">
             <Settings className="h-4 w-4 mr-3" />
             <span>Manage Account</span>
           </Link>

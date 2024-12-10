@@ -4,14 +4,18 @@ import { USER_ROLE } from "@prisma/client";
 
 import { getCurrentUserOrRedirect } from "@/lib/auth";
 
-const ManageLayout = async ({ children }: { children: ReactNode }) => {
-  const user = await getCurrentUserOrRedirect("/dashboard");
+const CreatorDashboardLayout = async ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const user = await getCurrentUserOrRedirect("/");
 
-  if (user.role !== USER_ROLE.ADMIN) {
+  if (user.role === USER_ROLE.USER) {
     redirect("/dashboard");
   }
 
   return <>{children}</>;
 };
 
-export default ManageLayout;
+export default CreatorDashboardLayout;

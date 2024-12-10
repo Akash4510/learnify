@@ -17,7 +17,7 @@ const ChannelEditPage = async ({ params }: ChannelPageProps) => {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/dashboard/channels");
+    redirect("/creator-dashboard/channels");
   }
 
   const channel = await db.channel.findUnique({
@@ -31,14 +31,14 @@ const ChannelEditPage = async ({ params }: ChannelPageProps) => {
   }
 
   if (channel.creatorId !== user.id) {
-    redirect("/dashboard/channels");
+    redirect("/creator-dashboard/channels");
   }
 
   return (
     <div className="space-y-8">
       <div className="space-y-6">
         <NavigateBack
-          href={`/dashboard/channels/${params.channelId}`}
+          href={`/creator-dashboard/channels/${params.channelId}`}
           label="Go back"
         />
 

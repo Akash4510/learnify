@@ -30,7 +30,7 @@ const ChannelsPage = async () => {
         />
 
         <Button variant="accent" asChild className="sm:w-max">
-          <Link href="/dashboard/channels/create">
+          <Link href="/creator-dashboard/channels/create">
             <Plus className="h-4 w-4 mr-1" />
             Create New Channel
           </Link>
@@ -53,7 +53,7 @@ const ChannelsPage = async () => {
             </p>
 
             <Button variant="accent" className="mt-6" asChild>
-              <Link href="/dashboard/channels/create">
+              <Link href="/creator-dashboard/channels/create">
                 <Plus className="h-4 w-4 mr-1" />
                 Create a channel
               </Link>

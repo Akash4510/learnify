@@ -6,7 +6,10 @@ import { CreateChannelForm } from "./_components/create-channel-form";
 const CreateChannelPage = () => {
   return (
     <div className="space-y-6">
-      <NavigateBack href="/dashboard/channels" label="Back to channels" />
+      <NavigateBack
+        href="/creator-dashboard/channels"
+        label="Back to channels"
+      />
 
       <div className="space-y-8">
         <Heading

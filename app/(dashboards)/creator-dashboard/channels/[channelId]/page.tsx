@@ -67,12 +67,13 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
               </div>
             )}
           </div>
+
           <Heading title={channel.name} subtitle={channel.description} />
         </div>
 
         <div className="flex items-center justify-center gap-2">
           <Button variant="accent" asChild>
-            <Link href={`/dashboard/channels/${channel.id}/edit`}>
+            <Link href={`/creator-dashboard/channels/${channel.id}/edit`}>
               <Pencil className="h-4 w-4 mr-2" />
               Edit channel
             </Link>
@@ -88,7 +89,9 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
           />
 
           <Button variant="accent" asChild>
-            <Link href={`/dashboard/channels/${channel.id}/courses/create`}>
+            <Link
+              href={`/creator-dashboard/channels/${channel.id}/courses/create`}
+            >
               <Plus className="h-4 w-4 mr-2" />
               Create New Course
             </Link>
