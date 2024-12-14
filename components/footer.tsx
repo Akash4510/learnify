@@ -13,34 +13,47 @@ export const Footer = () => {
           </div>
 
           <div className="flex-1">
-            <h3 className="mb-2 underline">Legal Information</h3>
-            <ul className="flex flex-col text-muted-foreground">
-              <Link href="/" className="hover:underline transition-all w-fit">
-                Service Aggrement
+            <h3 className="mb-3 underline underline-offset-4">
+              Legal Information
+            </h3>
+            <ul className="flex flex-col gap-1 text-muted-foreground">
+              <Link
+                href="/terms-and-conditions"
+                className="hover:underline transition-all w-fit"
+              >
+                Terms & Conditions
               </Link>
-              <Link href="/" className="hover:underline transition-all w-fit">
+              <Link
+                href="/privacy-policy"
+                className="hover:underline transition-all w-fit"
+              >
                 Privacy Policy
               </Link>
-              <Link href="/" className="hover:underline transition-all w-fit">
+              <Link
+                href="/disclaimer"
+                className="hover:underline transition-all w-fit"
+              >
                 Warning Disclaimer
+              </Link>
+              <Link
+                href="/refund-policy"
+                className="hover:underline transition-all w-fit"
+              >
+                Refund Policy
               </Link>
             </ul>
           </div>
 
           <div className="flex-1">
-            <h3 className="mb-2 underline">Resources and Links</h3>
-            <ul className="flex flex-col text-muted-foreground">
+            <h3 className="mb-3 underline underline-offset-4">
+              Resources and Links
+            </h3>
+            <ul className="flex flex-col gap-1 text-muted-foreground">
               <Link
-                href="/courses"
+                href="/explore"
                 className="hover:underline transition-all w-fit"
               >
                 Courses
-              </Link>
-              <Link
-                href="/live"
-                className="hover:underline transition-all w-fit"
-              >
-                Live
               </Link>
               <Link href="/" className="hover:underline transition-all w-fit">
                 Pricing
@@ -50,7 +63,12 @@ export const Footer = () => {
 
           <div className="flex-1">
             <h3 className="mb-2">Contact</h3>
-            <p className="text-muted-foreground">help.learnify@tm.org</p>
+            <Link
+              href="mailto:learnupind@gmail.com"
+              className="text-muted-foreground"
+            >
+              learnupind@gmail.com
+            </Link>
           </div>
         </div>
       </div>
