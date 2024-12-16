@@ -8,7 +8,7 @@ interface LogoProps {
 }
 
 export const Logo = ({ size, asLink, full }: LogoProps) => {
-  const logoSize = size || 40;
+  const logoSize = size || 32;
 
   const content = (
     <div className="flex items-center gap-2">
