@@ -33,10 +33,7 @@ const DisclaimerPage = () => {
         </p>
         <p className="list-item list-inside">
           The purchase made by the consumer directly from the{" "}
-          <Link
-            href="learnupind.com"
-            className="text-blue-400 underline underline-offset-2"
-          >
+          <Link href="/" className="text-blue-400 underline underline-offset-2">
             LearnUPIND website
           </Link>{" "}
           or via the affiliate connection of the individual who referred the

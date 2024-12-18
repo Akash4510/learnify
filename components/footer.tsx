@@ -41,6 +41,12 @@ export const Footer = () => {
               >
                 Refund Policy
               </Link>
+              <Link
+                href="/shipping-policy"
+                className="hover:underline transition-all w-fit"
+              >
+                Shipping Policy
+              </Link>
             </ul>
           </div>
 
@@ -60,15 +66,34 @@ export const Footer = () => {
               </Link>
             </ul>
           </div>
+          {/* Address:
+Barpeta, Assam 
 
+Phone:
+9387736619
+
+E-mail Address:
+helplearnupind@gmail.com
+
+ */}
           <div className="flex-1">
             <h3 className="mb-2">Contact</h3>
-            <Link
-              href="mailto:learnupind@gmail.com"
-              className="text-muted-foreground"
-            >
-              learnupind@gmail.com
-            </Link>
+            <ul>
+              <Link
+                href="mailto:helplearnupind@gmail.com"
+                className="text-muted-foreground"
+              >
+                helplearnupind@gmail.com
+              </Link>
+              <div className="mt-1.5">
+                Address:
+                <p className="text-muted-foreground">Barpeta, Assam</p>
+              </div>
+              <div className="mt-1.5">
+                Phone:
+                <p className="text-muted-foreground">+91 9387736619</p>
+              </div>
+            </ul>
           </div>
         </div>
       </div>
