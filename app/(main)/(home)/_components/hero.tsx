@@ -32,7 +32,7 @@ export const Hero = () => {
           height={40}
           quality={100}
         />
-        <span className="font-heading text-xl md:text-2xl text-purple-500 pt-2">
+        <span className="font-heading text-xl md:text-2xl pt-2">
           LearnUPIND
         </span>
       </div>
