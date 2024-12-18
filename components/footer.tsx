@@ -66,16 +66,7 @@ export const Footer = () => {
               </Link>
             </ul>
           </div>
-          {/* Address:
-Barpeta, Assam 
 
-Phone:
-9387736619
-
-E-mail Address:
-helplearnupind@gmail.com
-
- */}
           <div className="flex-1">
             <h3 className="mb-2">Contact</h3>
             <ul>
