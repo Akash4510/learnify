@@ -1,5 +1,6 @@
-import { Heading } from "@/components/heading";
 import Link from "next/link";
+
+import { Heading } from "@/components/heading";
 
 const RefundPolicyPage = () => {
   return (
