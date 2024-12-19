@@ -11,6 +11,7 @@ export const publicRoutes = [
   "/terms-and-conditions",
   "/refund-policy",
   "/disclaimer",
+  "/shipping-policy",
   "/api/uploadthing/*",
   "/api/webhook",
   "/auth/verify-email",
