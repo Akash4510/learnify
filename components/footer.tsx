@@ -78,7 +78,9 @@ export const Footer = () => {
               </Link>
               <div className="mt-1.5">
                 Address:
-                <p className="text-muted-foreground">Barpeta, Assam</p>
+                <p className="text-muted-foreground">
+                  Natun Sarania, Flat no 35, Kamrup Guwahati Assam 781003
+                </p>
               </div>
               <div className="mt-1.5">
                 Phone:
