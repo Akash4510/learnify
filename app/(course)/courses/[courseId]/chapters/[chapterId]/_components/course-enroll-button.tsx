@@ -6,7 +6,8 @@ import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn, formatPrice } from "@/lib/utils";
-import { enrollCourse } from "@/actions/course/checkout";
+import { createOrder } from "@/actions/course/checkout";
+import { useRouter } from "next/navigation";
 
 interface CourseEnrollButtonProps {
   courseId: string;
@@ -18,19 +19,63 @@ export const CourseEnrollButton = ({
   price,
 }: CourseEnrollButtonProps) => {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const onClick = async () => {
     startTransition(() => {
-      enrollCourse({ courseId })
+      createOrder({ courseId })
         .then((data) => {
           const { error, success } = data;
 
-          if (success) {
-            const { url } = success;
-            window.location.assign(url!);
-          }
           if (error) {
             toast.error(error.message);
+          }
+          if (success) {
+            const { order, metadata } = success;
+
+            const paymentData = {
+              key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+              amount: price * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+              currency: "INR",
+              name: "LearnUPIND", // The company name
+              description: "Course Enrollment", // A description of the product
+              image: "/logo.png", // Company logo
+              order_id: order.id,
+              handler: async function (response: any) {
+                try {
+                  // Verify the payment
+                  const verifyRes = await fetch(
+                    `/api/course/${courseId}/verify-order`,
+                    {
+                      method: "POST",
+                      body: JSON.stringify({
+                        orderId: order.id,
+                        razorpayPaymentId: response.razorpay_payment_id,
+                        razorpaySignature: response.razorpay_signature,
+                        userId: metadata.userId,
+                      }),
+                    }
+                  );
+
+                  const verifyData = await verifyRes.json();
+
+                  console.log(verifyData);
+
+                  if (verifyData.error) {
+                    toast.error(verifyData.error.message);
+                  } else {
+                    toast.success("Payment successful");
+                    router.refresh();
+                  }
+                } catch (error) {
+                  console.log({ paymentHandlerError: error });
+                  toast.error("Something went wrong!");
+                }
+              },
+            };
+
+            const rzp = new (window as any).Razorpay(paymentData);
+            rzp.open();
           }
         })
         .catch(() => {
