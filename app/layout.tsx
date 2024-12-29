@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
+import Script from "next/script";
 
 import "./globals.css";
 import { fontRaleway, fontRighteous } from "./fonts";
@@ -42,6 +43,12 @@ const RootLayout = async ({
             <Toaster richColors />
             {children}
           </ThemeProvider>
+
+          {/* Razorpay script tag, to allow payments */}
+          <Script
+            type="text/javascript"
+            src="https://checkout.razorpay.com/v1/checkout.js"
+          />
         </body>
       </html>
     </SessionProvider>

@@ -1,3 +1,3 @@
-import { enrollCourse } from "./checkout";
+import { createOrder } from "./create-order";
 
-export { enrollCourse };
+export { createOrder };
