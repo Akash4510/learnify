@@ -1,13 +1,14 @@
 "use client";
 
 import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn, formatPrice } from "@/lib/utils";
 import { createOrder } from "@/actions/course/checkout";
-import { useRouter } from "next/navigation";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 interface CourseEnrollButtonProps {
   courseId: string;
@@ -20,6 +21,7 @@ export const CourseEnrollButton = ({
 }: CourseEnrollButtonProps) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const confetti = useConfettiStore();
 
   const onClick = async () => {
     startTransition(() => {
@@ -65,6 +67,7 @@ export const CourseEnrollButton = ({
                     toast.error(verifyData.error.message);
                   } else {
                     toast.success("Payment successful");
+                    confetti.onOpen();
                     router.refresh();
                   }
                 } catch (error) {
