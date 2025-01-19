@@ -2,7 +2,6 @@ import { Heading } from "@/components/heading";
 import { getCurrentUserOrRedirect } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { DataCard } from "@/components/dashboard/data-card";
-import { DataChart } from "@/components/dashboard/data-chart";
 
 const getUserAnalytics = async () => {
   const user = await getCurrentUserOrRedirect();
@@ -62,11 +61,31 @@ const AnalyticsPage = async () => {
         subtitle="View all your analytics and earnings here"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <DataCard label="Total Revenue" value={totalRevenue} shouldFormat />
-        <DataCard label="Total Sales" value={totalSales} />
-
-        <DataChart data={data} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <DataCard
+          label="Total Revenue"
+          value={totalRevenue}
+          shouldFormat
+          className="bg-primary/70"
+        />
+        <DataCard
+          label="Last Month Revenue"
+          value={totalRevenue}
+          shouldFormat
+          className="bg-secondary"
+        />
+        <DataCard
+          label="Last Week Revenue"
+          value={totalRevenue}
+          shouldFormat
+          className="bg-cyan-800"
+        />
+        <DataCard
+          label="Today's Revenue"
+          value={totalRevenue}
+          shouldFormat
+          className="bg-sky-700"
+        />
       </div>
     </div>
   );
