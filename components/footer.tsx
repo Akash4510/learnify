@@ -79,7 +79,7 @@ export const Footer = () => {
               <div className="mt-1.5">
                 Address:
                 <p className="text-muted-foreground">
-                  Natun Sarania, Flat no 35, Kamrup Guwahati Assam 781003
+                  Kamrup, Guwahati, Assam - 781003
                 </p>
               </div>
               <div className="mt-1.5">

@@ -16,6 +16,12 @@ enum USER_ROLE {
   USER
 }
 
+enum KYC_STATUS {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String
@@ -23,6 +29,7 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  kyc           KYC?
 
   role                  USER_ROLE              @default(USER)
   channels              Channel[]
@@ -32,6 +39,25 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([role])
+}
+
+model KYC {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+
+  dob               DateTime
+  aadhaarNumber     String   @db.String
+  bankAccountNumber String   @db.String
+  bankIfscCode      String   @db.String
+
+  status KYC_STATUS @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Channel {
