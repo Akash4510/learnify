@@ -26,8 +26,7 @@ export const CourseEnrollButton = ({
           const { error, success } = data;
 
           if (success) {
-            const { url } = success;
-            window.location.assign(url!);
+            toast.success(success.message);
           }
           if (error) {
             toast.error(error.message);
