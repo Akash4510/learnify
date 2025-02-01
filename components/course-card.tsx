@@ -16,13 +16,14 @@ export const CourseCard = ({ course }: CourseCardProps) => {
   return (
     <div className="group border bg-accent/60 rounded-md transition-transform duration-300 pb-1">
       <Link href={`/courses/${course.id}`} tabIndex={-1}>
-        <div className="relative h-48 overflow-hidden rounded-t-md cursor-pointer">
+        <div className="relative overflow-hidden rounded-t-md cursor-pointer [aspect-ratio:16/20]">
           {course.thumbnail ? (
             <Image
               src={course.thumbnail}
               alt={course.title}
-              fill
-              className="rounded-t-md object-cover group-hover:scale-110 transition-all duration-500"
+              width={1080}
+              height={1350}
+              className="rounded-t-md object-cover group-hover:scale-110 transition-all duration-500 [aspect-ratio:16/20]"
             />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-background/50">

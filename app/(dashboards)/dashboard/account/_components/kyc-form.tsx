@@ -156,6 +156,42 @@ export const KYCForm = ({ initialData }: KYCFormProps) => {
                 </FormItem>
               )}
             />
+
+            {/* 
+            Personal Details:
+              1. Rirst Name
+              2. Last Name
+              3. Email
+              4. Age
+              5. Gender
+              6. Date of Birth
+              7. Phone Number
+            
+            Address:
+              3. Country
+              4. State
+
+            Bank Details:
+              8. Bank Name
+              9. Bank Account Number
+              10. IFSC Code
+              11. Account Holder Name
+              12. UPI ID
+            */}
+
+            <FormField
+              control={control}
+              name="aadhaarNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="text" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
 

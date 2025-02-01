@@ -10,7 +10,7 @@ import { Achievers } from "./_components/achievers";
 
 const HomePage = async () => {
   return (
-    <div className="px-4 pb-10">
+    <div className="">
       <Hero />
       <CoursesSection />
       <Milestone />

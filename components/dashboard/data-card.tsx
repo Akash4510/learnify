@@ -17,15 +17,15 @@ export const DataCard = ({
   shouldFormat,
   className,
 }: DataCardProps) => {
-  const count = useIncrementingCount(value, 1);
+  const count = useIncrementingCount(value, 2);
 
   return (
     <Card className={cn(className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{label}</CardTitle>
+        <CardTitle className="text-lg font-medium">{label}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
+        <div className="text-4xl font-bold">
           {shouldFormat ? formatPrice(count) : count}
         </div>
       </CardContent>

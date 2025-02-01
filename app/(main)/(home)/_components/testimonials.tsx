@@ -29,7 +29,7 @@ const testimonials = [
 
 export const Testimonials = () => {
   return (
-    <div className="my-10 lg:mt-20">
+    <div className="my-10 lg:mt-20 p-4">
       <div className="lg:text-center">
         <Heading
           title="Testimonials"

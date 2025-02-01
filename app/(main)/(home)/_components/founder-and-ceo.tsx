@@ -2,12 +2,13 @@ import Image from "next/image";
 
 export const FounderAndCEO = () => {
   return (
-    <div className="my-10 md:mt-20 flex flex-col md:flex-row gap-6">
-      <div className="rounded-md w-full md:max-w-[400px] h-[250px] md:h-[200px] relative bg-accent">
+    <div className="px-4 my-10 md:mt-20 flex flex-col md:flex-row gap-6">
+      <div className="rounded-md max-w-[320px] relative bg-accent">
         <Image
-          src="/unavailable_video_dark_theme.png"
+          src="/images/ceo.jpg"
           alt="abc"
-          fill
+          width={1080}
+          height={1350}
           className="object-cover rounded-md"
         />
       </div>

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -5,9 +6,10 @@ interface LogoProps {
   size?: number;
   asLink?: boolean;
   full?: boolean;
+  showFullInMobile?: boolean;
 }
 
-export const Logo = ({ size, asLink, full }: LogoProps) => {
+export const Logo = ({ size, asLink, full, showFullInMobile }: LogoProps) => {
   const logoSize = size || 32;
 
   const content = (
@@ -19,7 +21,11 @@ export const Logo = ({ size, asLink, full }: LogoProps) => {
         height={logoSize}
         quality={100}
       />
-      {full && <h1 className="hidden md:flex text-xl">LearnUPIND</h1>}
+      {full && (
+        <h1 className={cn("md:flex text-xl", !showFullInMobile && "hidden")}>
+          LearnUPIND
+        </h1>
+      )}
     </div>
   );
 
