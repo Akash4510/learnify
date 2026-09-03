@@ -8,7 +8,7 @@
 > A full-stack, scalable LMS engineered to handle on-the-fly video encoding, secure financial transactions, and strict Role-Based Access Control (RBAC).
 
 <p align="center">
-  <img width="100%" alt="Learnify Hero Dashboard" src="https://github.com/Akash4510/learnify/assets/placeholder-hero.png" />
+  <img width="1920" height="1080" alt="thumbnail" src="https://github.com/user-attachments/assets/ad5d3627-c69f-4fcd-93d4-593592d2d70a" />
 </p>
 
 ---
@@ -53,7 +53,7 @@ Course enrollments are gated by a secure financial pipeline.
 
 |                                            The Course Builder (Creator)                                            |                                       The Learning Environment (Student)                                        |
 | :----------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/Akash4510/learnify/assets/placeholder-builder.png" width="400" alt="Course Builder"/> | <img src="https://github.com/Akash4510/learnify/assets/placeholder-player.png" width="400" alt="Video Player"/> |
+| <img width="1920" height="1080" alt="course-setup-2" src="https://github.com/user-attachments/assets/1f2f4186-cb7d-47a6-8f05-b90d6476a9d1" /> | <img width="1920" height="1080" alt="course-page" src="https://github.com/user-attachments/assets/ad72fee4-ba19-4b11-a60e-a000faef1d49" /> |
 |                    _Features `@hello-pangea/dnd` for smooth, drag-and-drop chapter reordering._                    |                        _Custom Mux video player tracking progress and completion state._                        |
 
 ---
