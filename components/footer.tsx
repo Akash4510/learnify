@@ -6,7 +6,7 @@ export const Footer = () => {
       <div className="w-[92%] max-w-[1300px] mx-auto flex flex-col gap-12">
         <div className="flex justify-between gap-10 flex-wrap flex-col lg:flex-row">
           <div className="flex-1">
-            <h3 className="text-lg mb-2">© Learnify 2024</h3>
+            <h3 className="text-lg mb-2">© Learnify</h3>
             <p className="text-sm text-muted-foreground">
               The ultimate platform where creators thrive and learners excel.
             </p>
@@ -69,24 +69,9 @@ export const Footer = () => {
 
           <div className="flex-1">
             <h3 className="mb-2">Contact</h3>
-            <ul>
-              <Link
-                href="mailto:helpLearnify@gmail.com"
-                className="text-muted-foreground"
-              >
-                helpLearnify@gmail.com
-              </Link>
-              <div className="mt-1.5">
-                Address:
-                <p className="text-muted-foreground">
-                  Kamrup, Guwahati, Assam - 781003
-                </p>
-              </div>
-              <div className="mt-1.5">
-                Phone:
-                <p className="text-muted-foreground">+91 9387736619</p>
-              </div>
-            </ul>
+            <p className="text-sm text-muted-foreground">
+              Contact details go here.
+            </p>
           </div>
         </div>
       </div>

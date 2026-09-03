@@ -19,18 +19,16 @@ const AboutPage = () => {
 
           <div className="text-primary-foreground/80 space-y-1.5">
             <p>
-              Its started on [__DATE__] Since then we are inspiring youngsters
-              or those people who willing to learn the valuable and modish
-              courses.
+              Learnify is a flexible learning management platform for exploring
+              courses, building skills, and sharing knowledge.
             </p>
             <p>
-              We are trying to bring learning to people instead of people to
-              learning. Hence, we are trying to modify their entrepreneurship
-              nature.
+              Learners can discover structured lessons at their own pace, while
+              creators can publish and manage educational content in one place.
             </p>
             <p>
-              Here we are with a lot of courses designed in a way that will help
-              people to learn a lot of things and take things to a new level.
+              Our goal is to make online learning clear, practical, and
+              accessible for everyone.
             </p>
           </div>
         </div>
