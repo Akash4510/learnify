@@ -1,4 +1,4 @@
-# 🎓 Learnify: Enterprise Learning Management System
+# 🎓 Learnify: Enterprise Learning Management System (LMS)
 
 ![Next.js](https://img.shields.io/badge/Next.js_14-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
@@ -51,10 +51,10 @@ Course enrollments are gated by a secure financial pipeline.
 
 ## 📸 Platform Interface
 
-|                                            The Course Builder (Creator)                                            |                                       The Learning Environment (Student)                                        |
-| :----------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
+|                                                         The Course Builder (Creator)                                                          |                                                     The Learning Environment (Student)                                                     |
+| :-------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: |
 | <img width="1920" height="1080" alt="course-setup-2" src="https://github.com/user-attachments/assets/1f2f4186-cb7d-47a6-8f05-b90d6476a9d1" /> | <img width="1920" height="1080" alt="course-page" src="https://github.com/user-attachments/assets/ad72fee4-ba19-4b11-a60e-a000faef1d49" /> |
-|                    _Features `@hello-pangea/dnd` for smooth, drag-and-drop chapter reordering._                    |                        _Custom Mux video player tracking progress and completion state._                        |
+|                                 _Features `@hello-pangea/dnd` for smooth, drag-and-drop chapter reordering._                                  |                                     _Custom Mux video player tracking progress and completion state._                                      |
 
 ---
 
