@@ -10,8 +10,8 @@ const domain = process.env.NEXT_PUBLIC_APP_URL!;
 export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `${domain}/auth/verify-email?token=${token}`;
 
-  const res = await resend.emails.send({
-    from: "learnupind.com",
+  await resend.emails.send({
+    from: "Learnify@gmail.com",
     to: email,
     subject: "Confirm your email",
     react: VerifyEmailTemplate({ confirmLink }),
@@ -24,13 +24,14 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetLink = `${domain}/auth/new-password?token=${token}`;
 
+  console.log("resetLink - sending reset mail", resetLink);
+
   const res = await resend.emails.send({
-    from: "learnupind.com",
+    from: "Learnify@gmail.com",
     to: email,
     subject: "Reset your password",
     react: ResetPasswordTemplate({ resetLink }),
   });
 
-  console.log(`SendPasswordResetEmailRes: ${res}`);
-  return res;
+  console.log("res", res);
 };

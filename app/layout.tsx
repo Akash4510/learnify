@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
+import Script from "next/script";
 
 import "./globals.css";
 import { fontRaleway, fontRighteous } from "./fonts";
@@ -10,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { ConfettiProvider } from "@/providers/confetti-provider";
 
 export const metadata: Metadata = {
-  title: "LearnUPIND",
+  title: "Learnify",
   description: "The ultimate platform where creators thrive and learners excel",
 };
 
@@ -29,7 +30,7 @@ const RootLayout = async ({
             fontRighteous.className,
             fontRighteous.variable,
             fontRaleway.className,
-            fontRaleway.variable
+            fontRaleway.variable,
           )}
         >
           <ThemeProvider
@@ -42,6 +43,12 @@ const RootLayout = async ({
             <Toaster richColors />
             {children}
           </ThemeProvider>
+
+          {/* Razorpay script tag, to allow payments */}
+          <Script
+            type="text/javascript"
+            src="https://checkout.razorpay.com/v1/checkout.js"
+          />
         </body>
       </html>
     </SessionProvider>

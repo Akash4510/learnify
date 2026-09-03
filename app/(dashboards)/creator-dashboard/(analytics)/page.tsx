@@ -5,6 +5,22 @@ import { getCurrentUserOrRedirect } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { DataCard } from "@/components/dashboard/data-card";
 import { DataChart } from "@/components/dashboard/data-chart";
+import { CoursePurchaseWithCourse } from "@/types/purchase";
+
+const groupByCourse = (purchases: CoursePurchaseWithCourse[]) => {
+  const grouped: { [courseTitle: string]: number } = {};
+
+  purchases.forEach((purchase) => {
+    const courseTitle = purchase.course.title;
+
+    if (!grouped[courseTitle]) {
+      grouped[courseTitle] = 0;
+    }
+    grouped[courseTitle] += purchase.course.price!;
+  });
+
+  return grouped;
+};
 
 const getCreatorAnalytics = async () => {
   const user = await getCurrentUserOrRedirect("/");
@@ -34,15 +50,15 @@ const getCreatorAnalytics = async () => {
     },
   });
 
-  // const groupedEarnings = groupByCourse(purchases);
-  const groupedEarnings = {
-    testCourse: 3000,
-    anotherCourse: 5000,
-    hello: 3900,
-    anotherHello: 5400,
-    amazingCourse: 6900,
-    lastOne: 4000,
-  };
+  const groupedEarnings = groupByCourse(purchases);
+  // const groupedEarnings = {
+  //   testCourse: 3000,
+  //   anotherCourse: 5000,
+  //   hello: 3900,
+  //   anotherHello: 5400,
+  //   amazingCourse: 6900,
+  //   lastOne: 4000,
+  // };
   const data = Object.entries(groupedEarnings).map(([courseTitle, total]) => ({
     name: courseTitle,
     total,

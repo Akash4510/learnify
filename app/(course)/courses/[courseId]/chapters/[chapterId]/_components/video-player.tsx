@@ -25,28 +25,18 @@ export const VideoPlayer = ({
   isLocked,
   completeOnEnd,
 }: VideoPlayerProps) => {
-  const [isReady, setIsReady] = useState<boolean>(false);
-
-  console.log({
-    chapterId,
-    title,
-    courseId,
-    nextChapterId,
-    playbackId,
-    isLocked,
-    completeOnEnd,
-  });
+  const [isReady, setIsReady] = useState(false);
 
   return (
     <div className="relative aspect-video">
       {!isReady && !isLocked && (
-        <div className="absolute inset-0 flex items-center justify-center bg-accent z-[200]">
+        <div className="absolute inset-0 z-[200] flex items-center justify-center bg-accent">
           <Loader2 className="size-8 animate-spin" />
         </div>
       )}
 
       {isLocked && (
-        <div className="absolute inset-0 flex items-center justify-center bg-accent flex-col gap-y-2">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-2 bg-accent">
           <Lock className="size-8" />
           <p className="text-sm">This chapter is locked</p>
         </div>

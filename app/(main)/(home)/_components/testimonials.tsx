@@ -8,28 +8,28 @@ const testimonials = [
     name: "Micheal Gough",
     designation: "CEO at Google",
     message:
-      "LearnUPIND is just awesome. It contains tons of predesigned courses and tutorials on dev starting from login screen to complex dashboard. Perfect choice for your next SaaS application.",
+      "Learnify is just awesome. It contains tons of predesigned courses and tutorials on dev starting from login screen to complex dashboard. Perfect choice for your next SaaS application.",
     avatarSrc: "/logo.png",
   },
   {
     name: "Micheal Gough",
     designation: "CEO at Google",
     message:
-      "LearnUPIND is just awesome. It contains tons of predesigned courses and tutorials on dev starting from login screen to complex dashboard. Perfect choice for your next SaaS application.",
+      "Learnify is just awesome. It contains tons of predesigned courses and tutorials on dev starting from login screen to complex dashboard. Perfect choice for your next SaaS application.",
     avatarSrc: "/logo.png",
   },
   {
     name: "Micheal Gough",
     designation: "CEO at Google",
     message:
-      "LearnUPIND is just awesome. It contains tons of predesigned courses and tutorials on dev starting from login screen to complex dashboard. Perfect choice for your next SaaS application.",
+      "Learnify is just awesome. It contains tons of predesigned courses and tutorials on dev starting from login screen to complex dashboard. Perfect choice for your next SaaS application.",
     avatarSrc: "/logo.png",
   },
 ];
 
 export const Testimonials = () => {
   return (
-    <div className="my-10 lg:mt-20">
+    <div className="my-10 lg:mt-20 p-4">
       <div className="lg:text-center">
         <Heading
           title="Testimonials"
