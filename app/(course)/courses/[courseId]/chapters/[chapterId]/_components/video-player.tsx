@@ -1,53 +1,57 @@
 "use client";
 
-import React from "react";
-import YouTube from "react-youtube";
+import { useState } from "react";
+import { Loader2, Lock } from "lucide-react";
+import MuxPlayer from "@mux/mux-player-react";
+
+import { cn } from "@/lib/utils";
 
 interface VideoPlayerProps {
-  videoUrl: string; // YouTube video URL
-  width?: string | number; // Optional width of the video player
-  height?: string | number; // Optional height of the video player
-  autoplay?: boolean;
-  showControls?: boolean;
+  chapterId: string;
+  title: string;
+  courseId: string;
+  nextChapterId?: string;
+  playbackId: string;
+  isLocked: boolean;
+  completeOnEnd: boolean;
 }
 
 export const VideoPlayer = ({
-  videoUrl,
-  width = "100%",
-  height = "400px",
-  autoplay = false,
-  showControls = false,
+  chapterId,
+  title,
+  courseId,
+  nextChapterId,
+  playbackId,
+  isLocked,
+  completeOnEnd,
 }: VideoPlayerProps) => {
-  // Extract the video ID from the YouTube URL
-  const getVideoId = (url: string): string | null => {
-    // This updated Regex now accounts for the /shorts/ path
-    const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
-    const match = url.match(regExp);
-
-    return match && match[2].length === 11 ? match[2] : null;
-  };
-
-  const videoId = getVideoId(videoUrl);
-
-  if (!videoId) {
-    return <div className="text-red-500">Invalid YouTube URL</div>;
-  }
-
-  // Options for the YouTube player
-  const opts = {
-    width: width,
-    height: height,
-    playerVars: {
-      autoplay: !!autoplay,
-      controls: showControls,
-      rel: 0, // Do not show related videos at the end
-    },
-  };
+  const [isReady, setIsReady] = useState(false);
 
   return (
-    <div className="w-full rounded-lg overflow-hidden">
-      <YouTube videoId={videoId} opts={opts} />
+    <div className="relative aspect-video">
+      {!isReady && !isLocked && (
+        <div className="absolute inset-0 z-[200] flex items-center justify-center bg-accent">
+          <Loader2 className="size-8 animate-spin" />
+        </div>
+      )}
+
+      {isLocked && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-2 bg-accent">
+          <Lock className="size-8" />
+          <p className="text-sm">This chapter is locked</p>
+        </div>
+      )}
+
+      {!isLocked && (
+        <MuxPlayer
+          title={title}
+          playbackId={playbackId}
+          className={cn(!isReady && "hidden")}
+          onCanPlay={() => setIsReady(true)}
+          onEnded={() => {}}
+          autoPlay
+        />
+      )}
     </div>
   );
 };
