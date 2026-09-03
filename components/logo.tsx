@@ -23,7 +23,7 @@ export const Logo = ({ size, asLink, full, showFullInMobile }: LogoProps) => {
       />
       {full && (
         <h1 className={cn("md:flex text-xl", !showFullInMobile && "hidden")}>
-          LearnUPIND
+          Learnify
         </h1>
       )}
     </div>

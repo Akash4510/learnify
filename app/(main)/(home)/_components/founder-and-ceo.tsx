@@ -23,7 +23,7 @@ export const FounderAndCEO = () => {
 
         <p className="text-muted-foreground">
           Meet MR. Manzur, the founder of an innovative education course selling
-          platform LEARNUPIND, dedicated to democratizing access to quality
+          platform Learnify, dedicated to democratizing access to quality
           education. He is on a mission to empower over 1000 entrepreneurs in
           india. With visionary leadership, they inspire growth, learning, and
           entrepreneurship for a brighter future

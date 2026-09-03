@@ -21,7 +21,7 @@ const PrivacyPolicyPage = () => {
               href="/"
               className="text-blue-400 underline underline-offset-2"
             >
-              https://learnupind.com
+              https://Learnify.com
             </Link>
           </p>
         </div>
@@ -41,7 +41,7 @@ const PrivacyPolicyPage = () => {
               href="/"
               className="text-blue-400 underline underline-offset-2"
             >
-              https://www.learnupind.com
+              https://www.Learnify.com
             </Link>
             . After approval of your comment, your profile picture is visible to
             the public in the context of your comment.

@@ -15,7 +15,7 @@ const AboutPage = () => {
       </div>
       <div>
         <div className="p-4 py-6 mb-10 space-y-4">
-          <h1 className="text-3xl md:text-4xl">About LearnUPIND</h1>
+          <h1 className="text-3xl md:text-4xl">About Learnify</h1>
 
           <div className="text-primary-foreground/80 space-y-1.5">
             <p>

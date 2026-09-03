@@ -12,9 +12,9 @@ export const WhyUPIND = () => {
     <div className="my-10 md:mt-20 space-y-4 md:space-y-6 p-4">
       <div className="lg:text-center">
         <Heading
-          title="Why Choose LearnUPIND"
+          title="Why Choose Learnify"
           titleClassName="lg:text-4xl font-medium tracking-normal"
-          subtitle="Level up your career with Learnupind Industry-leading training programs and expert guidance for success"
+          subtitle="Level up your career with Learnify Industry-leading training programs and expert guidance for success"
           subtitleClassName="lg:text-base"
         />
       </div>

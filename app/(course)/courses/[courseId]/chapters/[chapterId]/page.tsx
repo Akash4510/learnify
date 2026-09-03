@@ -74,7 +74,7 @@ const CahpterPage = async ({ params }: CahpterPageProps) => {
 
       <div className="flex flex-col max-w-4xl mx-auto pb-20">
         <div className="p-4">
-          <VideoPlayer
+          {/* <VideoPlayer
             chapterId={params.chapterId}
             title={chapter.title}
             courseId={params.courseId}
@@ -82,7 +82,9 @@ const CahpterPage = async ({ params }: CahpterPageProps) => {
             playbackId={muxData?.playbackId!}
             isLocked={isLocked}
             completeOnEnd={completeOnEnd}
-          />
+          /> */}
+
+          <VideoPlayer videoUrl={chapter.videoUrl || ""} />
         </div>
 
         <div>

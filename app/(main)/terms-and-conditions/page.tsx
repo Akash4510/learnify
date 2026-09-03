@@ -464,7 +464,7 @@ const TermsAndConditionsPage = () => {
         <div className="space-y-2">
           <h3 className="text-xl font-bold">Need Help?</h3>
           <p className="list-item list-inside">
-            Contact us at helplearnupind@gmail.com for questions related to
+            Contact us at helpLearnify@gmail.com for questions related to
             refunds and cancel.
           </p>
         </div>

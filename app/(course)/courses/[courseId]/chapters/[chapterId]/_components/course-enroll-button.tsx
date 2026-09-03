@@ -39,7 +39,7 @@ export const CourseEnrollButton = ({
               key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
               amount: price * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
               currency: "INR",
-              name: "LearnUPIND", // The company name
+              name: "Learnify", // The company name
               description: "Course Enrollment", // A description of the product
               image: "/logo.png", // Company logo
               order_id: order.id,
@@ -56,7 +56,7 @@ export const CourseEnrollButton = ({
                         razorpaySignature: response.razorpay_signature,
                         userId: metadata.userId,
                       }),
-                    }
+                    },
                   );
 
                   const verifyData = await verifyRes.json();

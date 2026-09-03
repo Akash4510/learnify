@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { ConfettiProvider } from "@/providers/confetti-provider";
 
 export const metadata: Metadata = {
-  title: "LearnUPIND",
+  title: "Learnify",
   description: "The ultimate platform where creators thrive and learners excel",
 };
 
@@ -30,7 +30,7 @@ const RootLayout = async ({
             fontRighteous.className,
             fontRighteous.variable,
             fontRaleway.className,
-            fontRaleway.variable
+            fontRaleway.variable,
           )}
         >
           <ThemeProvider

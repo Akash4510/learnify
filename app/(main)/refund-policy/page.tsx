@@ -25,15 +25,15 @@ const RefundPolicyPage = () => {
           </p>
           <p className="list-item list-inside">
             No Refund will be given to the customer for the purchase of any
-            package made by the customer directly from the LearnUPIND website{" "}
+            package made by the customer directly from the Learnify website{" "}
             <Link
               href="/"
               className="text-blue-400 underline underline-offset-2"
             >
-              https://www.learnupind.com
+              https://www.Learnify.com
             </Link>{" "}
             or through the affiliate link of the person who referred him to the
-            LearnUPIND website after 24 hours of the purchase under any
+            Learnify website after 24 hours of the purchase under any
             circumstances.
           </p>
           <p className="list-item list-inside">
@@ -100,10 +100,10 @@ const RefundPolicyPage = () => {
           </p>
           <p className="list-item list-inside">
             If you&apos;ve done all of this and you still have not received your
-            refund yet, please contact us at helplearnupind@gmail.com
+            refund yet, please contact us at helpLearnify@gmail.com
           </p>
           <div className="list-item list-inside">
-            For the refund, you need to mail at helplearnupind@gmail.com In the
+            For the refund, you need to mail at helpLearnify@gmail.com In the
             following format with registered e-mail ID only.
             <p className="pl-5">Full Name -</p>
             <p className="pl-5">Registered e-mail ID -</p>
@@ -124,7 +124,7 @@ const RefundPolicyPage = () => {
           <p className="list-item list-inside">
             If you have any questions, concerns, or complaints regarding this
             refund policy, we encourage you to contact us using the details
-            below: learnupindcare@gmail.com
+            below: Learnifycare@gmail.com
           </p>
         </div>
       </div>

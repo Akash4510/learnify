@@ -6,7 +6,7 @@ export const Footer = () => {
       <div className="w-[92%] max-w-[1300px] mx-auto flex flex-col gap-12">
         <div className="flex justify-between gap-10 flex-wrap flex-col lg:flex-row">
           <div className="flex-1">
-            <h3 className="text-lg mb-2">© LearnUPIND 2024</h3>
+            <h3 className="text-lg mb-2">© Learnify 2024</h3>
             <p className="text-sm text-muted-foreground">
               The ultimate platform where creators thrive and learners excel.
             </p>
@@ -71,10 +71,10 @@ export const Footer = () => {
             <h3 className="mb-2">Contact</h3>
             <ul>
               <Link
-                href="mailto:helplearnupind@gmail.com"
+                href="mailto:helpLearnify@gmail.com"
                 className="text-muted-foreground"
               >
-                helplearnupind@gmail.com
+                helpLearnify@gmail.com
               </Link>
               <div className="mt-1.5">
                 Address:

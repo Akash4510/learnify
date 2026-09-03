@@ -1,10 +1,7 @@
-import { Heading } from "@/components/heading";
 import { getCurrentUserOrRedirect } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { DataCard } from "@/components/dashboard/data-card";
-import { Logo } from "@/components/logo";
 import { UserAvatar } from "@/components/user-avatar";
-import { AlertMessage } from "@/components/ui/alert-message";
 
 const getUserAnalytics = async () => {
   const user = await getCurrentUserOrRedirect();
@@ -73,7 +70,7 @@ const AnalyticsPage = async () => {
         <div className="p-10 rounded-lg bg-accent aspect-square flex flex-col items-center justify-center gap-8 lg:w-[25%]">
           <UserAvatar url={user.image || "/images/hero.jpg"} />
 
-          <div className="">
+          <div className="text-center">
             <h2 className="text-2xl font-semibold">{user.name}</h2>
             <p className="text-sm text-muted-foreground">{user.email}</p>
           </div>
